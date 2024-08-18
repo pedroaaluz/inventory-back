@@ -1,0 +1,53 @@
+name: Development Deploy
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  AWS_REGION: sa-east-1
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: dev
+
+    # Deploy to Serverless
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install Dependecies
+        run: npm i
+      
+      - name: Migrate deploy 
+        run: npx prisma migrate dev
+
+      - name: Prisma generate 
+        run: npx prisma generate dev
+
+      - name: serverless deploy
+        uses: serverless/github-action@v3
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          args: deploy --param="commit=${{ github.sha }}" --stage dev --verbose
