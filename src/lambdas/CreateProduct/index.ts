@@ -2,7 +2,7 @@ import {makeCreateNewProductController} from './factories/MakeCreateNewProduct';
 import {HttpFn} from '../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from './schema';
 import {z} from 'zod';
-import handler from '../../common/middlewares/x';
+import handler from '../../common/middlewares/handler';
 import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpJsonBodyParser from '@middy/http-json-body-parser';

@@ -56,9 +56,9 @@ const serverlessConfiguration = {
         },
       ],
     },
-    createNewProduct: {
-      handler: 'src/lambdas/CreateNewProduct/index.bootstrap',
-      name: 'create-new-product-${self:provider.stage}',
+    createProduct: {
+      handler: 'src/lambdas/CreateProduct/index.bootstrap',
+      name: 'create-product-${self:provider.stage}',
       events: [
         {
           http: {
