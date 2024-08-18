@@ -32,7 +32,7 @@ jobs:
         run: npx prisma generate      
         
       - name: Migrate deploy 
-        run: npx prisma deploy
+        run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
