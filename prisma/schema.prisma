@@ -1,7 +1,8 @@
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-1.1.x", "linux-arm64-openssl-1.0.x"]
@@ -20,7 +21,7 @@ enum EnumPaymentMethodType {
   CASH
 }
 
-model Products {
+model Product {
   id              String    @id @default(uuid())
   name            String
   image           String?
@@ -34,15 +35,15 @@ model Products {
   deletedAt       DateTime? @db.Timestamptz(3)
   updatedAt       DateTime  @default(now()) @db.Timestamptz(3)
 
-  category         ProductCategories[]
-  movements        Movements[]
-  productSuppliers ProductSuppliers[]
+  category        ProductCategory[]
+  movements       Movement[]
+  productSupplier ProductSupplier[]
 
   @@index([createdAt])
   @@index([userId])
 }
 
-model Suppliers {
+model Supplier {
   id        String    @id @default(uuid())
   name      String
   address   String?
@@ -53,13 +54,13 @@ model Suppliers {
   deletedAt DateTime? @db.Timestamptz(3)
   updatedAt DateTime  @default(now()) @db.Timestamptz(3)
 
-  productSuppliers ProductSuppliers[]
+  productSupplier ProductSupplier[]
 
   @@index([createdAt])
   @@index([userId])
 }
 
-model Movements {
+model Movement {
   id           String            @id @default(uuid())
   movementType EnumMovementsType
   quantity     Int
@@ -70,7 +71,7 @@ model Movements {
   deletedAt    DateTime?         @db.Timestamptz(3)
   updatedAt    DateTime          @default(now()) @db.Timestamptz(3)
 
-  product Products @relation(fields: [productId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@index([createdAt(sort: Desc)])
   @@index([movementType])
@@ -78,32 +79,31 @@ model Movements {
   @@index([productId])
 }
 
-
 model Category {
-  id                String              @id @default(uuid())
-  name              String
-  createdAt         DateTime            @default(now()) @db.Timestamptz(3)
-  deletedAt         DateTime?           @db.Timestamptz(3)
-  updatedAt         DateTime            @default(now()) @db.Timestamptz(3)
-  productCategories ProductCategories[]
+  id              String            @id @default(uuid())
+  name            String
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+  deletedAt       DateTime?         @db.Timestamptz(3)
+  updatedAt       DateTime          @default(now()) @db.Timestamptz(3)
+  productCategory ProductCategory[]
 }
 
-model ProductCategories {
+model ProductCategory {
   productId  String
   categoryId String
 
-  product  Products @relation(fields: [productId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
 
   @@id([productId, categoryId])
 }
 
-model ProductSuppliers {
+model ProductSupplier {
   productId  String
   supplierId String
 
-  product  Products  @relation(fields: [productId], references: [id])
-  supplier Suppliers @relation(fields: [supplierId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
+  supplier Supplier @relation(fields: [supplierId], references: [id])
 
   @@id([productId, supplierId])
 }

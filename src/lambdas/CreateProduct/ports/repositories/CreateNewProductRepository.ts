@@ -1,15 +1,15 @@
-import type {PrismaClient} from '@prisma/client';
+import type {PrismaClient, Product} from '@prisma/client';
 import {Repository} from '../../../../common/interfaces';
-import {TProduct, TCreateProductInput} from '../../../../common/types/product';
+import {TCreateProductInput} from '../../../../common/types/product';
 
 export class CreateNewProductRepository
-  implements Repository<TCreateProductInput, TProduct>
+  implements Repository<TCreateProductInput, Product>
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
   async exec(productDTO: TCreateProductInput) {
     const createdProduct = await this.dbClient.$transaction(async tx => {
-      const product = await tx.products.create({
+      const product = await tx.product.create({
         data: {
           userId: productDTO.userId,
           name: productDTO.name,
@@ -21,31 +21,33 @@ export class CreateNewProductRepository
         },
       });
 
-      await tx.productCategories.create({
+      await tx.productCategory.create({
         data: {
           categoryId: productDTO.categoryId,
           productId: product.id,
         },
       });
 
-      await tx.productSuppliers.create({
+      await tx.productSupplier.create({
         data: {
           supplierId: productDTO.supplierId,
           productId: product.id,
         },
       });
 
-      await tx.movements.create({
+      await tx.movement.create({
         data: {
           movementType: 'ADD_TO_STOCK',
           quantity: productDTO.stockQuantity,
           productId: product.id,
           userId: productDTO.userId,
+          productName: product.name,
         },
       });
 
       return product;
     });
+
     return createdProduct;
   }
   catch(error) {

@@ -1,24 +1,12 @@
-import type {Products, Category, Suppliers} from '@prisma/client';
-
-export type TProduct = {
-  id: number;
-  name: string;
-  description?: string;
-  userId: string;
-  stockQuantity: number;
-  unitPrice: number;
-  expirationDate?: Date;
-  created_at: Date;
-  deleted_at: Date;
-};
+import type {Product, Category, Supplier} from '@prisma/client';
 
 export type TGetProductInput = {
   productId: string;
 };
 
-export type TGetProductOutput = Products & {
+export type TGetProductOutput = Product & {
   categories: Category[];
-  suppliers: Suppliers[];
+  suppliers: Supplier[];
 };
 
 export type TUpdateProductInput = {
@@ -34,17 +22,10 @@ export type TUpdateProductInput = {
   image?: string;
 };
 
-export type TCreateProductInput = {
-  name: string;
-  description?: string;
-  stockQuantity: number;
-  unitPrice: number;
-  expirationDate?: Date;
-  supplierId: number;
-  userId: string;
-  categoryId: number;
-  image?: string;
-};
+export type TCreateProductInput = Omit<
+  Product,
+  'createdAt' | 'updatedAt' | 'deletedAt' | 'id'
+> & {supplierId: string; categoryId: string};
 
 export type TListProductsInput = {
   startDate?: string;

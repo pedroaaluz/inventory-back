@@ -1,10 +1,5 @@
-export interface Response {
-  statusCode: number;
-  body: any[] | string;
-}
-
-export interface Controller<Input> {
-  exec: (event: Input) => Promise<Response>;
+export interface Controller<requestSchema, responseSchema> {
+  exec: (event: requestSchema) => responseSchema;
 }
 
 export interface Repository<Input, Output> {
