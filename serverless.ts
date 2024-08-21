@@ -39,11 +39,7 @@ const serverlessConfiguration = {
       ],
     },
   },
-  plugins: [
-    'serverless-plugin-typescript',
-    'serverless-offline',
-    'serverless-esbuild',
-  ],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
 };
 
 module.exports = serverlessConfiguration;
