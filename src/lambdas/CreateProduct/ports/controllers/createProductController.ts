@@ -14,7 +14,7 @@ export class CreateProductController
   constructor(private readonly createNewProductUseCase: CreateProductUseCase) {}
 
   async exec(event: HttpEvent<z.infer<typeof requestSchema>>) {
-    const result = await this.createNewProductUseCase.exec(event);
+    const result = await this.createNewProductUseCase.exec(event.body);
 
     return {
       statusCode: 200,

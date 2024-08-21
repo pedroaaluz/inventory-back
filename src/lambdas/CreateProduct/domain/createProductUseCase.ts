@@ -1,5 +1,4 @@
 import {UseCase} from '../../../common/interfaces';
-import {HttpEvent} from '../../../common/types/lambdasTypes';
 import {Product} from '@prisma/client';
 import {z} from 'zod';
 import {CreateMovementRepository} from '../../../common/repositories/movement/createMovementRepository';
@@ -9,7 +8,7 @@ import {CreateProductCategoryRepository} from '../../../common/repositories/prod
 import {CreateProductSupplierRepository} from '../../../common/repositories/productSupplier/createProductSupplierRepository';
 
 export class CreateProductUseCase
-  implements UseCase<HttpEvent<z.infer<typeof requestSchema>>, Product>
+  implements UseCase<z.infer<typeof requestSchema.shape.body>, Product>
 {
   constructor(
     private readonly createNewProductRepository: CreateProductRepository,
@@ -18,7 +17,7 @@ export class CreateProductUseCase
     private readonly createProductCategoryRepository: CreateProductCategoryRepository,
   ) {}
 
-  async exec({body: input}: HttpEvent<z.infer<typeof requestSchema>>) {
+  async exec(input: z.infer<typeof requestSchema.shape.body>) {
     const productDTO = {
       name: input.name,
       userId: input.userId,
