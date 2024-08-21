@@ -18,7 +18,6 @@
     "@middy/core": "^5.4.6",
     "@middy/http-error-handler": "^5.4.6",
     "@middy/http-event-normalizer": "^5.4.6",
-    "@middy/http-json-body-parser": "^5.4.6",
     "@middy/http-partial-response": "^5.4.6",
     "@prisma/client": "^4.12.0",
     "@serverless/typescript": "^3.38.0",
