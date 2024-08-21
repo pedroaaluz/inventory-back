@@ -1,5 +1,5 @@
 import {UseCase} from '../../../common/interfaces';
-import {GetProductRepository} from '../../../common/repositories/GetProductRepository';
+import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
 import type {TGetProductInput} from '../../../common/types/product';
 import type {Products} from '@prisma/client';
 

@@ -1,8 +1,8 @@
 import type {PrismaClient, Product} from '@prisma/client';
-import {Repository} from '../../../../common/interfaces';
-import {TCreateProductInput} from '../../../../common/types/product';
+import {Repository} from '../../interfaces';
+import {TCreateProductInput} from '../../types/product';
 
-export class CreateNewProductRepository
+export class CreateProductRepository
   implements Repository<TCreateProductInput, Product>
 {
   constructor(private readonly dbClient: PrismaClient) {}
@@ -28,30 +28,14 @@ export class CreateNewProductRepository
         },
       });
 
-      await tx.productSupplier.create({
-        data: {
-          supplierId: productDTO.supplierId,
-          productId: product.id,
-        },
-      });
-
-      await tx.movement.create({
-        data: {
-          movementType: 'ADD_TO_STOCK',
-          quantity: productDTO.stockQuantity,
-          productId: product.id,
-          userId: productDTO.userId,
-          productName: product.name,
-        },
-      });
-
       return product;
     });
 
     return createdProduct;
   }
-  catch(error) {
+  // erro pode ser qualquer coisa!
+  catch(error: any) {
     console.log('Error', error);
-    throw new Error(error.message);
+    throw new Error(error);
   }
 }

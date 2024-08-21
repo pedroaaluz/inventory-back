@@ -1,8 +1,8 @@
 import {UseCase} from '../../../common/interfaces';
-import {CreateNewMovementRepository} from '../../../common/repositories/CreateNewMovementRepository';
-import {MovementsInput} from '../../../common/types/movements';
+import {CreateMovementRepository} from '../../../common/repositories/movement/createMovementRepository';
+import {MovementsInput} from '../../../common/types/movement';
 import {TProduct, TUpdateProductInput} from '../../../common/types/product';
-import {GetProductRepository} from '../../../common/repositories/GetProductRepository';
+import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
 import {UpdateProductRepository} from '../ports/repositories/UpdateProductRepository';
 
 export class UpdateProductUseCase
@@ -11,7 +11,7 @@ export class UpdateProductUseCase
   constructor(
     private readonly UpdateProductRepository: UpdateProductRepository,
     private readonly GetProductRepository: GetProductRepository,
-    private readonly CreateNewMovementRepository: CreateNewMovementRepository,
+    private readonly CreateNewMovementRepository: CreateMovementRepository,
   ) {}
 
   async exec(input: TUpdateProductInput) {

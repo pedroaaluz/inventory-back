@@ -12,7 +12,8 @@
     "dev": "docker-compose -f ./docker/docker-compose.yml up",
     "test:CICD": "jest --silent --verbose --passWithNoTests",
     "test": "jest --watch",
-    "test:e2e": "jest --watch -c jest.config.e2e.ts"
+    "test:e2e": "jest --watch -c jest.config.e2e.ts",
+    "tsc": "npx tsc -p ./ --noEmit"
   },
   "dependencies": {
     "@middy/core": "^5.4.6",
