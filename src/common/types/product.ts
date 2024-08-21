@@ -3,6 +3,17 @@ import type {Product, Category, Supplier} from '@prisma/client';
 export type TGetProductInput = {
   productId: string;
 };
+export type TProduct = {
+  id: number;
+  name: string;
+  description?: string;
+  userId: string;
+  stockQuantity: number;
+  unitPrice: number;
+  expirationDate?: Date;
+  created_at: Date;
+  deleted_at: Date;
+};
 
 export type TGetProductOutput = Product & {
   categories: Category[];

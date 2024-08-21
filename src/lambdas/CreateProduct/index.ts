@@ -5,7 +5,6 @@ import {z} from 'zod';
 import handler from '../../common/middlewares/handler';
 import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
 import httpEventNormalizer from '@middy/http-event-normalizer';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
 import httpPartialResponse from '@middy/http-partial-response';
 
 const fn: HttpFn<
@@ -25,8 +24,7 @@ const fn: HttpFn<
 };
 
 export const bootstrap = handler(fn, [
-  httpEventNormalizer,
-  httpJsonBodyParser,
-  zodValidatorMiddleware,
-  httpPartialResponse,
+  httpEventNormalizer(),
+  zodValidatorMiddleware({requestSchema, responseSchema}),
+  httpPartialResponse(),
 ]);

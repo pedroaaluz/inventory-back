@@ -1,14 +1,13 @@
-import type {PrismaClient} from '@prisma/client';
+import type {PrismaClient, Movement} from '@prisma/client';
 import {Repository} from '../interfaces';
-import {Movements, MovementsInput} from '../types/movements';
 
 export class CreateNewMovementRepository
-  implements Repository<MovementsInput, Movements>
+  implements Repository<Movement, Movement>
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
-  async exec(movementDTO: MovementsInput) {
-    const movement = await this.dbClient.movements.create({data: movementDTO});
+  async exec(movementDTO: Movement) {
+    const movement = await this.dbClient.movement.create({data: movementDTO});
 
     return movement;
   }

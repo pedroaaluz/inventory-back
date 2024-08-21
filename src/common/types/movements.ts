@@ -1,12 +1,18 @@
+export const EnumMovementsType: {
+  SALE: 'SALE';
+  ADD_TO_STOCK: 'ADD_TO_STOCK';
+  REMOVE_FROM_STOCK: 'REMOVE_FROM_STOCK';
+};
+
 export type Movements = {
-  id: string;
-  movementType: 'SELL' | 'ADD_TO_STOCK' | 'REMOVE_FROM_STOCK';
+  id?: string;
+  movementType: EnumMovementsType;
   quantity: number;
-  productId: number;
+  productName: string;
   userId: string;
-  created_at: Date;
-  deleted_at: Date;
-  updated_at: Date;
+  createdAt?: Date | string;
+  deletedAt?: Date | string | null;
+  updatedAt?: Date | string;
 };
 
 export type MovementsInput = {

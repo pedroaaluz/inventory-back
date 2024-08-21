@@ -9,7 +9,14 @@ export default function handler<
   Event = any,
   Context extends LambdaContext = LambdaContext | undefined,
   Callback extends LambdaCallback = LambdaCallback | undefined,
->(fun, middlewares) {
+>(
+  fun: (
+    event: Event,
+    context: Context,
+    callback: Callback,
+  ) => void | Promise<unknown>,
+  middlewares: Array<middy.MiddlewareObj<any>>,
+) {
   const fn = middy<Event, unknown, Error, Context>(fun);
 
   middlewares.forEach(middleware => {
