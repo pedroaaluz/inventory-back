@@ -48,6 +48,7 @@ export class CreateProductUseCase
       quantity: product.stockQuantity,
       userId: product.userId,
     });
+
     console.log('movement created');
 
     console.log('creating productSupplier...');

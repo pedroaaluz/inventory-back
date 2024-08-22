@@ -1,11 +1,16 @@
 import {z} from 'zod';
+import {Decimal} from '@prisma/client/runtime';
+
+const decimalSchema = z.custom<Decimal>(value => {
+  return new Decimal(value as string | number);
+});
 
 export const requestSchema = z.object({
   body: z.object({
     name: z.string(),
     description: z.string().optional(),
     stockQuantity: z.number().int().positive(),
-    unitPrice: z.number().positive(),
+    unitPrice: decimalSchema,
     expirationDate: z.date().optional(),
     supplierId: z.string(),
     userId: z.string(),
@@ -26,7 +31,7 @@ export const responseSchema = {
         image: z.string().nullable(),
         description: z.string().nullable(),
         stockQuantity: z.number(),
-        unitPrice: z.number(),
+        unitPrice: decimalSchema,
         positionInStock: z.string().nullable(),
         expirationDate: z.date().nullable(),
         createdAt: z.date(),
