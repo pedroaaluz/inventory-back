@@ -11,8 +11,8 @@ export class CreateProductUseCase
   implements UseCase<z.infer<typeof requestSchema.shape.body>, Product>
 {
   constructor(
-    private readonly createNewProductRepository: CreateProductRepository,
-    private readonly createNewMovementRepository: CreateMovementRepository,
+    private readonly createProductRepository: CreateProductRepository,
+    private readonly createMovementRepository: CreateMovementRepository,
     private readonly createProductSupplierRepository: CreateProductSupplierRepository,
     private readonly createProductCategoryRepository: CreateProductCategoryRepository,
   ) {}
@@ -35,13 +35,13 @@ export class CreateProductUseCase
 
     console.log('creating product...');
 
-    const product = await this.createNewProductRepository.exec(productDTO);
+    const product = await this.createProductRepository.exec(productDTO);
 
     console.log('product created');
 
     console.log('creating movement...');
 
-    await this.createNewMovementRepository.exec({
+    await this.createMovementRepository.exec({
       movementType: 'ADD_TO_STOCK',
       productId: product.id,
       productName: product.name,

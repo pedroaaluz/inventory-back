@@ -33,9 +33,8 @@ export class CreateProductRepository
 
     return createdProduct;
   }
-  // erro pode ser qualquer coisa!
-  catch(error: any) {
+  catch(error: unknown) {
     console.log('Error', error);
-    throw new Error(error);
+    throw error;
   }
 }

@@ -28,7 +28,7 @@ model Product {
   description     String?
   userId          String
   stockQuantity   Int
-  unitPrice       Float
+  unitPrice       Decimal   @db.Decimal(1000, 2)
   positionInStock String?
   expirationDate  DateTime?
   createdAt       DateTime  @default(now()) @db.Timestamptz(3)

@@ -29,7 +29,7 @@ export const zodValidatorMiddleware = (
   > = async (event): Promise<void> => {
     const {response} = event;
 
-    if (responseSchema) {
+    if (responseSchema && 200 in responseSchema) {
       if (response?.body) {
         // This "if" statement is necessary for the websocket lambdas that return strings and not objects.
         const bodyParse =
@@ -42,7 +42,10 @@ export const zodValidatorMiddleware = (
 
       const newFormat: ZodSchema | undefined = responseSchema['200'];
 
-      validateZodSchema(newFormat || (responseSchema as ZodSchema), response);
+      validateZodSchema(
+        newFormat || (responseSchema as unknown as ZodSchema),
+        response,
+      );
     }
   };
 

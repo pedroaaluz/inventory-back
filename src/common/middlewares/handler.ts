@@ -5,19 +5,15 @@ import type {
   Context as LambdaContext,
 } from 'aws-lambda';
 
-export default function handler<
-  Event = any,
-  Context extends LambdaContext = LambdaContext | undefined,
-  Callback extends LambdaCallback = LambdaCallback | undefined,
->(
+export default function handler(
   fun: (
-    event: Event,
-    context: Context,
-    callback: Callback,
+    event: any,
+    context: LambdaContext,
+    callback: LambdaCallback,
   ) => void | Promise<unknown>,
   middlewares: Array<middy.MiddlewareObj<any>>,
 ) {
-  const fn = middy<Event, unknown, Error, Context>(fun);
+  const fn = middy<Event, unknown, Error, LambdaContext>(fun);
 
   middlewares.forEach(middleware => {
     fn.use(middleware);
