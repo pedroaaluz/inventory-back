@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client';
-import {GetProductUseCase} from '../domain/GetProductUseCase';
+import {GetProductUseCase} from '../domain//GetProductUseCase';
 import {GetProductController} from '../ports/controllers/GetProductController';
 import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
 

@@ -1,19 +1,24 @@
 import {UseCase} from '../../../common/interfaces';
 import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
-import type {TGetProductInput} from '../../../common/types/product';
-import type {Products} from '@prisma/client';
+import {requestSchema, responseSchema} from '../schema';
+import type {Product} from '@prisma/client';
+import {z} from 'zod';
 
-export class GetProductUseCase implements UseCase<TGetProductInput, Products> {
+export class GetProductUseCase implements UseCase<z.infer<typeof requestSchema.shape.body>, { product: Product, supplierId: string[], category: string[]}| null> {
   constructor(private readonly getProductRepository: GetProductRepository) {}
 
-  async exec(input: TGetProductInput) {
-    const productDTO: TGetProductInput = {
-      productId: input.productId,
+  async exec(input: z.infer<typeof requestSchema.shape.body>) {
+    const productDTO = {
+      productId: input.id,
     };
 
     console.log('Product', productDTO);
 
-    const product = await this.getProductRepository.exec(productDTO);
+    const product = await this.getProductRepository.exec({id: productDTO.productId});
+
+    if(product === null) {
+      return null;
+    }
 
     return product;
   }
