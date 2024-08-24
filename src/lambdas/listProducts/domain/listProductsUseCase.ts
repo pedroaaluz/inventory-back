@@ -1,4 +1,3 @@
-import {z} from 'zod';
 import {UseCase} from '../../../common/interfaces';
 import {
   TListProductsInput,
