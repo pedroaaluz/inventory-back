@@ -1,5 +1,5 @@
 import type {Product, Category, Supplier} from '@prisma/client';
-import {Decimal} from '@prisma/client/runtime';
+import {Prisma} from '@prisma/client';
 
 export type TGetProductInput = {
   productId: string;
@@ -11,7 +11,7 @@ export type TProduct = {
   description?: string;
   userId: string;
   stockQuantity: number;
-  unitPrice: Decimal;
+  unitPrice: Prisma.Decimal;
   expirationDate?: Date;
   created_at: Date;
   deleted_at: Date;

@@ -1,8 +1,8 @@
 import {z} from 'zod';
-import {Decimal} from '@prisma/client/runtime';
+import {Prisma} from '@prisma/client';
 
-const decimalSchema = z.custom<Decimal>(value => {
-  return new Decimal(value as string | number);
+const decimalSchema = z.custom<Prisma.Decimal>(value => {
+  return new Prisma.Decimal(value as string | number);
 });
 
 export const requestSchema = z.object({
