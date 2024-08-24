@@ -4,6 +4,7 @@ import {
   IListProductsOutput,
 } from '../../../common/types/product';
 import {ListProductsRepository} from '../../../common/repositories/product/listProductsRepository';
+import {normalizeName} from '../../../common/string/normalize';
 
 export class ListProductsUseCase
   implements UseCase<TListProductsInput, IListProductsOutput>
@@ -23,7 +24,7 @@ export class ListProductsUseCase
         orderBy: input.orderBy,
         skip: input.skip,
         pageSize: input.pageSize,
-        name: input.name,
+        name: input.name && normalizeName(input.name),
         page: input.page,
       };
 
