@@ -1,4 +1,4 @@
-import { makeGetProductController } from "./factories/makeGetProduct";
+import { MakeGetProductController } from "../../lambdas/GetProduct/factories/makeGetProduct";	
 import { HttpFn } from "../../common/types/lambdasTypes";
 import { requestSchema, responseSchema } from "./schema";
 import { z } from "zod";
@@ -20,7 +20,7 @@ const fn: HttpFn<
   z.infer<(typeof responseSchema)["200"]> | z.infer<(typeof responseSchema)["404"]>
 > = async (event) => {
   try {
-    const controller = makeGetProductController();
+    const controller = MakeGetProductController();
     const response = await controller.exec(event);
 
     return response;
