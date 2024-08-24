@@ -28,8 +28,6 @@ export const responseSchema = {
       product: z.object({
         id: z.string(),
         name: z.string(),
-        categoryId: z.string(),
-        supplierId: z.string(), 
         image: z.string().nullable(),
         description: z.string().nullable(),
         stockQuantity: z.number(),
@@ -39,7 +37,6 @@ export const responseSchema = {
         createdAt: z.date(),
         deletedAt: z.date().nullable(),
         updatedAt: z.date(),
-        
       }),
     }),
   }),
