@@ -2,7 +2,7 @@ import {z} from 'zod';
 
 
 export const requestSchema = z.object({
-  body: z.object({
+  pathParameters: z.object({
     id: z.string(),
   }),
 });

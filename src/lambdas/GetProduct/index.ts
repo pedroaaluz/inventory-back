@@ -1,12 +1,11 @@
-import { MakeGetProductController } from "../../lambdas/GetProduct/factories/makeGetProduct";	
+import { MakeGetProductController } from "./factories/makeGetProduct";	
 import { HttpFn } from "../../common/types/lambdasTypes";
 import { requestSchema, responseSchema } from "./schema";
 import { z } from "zod";
-// import handler from "../../common/middlewares/handler";
-// import httpEventNormalizer from "@middy/http-event-normalizer";
-// import httpErrorHandler from "@middy/http-error-handler";
-// import httpBodyNormalize from "../../common/middlewares/httpBodyNormalize";
-// import { zodValidatorMiddleware } from "../../common/middlewares/zodValidator";
+import handler from "../../common/middlewares/handler";
+import httpEventNormalizer from "@middy/http-event-normalizer";
+import httpErrorHandler from "@middy/http-error-handler";
+import { zodValidatorMiddleware } from "../../common/middlewares/zodValidator";
 
 /**
  * @description Lambda responsible for getting a product by its id.
@@ -29,3 +28,9 @@ const fn: HttpFn<
     throw error;
   }
 };
+
+export const bootstrap = handler(fn, [
+  httpEventNormalizer(),
+  zodValidatorMiddleware({requestSchema, responseSchema}),
+  httpErrorHandler(),
+]);

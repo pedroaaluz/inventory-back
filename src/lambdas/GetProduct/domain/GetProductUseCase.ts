@@ -15,7 +15,7 @@ implements UseCase<string, { product: Product, supplierId: string[], category: s
 
     const product = await this.getProductRepository.exec(productDTO.productId);
 
-    if(product === null) {
+    if(product == null) {
       return null;
     }
 

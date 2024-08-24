@@ -1,6 +1,6 @@
 {
-  "body": {
-    "id": "1234"
+  "pathParameters": {
+    "id": "1"
   },
   "headers": {
     "Content-Type": "application/json"
