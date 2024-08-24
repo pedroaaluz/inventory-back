@@ -38,6 +38,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    GetProduct: {
+      handler: 'src/lambdas/CreateProduct/index.bootstrap',
+      name: 'get-product-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'product',
+            method: 'get',
+          },
+        },
+      ],
+    },
   },
   plugins: ['serverless-esbuild', 'serverless-offline'],
 };

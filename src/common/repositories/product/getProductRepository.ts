@@ -1,21 +1,30 @@
 import type {PrismaClient} from '@prisma/client';
 import {Repository} from '../../interfaces';
-import {TProduct, TGetProductInput} from '../../types/product';
+import {Product} from '@prisma/client';
 
 export class GetProductRepository
-  implements Repository<TGetProductInput, TProduct>
+  implements Repository<string, { product: Product, supplierId: string[], category: string[]}  | null>
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
-  async exec(productDTO: TGetProductInput) {
-    const product = await this.dbClient.products.findUnique({
-      where: {id: productDTO.productId},
-    });
+  async exec(productDTO: string): Promise<{ product: Product, supplierId: string[], category: string[]} | null> {
+    const product = await this.dbClient.product.findUnique({
+      where: {id: productDTO},
+      include: {
+        category: true,
+        productSupplier: true,
+      },
 
-    return product;
-  }
-  catch(error) {
-    console.log('Error', error);
-    throw new Error(error.message);
+    });
+    
+    if (!product) {
+      return null
+    }
+
+    return {
+      product: product,
+      supplierId: product.productSupplier.map(supplier => supplier.supplierId) || null,
+      category: product.category.map(category => category.categoryId) || [],
+    }
   }
 }
