@@ -4,8 +4,9 @@ datasource db {
 }
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x", "linux-arm64-openssl-1.0.x"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+  binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
 }
 
 enum EnumMovementsType {
@@ -24,6 +25,7 @@ enum EnumPaymentMethodType {
 model Product {
   id              String    @id @default(uuid())
   name            String
+  nameNormalized  String
   image           String?
   description     String?
   userId          String
@@ -44,15 +46,16 @@ model Product {
 }
 
 model Supplier {
-  id        String    @id @default(uuid())
-  name      String
-  address   String?
-  phone     String?
-  email     String?
-  userId    String
-  createdAt DateTime  @default(now()) @db.Timestamptz(3)
-  deletedAt DateTime? @db.Timestamptz(3)
-  updatedAt DateTime  @default(now()) @db.Timestamptz(3)
+  id             String    @id @default(uuid())
+  name           String
+  nameNormalized String
+  address        String?
+  phone          String?
+  email          String?
+  userId         String
+  createdAt      DateTime  @default(now()) @db.Timestamptz(3)
+  deletedAt      DateTime? @db.Timestamptz(3)
+  updatedAt      DateTime  @default(now()) @db.Timestamptz(3)
 
   productSupplier ProductSupplier[]
 

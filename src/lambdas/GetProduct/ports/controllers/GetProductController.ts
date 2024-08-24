@@ -1,37 +1,45 @@
 import {Controller} from '../../../../common/interfaces';
-import { requestSchema, responseSchema } from '../../schema';
+import {requestSchema, responseSchema} from '../../schema';
 import {GetProductUseCase} from '../../domain/getProductUseCase';
-import { HttpEvent, HttpResponse } from '../../../../common/types/lambdasTypes';
-import {z} from 'zod'
+import {HttpEvent, HttpResponse} from '../../../../common/types/lambdasTypes';
+import {z} from 'zod';
 
-export class GetProductController 
-  implements 
+export class GetProductController
+  implements
     Controller<
       HttpEvent<z.infer<typeof requestSchema>>,
-      Promise<HttpResponse<z.infer<(typeof responseSchema)['200']>> | HttpResponse<z.infer<(typeof responseSchema)['404']>>>
+      Promise<
+        | HttpResponse<z.infer<(typeof responseSchema)['200']>>
+        | HttpResponse<z.infer<(typeof responseSchema)['404']>>
+      >
     >
 {
   constructor(private readonly getProductUseCase: GetProductUseCase) {}
 
-  async exec(event: HttpEvent<z.infer<typeof requestSchema>>): Promise<HttpResponse<z.infer<(typeof responseSchema)['200']>> | HttpResponse<z.infer<(typeof responseSchema)['404']>>> {
+  async exec(
+    event: HttpEvent<z.infer<typeof requestSchema>>,
+  ): Promise<
+    | HttpResponse<z.infer<(typeof responseSchema)['200']>>
+    | HttpResponse<z.infer<(typeof responseSchema)['404']>>
+  > {
     try {
-      const id = event.path;
+      const id = event.pathParameters?.id;
 
-      if(id == null){
+      if (id == null) {
         return {
           statusCode: 400,
           body: {
             message: 'Bad Request',
           },
         };
-      } 
+      }
 
       const result = await this.getProductUseCase.exec(id);
 
       if (result === null) {
         return {
           statusCode: 404,
-          body:{
+          body: {
             message: 'Product not found',
           },
         };
@@ -54,19 +62,18 @@ export class GetProductController
             createdAt: result.product.createdAt,
             deletedAt: result.product.deletedAt,
             updatedAt: result.product.updatedAt,
-          }
-
+          },
         },
       };
     } catch (error) {
       console.log('error', error);
-      
+
       return {
         statusCode: 500,
         body: {
           message: 'Internal Server Error',
-        }, 
-      }
+        },
+      };
     }
   }
 }

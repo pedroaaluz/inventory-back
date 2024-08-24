@@ -3,28 +3,38 @@ import {Repository} from '../../interfaces';
 import {Product} from '@prisma/client';
 
 export class GetProductRepository
-  implements Repository<string, { product: Product, supplierId: string[], category: string[]}  | null>
+  implements
+    Repository<
+      string,
+      {product: Product; supplierId: string[]; category: string[]} | null
+    >
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
-  async exec(productDTO: string): Promise<{ product: Product, supplierId: string[], category: string[]} | null> {
+  async exec(productDTO: string): Promise<{
+    product: Product;
+    supplierId: string[];
+    category: string[];
+  } | null> {
+    console.log('productDTO', productDTO);
+
     const product = await this.dbClient.product.findUnique({
       where: {id: productDTO},
       include: {
         category: true,
         productSupplier: true,
       },
-
     });
-    
+
     if (!product) {
-      return null
+      return null;
     }
 
     return {
       product: product,
-      supplierId: product.productSupplier.map(supplier => supplier.supplierId) || null,
+      supplierId:
+        product.productSupplier.map(supplier => supplier.supplierId) || null,
       category: product.category.map(category => category.categoryId) || [],
-    }
+    };
   }
 }

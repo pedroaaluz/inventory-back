@@ -50,6 +50,10 @@ const serverlessConfiguration = {
         },
       ],
     },
+    /*     PrismaSeed: {
+      handler: 'scripts/prismaSeed/index.bootstrap',
+      name: 'prisma-seed-${self:provider.stage}',
+    }, */
   },
   plugins: ['serverless-esbuild', 'serverless-offline'],
 };
