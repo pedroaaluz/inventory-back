@@ -94,13 +94,13 @@ async function createCategory() {
     {id: 'c2877b72-8026-4b1c-883d-f82cbc99b184', name: 'papelaria/escritório'},
   ];
 
-  const promises = categories.map(category => {
+  const promises = categories.map(async category =>
     prisma.category.upsert({
       where: {id: category.id},
       update: {},
       create: category,
-    });
-  });
+    }),
+  );
 
   await Promise.all(promises);
 
@@ -197,6 +197,6 @@ export async function bootstrap() {
     data: productsSuppliers,
   });
 
-  createMovements(products);
+  await createMovements(products);
   console.log('Seed data created successfully!');
 }
