@@ -6,6 +6,7 @@ import {CreateProductRepository} from '../../../common/repositories/product/crea
 import {requestSchema} from '../schema';
 import {CreateProductCategoryRepository} from '../../../common/repositories/productCategory/createProductCategoryRepository';
 import {CreateProductSupplierRepository} from '../../../common/repositories/productSupplier/createProductSupplierRepository';
+import {normalizeName} from '../../../common/string/normalize';
 
 export class CreateProductUseCase
   implements UseCase<z.infer<typeof requestSchema.shape.body>, Product>
@@ -26,6 +27,7 @@ export class CreateProductUseCase
       stockQuantity: input.stockQuantity,
       categoryId: input.categoryId,
       image: input.image ?? null,
+      nameNormalized: normalizeName(input.name),
       description: input.description ?? null,
       expirationDate: input.expirationDate
         ? new Date(input.expirationDate)
@@ -45,6 +47,7 @@ export class CreateProductUseCase
       movementType: 'ADD_TO_STOCK',
       productId: product.id,
       productName: product.name,
+      productNameNormalized: product.nameNormalized,
       quantity: product.stockQuantity,
       userId: product.userId,
     });

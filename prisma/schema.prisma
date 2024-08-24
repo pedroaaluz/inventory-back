@@ -64,15 +64,16 @@ model Supplier {
 }
 
 model Movement {
-  id           String            @id @default(uuid())
-  movementType EnumMovementsType
-  quantity     Int
-  productId    String
-  productName  String
-  userId       String
-  createdAt    DateTime          @default(now()) @db.Timestamptz(3)
-  deletedAt    DateTime?         @db.Timestamptz(3)
-  updatedAt    DateTime          @default(now()) @db.Timestamptz(3)
+  id                    String            @id @default(uuid())
+  movementType          EnumMovementsType
+  quantity              Int
+  productId             String
+  productName           String
+  productNameNormalized String
+  userId                String
+  createdAt             DateTime          @default(now()) @db.Timestamptz(3)
+  deletedAt             DateTime?         @db.Timestamptz(3)
+  updatedAt             DateTime          @default(now()) @db.Timestamptz(3)
 
   product Product @relation(fields: [productId], references: [id])
 

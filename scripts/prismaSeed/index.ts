@@ -166,6 +166,7 @@ async function createMovements(
         quantity: randomQuantity,
         productId: products[i].id,
         productName: products[i].name,
+        productNameNormalized: normalizeName(products[i].name),
         userId: products[i].userId,
         createdAt: randomDate,
       });
