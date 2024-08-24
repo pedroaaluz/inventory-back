@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client';
-import {GetProductUseCase} from '../domain//GetProductUseCase';
-import {GetProductController} from '../ports/controllers/GetProductController';
+import {GetProductUseCase} from '../domain//getProductUseCase';
+import {GetProductController} from '../ports/controllers/getProductController';
 import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
 
 export function makeGetProductController() {

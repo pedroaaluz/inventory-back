@@ -1,7 +1,6 @@
-import {APIGatewayEvent} from 'aws-lambda';
 import {Controller} from '../../../../common/interfaces';
 import { requestSchema, responseSchema } from '../../schema';
-import {GetProductUseCase} from '../../domain/GetProductUseCase';
+import {GetProductUseCase} from '../../domain/getProductUseCase';
 import { HttpEvent, HttpResponse } from '../../../../common/types/lambdasTypes';
 import {z} from 'zod'
 
@@ -16,9 +15,18 @@ export class GetProductController
 
   async exec(event: HttpEvent<z.infer<typeof requestSchema>>): Promise<HttpResponse<z.infer<(typeof responseSchema)['200']>> | HttpResponse<z.infer<(typeof responseSchema)['404']>>> {
     try {
-      const {id} = event.body || {};
+      const id = event.path;
 
-      const result = await this.getProductUseCase.exec({id});
+      if(id == null){
+        return {
+          statusCode: 400,
+          body: {
+            message: 'Bad Request',
+          },
+        };
+      } 
+
+      const result = await this.getProductUseCase.exec(id);
 
       if (result === null) {
         return {
@@ -35,8 +43,8 @@ export class GetProductController
           product: {
             id: result.product.id,
             name: result.product.name,
-            categoryId: result.category,
-            supplierId: result.supplierId,
+            categoryId: result.category || [],
+            supplierId: result.supplierId || [],
             image: result.product.image,
             description: result.product.description,
             stockQuantity: result.product.stockQuantity,
