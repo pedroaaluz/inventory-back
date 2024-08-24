@@ -18,6 +18,7 @@ export class CreateProductRepository
           expirationDate: productDTO.expirationDate,
           stockQuantity: productDTO.stockQuantity,
           image: productDTO.image,
+          nameNormalized: productDTO.nameNormalized,
         },
       });
 

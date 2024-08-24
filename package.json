@@ -23,6 +23,7 @@
     "@middy/http-partial-response": "^5.4.6",
     "@prisma/client": "^5.18.0",
     "@serverless/typescript": "^3.38.0",
+    "date-fns": "^3.6.0",
     "http-errors": "^2.0.0",
     "serverless": "^3.22.0",
     "uuid": "^10.0.0",

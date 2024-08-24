@@ -37,7 +37,7 @@ model Product {
   deletedAt       DateTime? @db.Timestamptz(3)
   updatedAt       DateTime  @default(now()) @db.Timestamptz(3)
 
-  category        ProductCategory[]
+  productCategory ProductCategory[]
   movements       Movement[]
   productSupplier ProductSupplier[]
 

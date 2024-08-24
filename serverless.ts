@@ -44,16 +44,28 @@ const serverlessConfiguration = {
       events: [
         {
           http: {
+            path: 'product/{id}',
+            method: 'get',
+          },
+        },
+      ],
+    },
+    ListProducts: {
+      handler: 'src/lambdas/listProducts/index.bootstrap',
+      name: 'list-products-${self:provider.stage}',
+      events: [
+        {
+          http: {
             path: 'product',
             method: 'get',
           },
         },
       ],
     },
-    /*     PrismaSeed: {
+    PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
-    }, */
+    },
   },
   plugins: ['serverless-esbuild', 'serverless-offline'],
 };

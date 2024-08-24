@@ -41,22 +41,26 @@ export type TCreateProductInput = Omit<
 > & {supplierId: string; categoryId: string};
 
 export type TListProductsInput = {
-  startDate?: string;
-  endDate?: string;
-  page?: number;
-  pageSize?: number;
+  orderBy: 'asc' | 'desc';
+  startDate: string;
+  endDate: string;
+  page: number;
+  pageSize: number;
+  categoriesIds: string[] | undefined;
+  suppliersIds: string[] | undefined;
+  skip: number;
   userId: string;
-  orderBy?: string;
-  categories?: number[];
-  suppliers?: number[];
-  skip?: number;
+  name: string | undefined;
 };
 
-export type TListProductsOutput = {
-  products: TProduct[];
+export interface IListProductsOutput {
+  products: (Product & {
+    suppliers: Pick<Supplier, 'name' | 'id' | 'nameNormalized'>[];
+    categories: Pick<Category, 'name' | 'id'>[];
+  })[];
   count: number;
   totalPages: number;
-};
+}
 
 type TSalesHistory = {
   movementId: number;
