@@ -27,7 +27,7 @@ const serverlessConfiguration = {
   },
   functions: {
     CreateProduct: {
-      handler: 'src/lambdas/createProduct/index.bootstrap',
+      handler: 'src/lambdas/CreateProduct/index.bootstrap',
       name: 'create-product-${self:provider.stage}',
       events: [
         {
@@ -39,7 +39,7 @@ const serverlessConfiguration = {
       ],
     },
     GetProduct: {
-      handler: 'src/lambdas/getProduct/index.bootstrap',
+      handler: 'src/lambdas/GetProduct/index.bootstrap',
       name: 'get-product-${self:provider.stage}',
       events: [
         {
