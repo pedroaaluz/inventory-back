@@ -21,7 +21,7 @@ export class GetProductRepository
     const product = await this.dbClient.product.findUnique({
       where: {id: productDTO},
       include: {
-        category: true,
+        productCategory: true,
         productSupplier: true,
       },
     });
@@ -34,7 +34,8 @@ export class GetProductRepository
       product: product,
       supplierId:
         product.productSupplier.map(supplier => supplier.supplierId) || null,
-      category: product.category.map(category => category.categoryId) || [],
+      category:
+        product.productCategory.map(category => category.categoryId) || [],
     };
   }
 }

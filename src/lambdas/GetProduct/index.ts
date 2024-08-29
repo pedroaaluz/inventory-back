@@ -9,7 +9,7 @@ import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
 
 /**
  * @description Lambda responsible for getting a product by its id.
- * @invoke sls invoke local -f GetProduct -p src/lambdas/GetProduct/mock.json
+ * @invoke sls invoke local -f GetProduct -p src/lambdas/getProduct/mock.json
  */
 
 const fn: HttpFn<
