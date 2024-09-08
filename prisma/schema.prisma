@@ -6,8 +6,8 @@ datasource db {
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
-  binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
-  output = "../node_modules/.prisma/client"
+  binaryTargets   = ["native", "linux-arm64-openssl-1.0.x", "libquery_engine-linux-arm64-openssl-1.0.x.so.node"]
+  output          = "../node_modules/.prisma/client"
 }
 
 enum EnumMovementsType {
