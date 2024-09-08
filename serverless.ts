@@ -27,7 +27,7 @@ const serverlessConfiguration = {
     patterns: ['!node_modules/**'],
   },
   functions: {
-    /*     CreateProduct: {
+    CreateProduct: {
       handler: 'src/lambdas/createProduct/index.bootstrap',
       name: 'create-product-${self:provider.stage}',
       events: [
@@ -62,7 +62,7 @@ const serverlessConfiguration = {
           },
         },
       ],
-    }, */
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
