@@ -1,4 +1,4 @@
-name: Deploy to AWS 
+name: Deploy to AWS
 
 on:
   push:
@@ -27,11 +27,11 @@ jobs:
 
       - name: Install Dependecies
         run: npm ci
-      
-      - name: Prisma generate 
-        run: npx prisma generate      
-        
-      - name: Migrate deploy 
+
+      - name: Prisma generate
+        run: npx prisma generate --schema ./prisma/schema.prisma
+
+      - name: Migrate deploy
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
