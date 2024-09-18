@@ -24,7 +24,6 @@ const serverlessConfiguration = {
   package: {
     individually: true,
     exclude: ['.git/**', '.gitignore', '.github/**', '.vscode/**'],
-    patterns: ['!node_modules/**'],
   },
   functions: {
     CreateProduct: {
