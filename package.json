@@ -52,6 +52,7 @@
     "prettier": "^2.7.1",
     "prisma": "^5.18.0",
     "serverless": "^3.22.0",
+    "serverless-dotenv-plugin": "^6.0.0",
     "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^10.2.0",
     "serverless-plugin-typescript": "^2.1.2",

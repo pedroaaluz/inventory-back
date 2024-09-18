@@ -68,7 +68,11 @@ const serverlessConfiguration = {
       name: 'prisma-seed-${self:provider.stage}',
     },
   },
-  plugins: ['serverless-esbuild', 'serverless-offline'],
+  plugins: [
+    'serverless-dotenv-plugin',
+    'serverless-esbuild',
+    'serverless-offline',
+  ],
 };
 
 module.exports = serverlessConfiguration;
