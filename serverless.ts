@@ -19,6 +19,7 @@ const serverlessConfiguration = {
     bundle: true,
     minify: false,
     sourcemap: true,
+    external: ['@prisma/client', 'prisma'],
     target: 'node18',
   },
   package: {
