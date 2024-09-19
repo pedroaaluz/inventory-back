@@ -6,6 +6,7 @@ import handler from '../../common/middlewares/handler';
 import {requestSchema, responseSchema} from './schema';
 import {HttpFn} from '../../common/types/lambdasTypes';
 import {z} from 'zod';
+import httpResponseStringify from '../../common/middlewares/httpResponseStringify';
 
 /**
  * @description This lambda function is responsible for listing products. It uses the provided event to execute the controller logic
@@ -32,4 +33,5 @@ export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   zodValidatorMiddleware({requestSchema, responseSchema}),
   httpErrorHandler(),
+  httpResponseStringify(),
 ]);
