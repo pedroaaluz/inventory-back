@@ -93,6 +93,7 @@ export class ListProductsRepository
           where: {AND: where},
         }),
       ]);
+      console.log('query finished');
 
       return {
         products: products.map(
