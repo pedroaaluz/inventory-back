@@ -33,8 +33,8 @@ export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   zodValidatorMiddleware({
     requestSchema,
-    // responseSchema
+    responseSchema,
   }),
-  httpErrorHandler({logger: console.error}),
   httpResponseStringify(),
+  httpErrorHandler({logger: console.error}),
 ]);

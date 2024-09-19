@@ -11,7 +11,7 @@ export function validateZodSchema<T extends ZodSchema>(
   } catch (error: any) {
     // using any because try only has one operation that return zod error
     const validationError = fromZodError(error);
-
+    console.error(validationError);
     throw new BadRequest(validationError.message);
   }
 }
