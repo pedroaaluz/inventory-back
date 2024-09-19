@@ -6,6 +6,12 @@ interface IResponse {
   headers?: Record<string, string>;
 }
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true,
+  'Access-Control-Allow-Headers': 'X-Amz-Security-Token',
+};
+
 export default function httpResponseStringify(): middy.MiddlewareObj<
   unknown,
   IResponse
@@ -18,6 +24,7 @@ export default function httpResponseStringify(): middy.MiddlewareObj<
       ...request.response?.headers,
       //@ts-ignore uncessary check
       ...request.context.responseHeaders,
+      ...corsHeaders,
     };
 
     if (process.env.IS_LOCAL) {
