@@ -1,3 +1,5 @@
+import {en} from '@faker-js/faker';
+
 const serverlessConfiguration = {
   service: "${env:service, 'inventory-back'}",
   org: 'inventory',
@@ -13,6 +15,9 @@ const serverlessConfiguration = {
     logRetentionInDays: 30,
     logs: {
       websocket: true,
+    },
+    environment: {
+      DATABASE_URL: '${env:DATABASE_URL}',
     },
   },
   esbuild: {
