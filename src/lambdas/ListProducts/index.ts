@@ -21,7 +21,7 @@ const fn: HttpFn<
   try {
     const controller = makeListProductsController();
     const response = await controller.exec(event);
-    console.log(response);
+
     return response;
   } catch (error) {
     console.log(error);
@@ -32,6 +32,6 @@ const fn: HttpFn<
 export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   zodValidatorMiddleware({requestSchema, responseSchema}),
-  httpErrorHandler(),
+  httpErrorHandler({logger: console.error}),
   httpResponseStringify(),
 ]);
