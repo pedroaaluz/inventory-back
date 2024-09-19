@@ -13,10 +13,11 @@ export default function httpResponseStringify(): middy.MiddlewareObj<
   ): Promise<void> => {
     const {response} = request;
 
-    // Verifica se o body existe e se não está no formato de string
     if (response && response.body && typeof response.body !== 'string') {
       try {
-        response.body = JSON.stringify(response.body); // Converte o body em string
+        response.body = JSON.stringify(response.body);
+
+        request.response = response;
       } catch (e) {
         // Opcionalmente, lidar com erros de conversão
         console.error('Failed to stringify response body:', e);
