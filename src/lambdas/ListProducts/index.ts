@@ -22,6 +22,8 @@ const fn: HttpFn<
     const controller = makeListProductsController();
     const response = await controller.exec(event);
 
+    console.log('response', response);
+
     return response;
   } catch (error) {
     console.log(error);

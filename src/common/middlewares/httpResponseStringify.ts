@@ -32,6 +32,9 @@ export default function httpResponseStringify(): middy.MiddlewareObj<
         body: JSON.stringify(request.response?.body || {}),
       };
     }
+
+    console.log('response', request);
+    return;
   };
 
   return {
