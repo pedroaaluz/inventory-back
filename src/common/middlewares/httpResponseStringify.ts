@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type middy from '@middy/core';
 
 interface IResponse {
   body?: string | Record<string, unknown>;
+  headers?: Record<string, string>;
 }
 
 export default function httpResponseStringify(): middy.MiddlewareObj<
@@ -11,18 +13,24 @@ export default function httpResponseStringify(): middy.MiddlewareObj<
   const after: middy.MiddlewareFn<unknown, IResponse> = async (
     request,
   ): Promise<void> => {
-    const {response} = request;
+    const headers = {
+      //@ts-ignore uncessary check
+      ...request.response?.headers,
+      //@ts-ignore uncessary check
+      ...request.context.responseHeaders,
+    };
 
-    if (response && response.body && typeof response.body !== 'string') {
-      try {
-        response.body = JSON.stringify(response.body);
-
-        request.response = response;
-      } catch (e) {
-        // Opcionalmente, lidar com erros de conversão
-        console.error('Failed to stringify response body:', e);
-        response.body = 'Failed to process response body';
-      }
+    if (process.env.IS_LOCAL) {
+      request.response = {
+        ...request.response,
+        headers,
+      };
+    } else {
+      request.response = {
+        ...request.response,
+        headers,
+        body: JSON.stringify(request.response?.body || {}),
+      };
     }
   };
 
