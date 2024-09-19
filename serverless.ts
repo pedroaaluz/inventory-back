@@ -1,5 +1,3 @@
-import {en} from '@faker-js/faker';
-
 const serverlessConfiguration = {
   service: "${env:service, 'inventory-back'}",
   org: 'inventory',
