@@ -17,6 +17,8 @@ export const requestSchema = z.object({
     categoryId: z.string(),
     image: z.string().optional(),
     positionInStock: z.string().optional(),
+    minimumIdealStock: z.number().int().optional(),
+    productionCost: decimalSchema.optional(),
   }),
 });
 

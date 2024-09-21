@@ -7,6 +7,8 @@ import {requestSchema} from '../schema';
 import {CreateProductCategoryRepository} from '../../../common/repositories/productCategory/createProductCategoryRepository';
 import {CreateProductSupplierRepository} from '../../../common/repositories/productSupplier/createProductSupplierRepository';
 import {normalizeName} from '../../../common/string/normalize';
+import {ProductImageStorage} from '../../../common/infrastructure/productImageStorage';
+import {randomUUID} from 'crypto';
 
 export class CreateProductUseCase
   implements UseCase<z.infer<typeof requestSchema.shape.body>, Product>
@@ -16,23 +18,34 @@ export class CreateProductUseCase
     private readonly createMovementRepository: CreateMovementRepository,
     private readonly createProductSupplierRepository: CreateProductSupplierRepository,
     private readonly createProductCategoryRepository: CreateProductCategoryRepository,
+    private readonly productImageStorageAdapter: ProductImageStorage,
   ) {}
 
   async exec(input: z.infer<typeof requestSchema.shape.body>) {
+    const productId = randomUUID();
+
     const productDTO = {
+      id: productId,
       name: input.name,
       userId: input.userId,
       unitPrice: input.unitPrice,
       supplierId: input.supplierId,
       stockQuantity: input.stockQuantity,
       categoryId: input.categoryId,
-      image: input.image ?? null,
+      image: input.image
+        ? await this.productImageStorageAdapter.uploadFile(
+            input.image,
+            `${input.userId}/${productId}.jpg`,
+          )
+        : null,
       nameNormalized: normalizeName(input.name),
       description: input.description ?? null,
       expirationDate: input.expirationDate
         ? new Date(input.expirationDate)
         : null,
       positionInStock: input.positionInStock ?? null,
+      minimumIdealStock: input.minimumIdealStock ?? null,
+      productionCost: input.productionCost ?? null,
     };
 
     console.log('creating product...');

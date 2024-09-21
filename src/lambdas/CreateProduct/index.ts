@@ -7,6 +7,7 @@ import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpErrorHandler from '@middy/http-error-handler';
 import httpBodyNormalize from '../../common/middlewares/httpBodyNormalize';
+import httpResponseStringify from '../../common/middlewares/httpResponseStringify';
 
 /**
  * @description Lambda responsible for creating a new product and associating it with its supplier, category,
@@ -35,4 +36,5 @@ export const bootstrap = handler(fn, [
   httpBodyNormalize(),
   zodValidatorMiddleware({requestSchema, responseSchema}),
   httpErrorHandler(),
+  httpResponseStringify(),
 ]);

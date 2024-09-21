@@ -22,7 +22,6 @@ const serverlessConfiguration = {
     bundle: true,
     minify: false,
     sourcemap: true,
-    external: ['@prisma/client', 'prisma'],
     target: 'node18',
   },
   package: {
@@ -75,6 +74,17 @@ const serverlessConfiguration = {
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
+    },
+  },
+  resources: {
+    Resources: {
+      ImageProductBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          BucketName: 'product-image',
+          AccessControl: 'PublicRead',
+        },
+      },
     },
   },
   plugins: ['serverless-esbuild', 'serverless-offline'],

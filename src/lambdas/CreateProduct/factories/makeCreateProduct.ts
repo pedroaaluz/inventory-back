@@ -5,6 +5,7 @@ import {CreateProductController} from '../ports/controllers/createProductControl
 import {CreateProductSupplierRepository} from '../../../common/repositories/productSupplier/createProductSupplierRepository';
 import {CreateProductCategoryRepository} from '../../../common/repositories/productCategory/createProductCategoryRepository';
 import {prisma} from '../../../../prisma/prismaClient';
+import {ProductImageStorage} from '../../../common/infrastructure/productImageStorage';
 
 export function makeCreateNewProductController() {
   const dbClient = prisma;
@@ -12,12 +13,14 @@ export function makeCreateNewProductController() {
   const createMovementRepository = new CreateMovementRepository(dbClient);
   const createProductSupplier = new CreateProductSupplierRepository(dbClient);
   const createProductCategory = new CreateProductCategoryRepository(dbClient);
+  const productImageStorageAdapter = new ProductImageStorage();
 
   const createNewProductUseCase = new CreateProductUseCase(
     createProductRepository,
     createMovementRepository,
     createProductSupplier,
     createProductCategory,
+    productImageStorageAdapter,
   );
 
   const createNewProductController = new CreateProductController(

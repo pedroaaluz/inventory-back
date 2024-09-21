@@ -197,7 +197,7 @@ export async function bootstrap() {
   const categories = await createCategory();
 
   const {products, productsCategories, productsSuppliers} = await createProduct(
-    50,
+    1000,
     suppliers,
     categories,
   );
