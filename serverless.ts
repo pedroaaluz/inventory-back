@@ -78,11 +78,10 @@ const serverlessConfiguration = {
   },
   resources: {
     Resources: {
-      ImageProductBucket: {
+      ProductImageBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          BucketName: 'product-image',
-          AccessControl: 'PublicRead',
+          BucketName: `product-image-bucket-${'${self:provider.stage}'}-${'${self:provider.region}'}`,
         },
       },
     },
