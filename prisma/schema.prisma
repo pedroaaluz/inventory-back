@@ -22,19 +22,21 @@ enum EnumPaymentMethodType {
 }
 
 model Product {
-  id              String    @id @default(uuid())
-  name            String
-  nameNormalized  String
-  image           String?
-  description     String?
-  userId          String
-  stockQuantity   Int
-  unitPrice       Decimal   @db.Decimal(1000, 2)
-  positionInStock String?
-  expirationDate  DateTime?
-  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
-  deletedAt       DateTime? @db.Timestamptz(3)
-  updatedAt       DateTime  @default(now()) @db.Timestamptz(3)
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(256)
+  nameNormalized    String    @db.VarChar(256)
+  image             String?   @db.VarChar(256)
+  description       String?   @db.VarChar(256)
+  userId            String
+  stockQuantity     Int
+  minimumIdealStock Int
+  unitPrice         Decimal   @db.Decimal(10, 2)
+  positionInStock   String?   @db.VarChar(256)
+  expirationDate    DateTime?
+  createdAt         DateTime  @default(now()) @db.Timestamptz(3)
+  deletedAt         DateTime? @db.Timestamptz(3)
+  updatedAt         DateTime  @default(now()) @db.Timestamptz(3)
+  productionCost    Decimal   @db.Decimal(10, 2)
 
   productCategory ProductCategory[]
   movements       Movement[]
@@ -46,11 +48,11 @@ model Product {
 
 model Supplier {
   id             String    @id @default(uuid())
-  name           String
-  nameNormalized String
-  address        String?
-  phone          String?
-  email          String?
+  name           String    @db.VarChar(256)
+  nameNormalized String    @db.VarChar(256)
+  address        String?   @db.VarChar(256)
+  phone          String?   @db.VarChar(256)
+  email          String?   @db.VarChar(256)
   userId         String
   createdAt      DateTime  @default(now()) @db.Timestamptz(3)
   deletedAt      DateTime? @db.Timestamptz(3)
@@ -67,8 +69,8 @@ model Movement {
   movementType          EnumMovementsType
   quantity              Int
   productId             String
-  productName           String
-  productNameNormalized String
+  productName           String            @db.VarChar(256)
+  productNameNormalized String            @db.VarChar(256)
   userId                String
   createdAt             DateTime          @default(now()) @db.Timestamptz(3)
   deletedAt             DateTime?         @db.Timestamptz(3)
@@ -84,7 +86,7 @@ model Movement {
 
 model Category {
   id              String            @id @default(uuid())
-  name            String
+  name            String            @db.VarChar(256)
   createdAt       DateTime          @default(now()) @db.Timestamptz(3)
   deletedAt       DateTime?         @db.Timestamptz(3)
   updatedAt       DateTime          @default(now()) @db.Timestamptz(3)
