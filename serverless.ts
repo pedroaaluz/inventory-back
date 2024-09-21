@@ -55,7 +55,7 @@ const serverlessConfiguration = {
           Resource: {
             'Fn::Join': [
               '/',
-              [{'Fn::GetAtt': ['InformationBucket', 'Arn']}, '*'],
+              [{'Fn::GetAtt': ['ProductsImagesBucket', 'Arn']}, '*'],
             ],
           },
         },
