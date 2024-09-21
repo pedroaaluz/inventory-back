@@ -22,13 +22,6 @@ export class CreateProductRepository
         },
       });
 
-      await tx.productCategory.create({
-        data: {
-          categoryId: productDTO.categoryId,
-          productId: product.id,
-        },
-      });
-
       return product;
     });
 

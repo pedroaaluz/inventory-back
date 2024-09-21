@@ -8,10 +8,10 @@ export class CreateProductCategoryRepository
   constructor(private readonly dbClient: PrismaClient) {}
 
   async exec(productCategoryDTO: TCreateProductCategoryInput) {
-    const movement = await this.dbClient.$transaction(async tx => {
+    const productCategory = await this.dbClient.$transaction(async tx => {
       return tx.productCategory.create({data: productCategoryDTO});
     });
 
-    return movement;
+    return productCategory;
   }
 }

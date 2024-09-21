@@ -16,6 +16,8 @@ const serverlessConfiguration = {
     },
     environment: {
       DATABASE_URL: '${env:DATABASE_URL}',
+      REGION: '${self:provider.region}',
+      STAGE: '${self:provider.stage}',
     },
   },
   esbuild: {
@@ -78,10 +80,10 @@ const serverlessConfiguration = {
   },
   resources: {
     Resources: {
-      ProductImageBucket: {
+      ProductsImagesBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          BucketName: `product-image-bucket-${'${self:provider.stage}'}-${'${self:provider.region}'}`,
+          BucketName: 'products-images-bucket-${self:provider.stage}',
         },
       },
     },

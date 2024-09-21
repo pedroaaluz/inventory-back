@@ -1,4 +1,8 @@
-import {S3Client, PutObjectCommand} from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  PutObjectCommandInput,
+} from '@aws-sdk/client-s3';
 import {Buffer} from 'buffer';
 
 interface S3Port {
@@ -9,7 +13,7 @@ export class ProductImageStorage implements S3Port {
   private s3: S3Client;
 
   constructor() {
-    this.s3 = new S3Client({region: 'us-east-1'});
+    this.s3 = new S3Client({region: 'sa-east-1'});
   }
 
   private decodeBase64(base64: string): {buffer: Buffer; mimeType: string} {
@@ -33,8 +37,8 @@ export class ProductImageStorage implements S3Port {
   async uploadFile(base64: string, key: string): Promise<string> {
     const {buffer, mimeType} = this.decodeBase64(base64);
 
-    const params = {
-      Bucket: 'product-image',
+    const params: PutObjectCommandInput = {
+      Bucket: `products-images-bucket-${process.env.STAGE}`,
       Key: key,
       Body: buffer,
       ContentType: mimeType,
