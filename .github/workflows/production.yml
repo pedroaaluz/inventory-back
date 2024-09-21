@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
           echo "PRISMA_CLI_BINARY_TARGETS=native,linux-arm64-openssl-1.0.x" >> .env
+          echo "PRISMA_SCHEMA_DISABLE_ADVISORY_LOCK=anything" >> .env
 
       - name: Prisma generate
         run: npx prisma generate --schema ./prisma/schema.prisma
