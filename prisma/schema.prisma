@@ -29,14 +29,14 @@ model Product {
   description       String?   @db.VarChar(256)
   userId            String
   stockQuantity     Int
-  minimumIdealStock Int
+  minimumIdealStock Int?
   unitPrice         Decimal   @db.Decimal(10, 2)
   positionInStock   String?   @db.VarChar(256)
   expirationDate    DateTime?
   createdAt         DateTime  @default(now()) @db.Timestamptz(3)
   deletedAt         DateTime? @db.Timestamptz(3)
   updatedAt         DateTime  @default(now()) @db.Timestamptz(3)
-  productionCost    Decimal   @db.Decimal(10, 2)
+  productionCost    Decimal?  @db.Decimal(10, 2)
 
   productCategory ProductCategory[]
   movements       Movement[]
