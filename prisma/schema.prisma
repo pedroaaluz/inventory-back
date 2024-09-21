@@ -49,6 +49,7 @@ model Product {
 model Supplier {
   id             String    @id @default(uuid())
   name           String    @db.VarChar(256)
+  cnpj           String?   @db.VarChar(256)
   nameNormalized String    @db.VarChar(256)
   address        String?   @db.VarChar(256)
   phone          String?   @db.VarChar(256)

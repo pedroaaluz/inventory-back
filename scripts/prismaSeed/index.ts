@@ -3,6 +3,14 @@ import {randomUUID} from 'crypto';
 import {EnumMovementsType, Prisma} from '@prisma/client';
 import {prisma} from '../../prisma/prismaClient';
 
+function cnpj() {
+  let cnpj = '';
+  for (let i = 0; i < 14; i++) {
+    cnpj += Math.floor(Math.random() * 10).toString();
+  }
+  return cnpj;
+}
+
 function normalizeName(name: string) {
   // 1. Remove acentos
   const withoutAccents = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -41,6 +49,8 @@ async function createProduct(
       positions[Math.floor(Math.random() * positions.length)];
     const randomStock = Math.floor(Math.random() * 100) + 1;
     const randomPrice = (Math.random() * 100).toFixed(2);
+    const randomMinimumIdealStock = Math.random() * 10;
+    const randomProductCost = (Math.random() * 90).toFixed(2);
     const randomYear = Math.floor(Math.random() * 16) + 2025; // Year between 2025 and 2030
     const name = faker.commerce.productName();
 
@@ -53,12 +63,14 @@ async function createProduct(
       userId: supplier.userId,
       stockQuantity: randomStock,
       unitPrice: new Prisma.Decimal(randomPrice),
+      minimumIdealStock: randomMinimumIdealStock,
       positionInStock: randomPosition,
       expirationDate: new Date(
         randomYear,
         Math.floor(Math.random() * 12),
         Math.floor(Math.random() * 28) + 1,
       ),
+      productionCost: new Prisma.Decimal(randomProductCost),
     });
 
     productsCategories.push({
@@ -122,6 +134,7 @@ async function createSupplier(count = 1, userIds: string[]) {
       address: faker.location.streetAddress(),
       email: faker.internet.email(),
       phone: faker.phone.number(),
+      cnpj: cnpj(),
     });
   }
 
