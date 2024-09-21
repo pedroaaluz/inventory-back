@@ -12,8 +12,5 @@
     "minimumIdealStock": 50,
     "productionCost": 600.50
   }
-  ,
-  "headers": {
-    "Content-Type": "application/json"
-  }
+ 
 }

@@ -48,6 +48,18 @@ const serverlessConfiguration = {
           },
         },
       ],
+      iamRoleStatements: [
+        {
+          Effect: 'Allow',
+          Action: ['s3:PutObject', 's3:PutObjectAcl', 's3:PutObjectTagging'],
+          Resource: {
+            'Fn::Join': [
+              '/',
+              [{'Fn::GetAtt': ['InformationBucket', 'Arn']}, '*'],
+            ],
+          },
+        },
+      ],
     },
     GetProduct: {
       handler: 'src/lambdas/getProduct/index.bootstrap',
@@ -88,7 +100,11 @@ const serverlessConfiguration = {
       },
     },
   },
-  plugins: ['serverless-esbuild', 'serverless-offline'],
+  plugins: [
+    'serverless-esbuild',
+    'serverless-iam-roles-per-function',
+    'serverless-offline',
+  ],
 };
 
 module.exports = serverlessConfiguration;
