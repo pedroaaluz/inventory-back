@@ -34,7 +34,7 @@ const fn: HttpFn<
 export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   httpBodyNormalize(),
-  zodValidatorMiddleware({requestSchema, responseSchema}),
+  zodValidatorMiddleware({requestSchema}),
   httpErrorHandler(),
   httpResponseStringify(),
 ]);
