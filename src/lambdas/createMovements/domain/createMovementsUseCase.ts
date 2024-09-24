@@ -61,7 +61,17 @@ export class CreateMovementsUseCase
       (acc, movement) => {
         const product = products.find(p => p.id === movement.productId);
 
-        if (!product) return acc;
+        if (!product) {
+          acc.movementsInvalid.push({
+            productId: movement.productId,
+            quantity: movement.quantity,
+            movementType: movement.type,
+            quantityCurrent: 0,
+            message: 'Product not found',
+          });
+
+          return acc;
+        }
 
         if (
           product?.stockQuantity < movement.quantity &&
