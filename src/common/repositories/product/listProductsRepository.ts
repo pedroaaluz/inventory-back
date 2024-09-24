@@ -22,6 +22,7 @@ export class ListProductsRepository
         userId,
         pageSize,
         name,
+        productsIds,
       } = filterInput;
 
       const where: Prisma.ProductWhereInput[] = [
@@ -37,6 +38,12 @@ export class ListProductsRepository
       if (categoriesIds && categoriesIds.length > 0) {
         where.push({
           productCategory: {some: {categoryId: {in: categoriesIds}}},
+        });
+      }
+
+      if (productsIds && productsIds?.length > 0) {
+        where.push({
+          id: {in: productsIds},
         });
       }
 
@@ -93,6 +100,7 @@ export class ListProductsRepository
           where: {AND: where},
         }),
       ]);
+
       console.log('query finished');
 
       return {
@@ -104,7 +112,7 @@ export class ListProductsRepository
           }),
         ),
         count,
-        totalPages: Math.ceil(count / pageSize),
+        totalPages: Math.ceil(count / (pageSize || count)),
       };
     } catch (error) {
       console.log('Error', error);

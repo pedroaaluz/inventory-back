@@ -66,16 +66,18 @@ model Supplier {
 }
 
 model Movement {
-  id                    String            @id @default(uuid())
+  id                    String                 @id @default(uuid())
   movementType          EnumMovementsType
   quantity              Int
   productId             String
-  productName           String            @db.VarChar(256)
-  productNameNormalized String            @db.VarChar(256)
+  productName           String                 @db.VarChar(256)
+  productNameNormalized String                 @db.VarChar(256)
   userId                String
-  createdAt             DateTime          @default(now()) @db.Timestamptz(3)
-  deletedAt             DateTime?         @db.Timestamptz(3)
-  updatedAt             DateTime          @default(now()) @db.Timestamptz(3)
+  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
+  deletedAt             DateTime?              @db.Timestamptz(3)
+  updatedAt             DateTime               @default(now()) @db.Timestamptz(3)
+  movementValue         Decimal?               @db.Decimal(10, 2)
+  paymentMethod         EnumPaymentMethodType?
 
   product Product @relation(fields: [productId], references: [id])
 

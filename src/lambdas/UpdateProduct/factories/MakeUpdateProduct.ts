@@ -3,14 +3,14 @@ import {UpdateProductUseCase} from '../domain/UpdateProductUseCase';
 import {UpdateProductController} from '../ports/controllers/UpdateProductController';
 import {UpdateProductRepository} from '../ports/repositories/UpdateProductRepository';
 import {GetProductRepository} from '../../../common/repositories/product/getProductRepository';
-import {CreateMovementRepository} from '../../../common/repositories/movement/createMovementRepository';
+import {CreateMovementsRepository} from '../../../common/repositories/movement/createMovementRepository';
 
 export function makeUpdateProductController() {
   const dbClient = new PrismaClient();
 
   const updateProductRepository = new UpdateProductRepository(dbClient);
   const getProductRepository = new GetProductRepository(dbClient);
-  const createNewMovementRepository = new CreateMovementRepository(dbClient);
+  const createNewMovementRepository = new CreateMovementsRepository(dbClient);
 
   const updateProductUseCase = new UpdateProductUseCase(
     updateProductRepository,

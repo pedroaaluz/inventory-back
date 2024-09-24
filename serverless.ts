@@ -85,6 +85,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    CreateMovements: {
+      handler: 'src/lambdas/createMovements/index.bootstrap',
+      name: 'create-movements-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'movement',
+            method: 'post',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',

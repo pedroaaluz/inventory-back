@@ -1,7 +1,7 @@
 import {UseCase} from '../../../common/interfaces';
 import {Product} from '@prisma/client';
 import {z} from 'zod';
-import {CreateMovementRepository} from '../../../common/repositories/movement/createMovementRepository';
+import {CreateMovementsRepository} from '../../../common/repositories/movement/createMovementRepository';
 import {CreateProductRepository} from '../../../common/repositories/product/createProductRepository';
 import {requestSchema} from '../schema';
 import {CreateProductCategoryRepository} from '../../../common/repositories/productCategory/createProductCategoryRepository';
@@ -15,7 +15,7 @@ export class CreateProductUseCase
 {
   constructor(
     private readonly createProductRepository: CreateProductRepository,
-    private readonly createMovementRepository: CreateMovementRepository,
+    private readonly createMovementRepository: CreateMovementsRepository,
     private readonly createProductSupplierRepository: CreateProductSupplierRepository,
     private readonly createProductCategoryRepository: CreateProductCategoryRepository,
     private readonly productImageStorageAdapter: ProductImageStorage,

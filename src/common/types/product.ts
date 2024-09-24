@@ -41,16 +41,17 @@ export type TCreateProductInput = Omit<
 > & {supplierId: string; categoryId: string};
 
 export type TListProductsInput = {
-  orderBy: 'asc' | 'desc';
-  startDate: string;
-  endDate: string;
-  page: number;
-  pageSize: number;
-  categoriesIds: string[] | undefined;
-  suppliersIds: string[] | undefined;
-  skip: number;
+  orderBy?: 'asc' | 'desc';
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  pageSize?: number;
+  categoriesIds?: string[] | undefined;
+  suppliersIds?: string[] | undefined;
+  productsIds?: string[] | undefined;
+  skip?: number;
   userId: string;
-  name: string | undefined;
+  name?: string | undefined;
 };
 
 export interface IListProductsOutput {

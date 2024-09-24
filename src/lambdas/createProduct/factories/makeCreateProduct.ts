@@ -1,4 +1,4 @@
-import {CreateMovementRepository} from '../../../common/repositories/movement/createMovementRepository';
+import {CreateMovementsRepository} from '../../../common/repositories/movement/createMovementRepository';
 import {CreateProductRepository} from '../../../common/repositories/product/createProductRepository';
 import {CreateProductUseCase} from '../domain/createProductUseCase';
 import {CreateProductController} from '../ports/controllers/createProductController';
@@ -10,7 +10,7 @@ import {ProductImageStorage} from '../../../common/infrastructure/productImageSt
 export function makeCreateNewProductController() {
   const dbClient = prisma;
   const createProductRepository = new CreateProductRepository(dbClient);
-  const createMovementRepository = new CreateMovementRepository(dbClient);
+  const createMovementRepository = new CreateMovementsRepository(dbClient);
   const createProductSupplier = new CreateProductSupplierRepository(dbClient);
   const createProductCategory = new CreateProductCategoryRepository(dbClient);
   const productImageStorageAdapter = new ProductImageStorage();
