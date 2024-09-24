@@ -1,6 +1,6 @@
 import {faker} from '@faker-js/faker';
 import {randomUUID} from 'crypto';
-import {EnumMovementsType, Prisma} from '@prisma/client';
+import {EnumMovementsType, EnumPaymentMethodType, Prisma} from '@prisma/client';
 import {prisma} from '../../prisma/prismaClient';
 
 function cnpj() {
@@ -166,7 +166,16 @@ async function createMovements(
 
       const types = ['SALE', 'ADD_TO_STOCK', 'REMOVE_FROM_STOCK'];
       const randomType = types[Math.floor(Math.random() * types.length)];
-
+      const paymentMethodTypes: EnumPaymentMethodType[] = [
+        'CREDIT',
+        'DEBIT',
+        'CASH',
+        'PIX',
+      ];
+      const randomPaymentMethod =
+        paymentMethodTypes[
+          Math.floor(Math.random() * paymentMethodTypes.length)
+        ];
       const randomDate = new Date(
         Math.floor(Math.random() * 1) + 2022,
         Math.floor(Math.random() * 12),
@@ -182,6 +191,8 @@ async function createMovements(
         productNameNormalized: normalizeName(products[i].name),
         userId: products[i].userId,
         createdAt: randomDate,
+        movementValue: new Prisma.Decimal((Math.random() * 100).toFixed(2)),
+        paymentMethod: randomType === 'SALE' ? randomPaymentMethod : null,
       });
     }
   }
