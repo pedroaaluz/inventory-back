@@ -5,6 +5,7 @@ import {CreateMovementsRepository} from '../../../common/repositories/movement/c
 import {requestSchema} from '../schema';
 import {ListProductsRepository} from '../../../common/repositories/product/listProductsRepository';
 import {TCreateMovementInput} from '../../../common/types/movement';
+import {UpdateProductRepository} from '../../../common/repositories/product/updateProductRepository';
 
 export interface ICreateMovementsUseCaseOutput {
   movementsCreated: {
@@ -34,6 +35,7 @@ export class CreateMovementsUseCase
   constructor(
     private readonly createMovementRepository: CreateMovementsRepository,
     private readonly listProductsRepository: ListProductsRepository,
+    private readonly updateProductRepository: UpdateProductRepository,
   ) {}
 
   async exec(
@@ -57,6 +59,7 @@ export class CreateMovementsUseCase
         message: string;
       }[];
       movementsToCreate: TCreateMovementInput[];
+      productToUpdate: {id: string; stockQuantity: number; userId: string}[];
     }>(
       (acc, movement) => {
         const product = products.find(p => p.id === movement.productId);
@@ -101,20 +104,35 @@ export class CreateMovementsUseCase
           paymentMethod: movement.paymentMethod || null,
         });
 
+        acc.productToUpdate.push({
+          id: movement.productId,
+          stockQuantity:
+            movement.type === EnumMovementsType.ADD_TO_STOCK
+              ? product.stockQuantity + movement.quantity
+              : product.stockQuantity - movement.quantity,
+          userId,
+        });
+
         return acc;
       },
       {
         movementsInvalid: [],
         movementsToCreate: [],
+        productToUpdate: [],
       },
     );
 
-    const movements = await this.createMovementRepository.exec(
-      movementsDTO.movementsToCreate,
-    );
+    if (movementsDTO.movementsToCreate.length > 0) {
+      await Promise.all([
+        (movementsDTO.productToUpdate.length > 0 &&
+          this.updateProductRepository.exec(movementsDTO.productToUpdate)) ||
+          [],
+        this.createMovementRepository.exec(movementsDTO.movementsToCreate),
+      ]);
+    }
 
     return {
-      movementsCreated: movements.map(movement => ({
+      movementsCreated: movementsDTO.movementsToCreate.map(movement => ({
         productId: movement.productId,
         quantity: movement.quantity,
         movementType: movement.movementType,

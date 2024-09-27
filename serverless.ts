@@ -91,7 +91,7 @@ const serverlessConfiguration = {
       events: [
         {
           http: {
-            path: 'movement',
+            path: 'movement/{userId}',
             method: 'post',
           },
         },

@@ -8,11 +8,11 @@ export class CreateMovementsRepository
   constructor(private readonly dbClient: PrismaClient) {}
 
   async exec(movementDTO: TCreateMovementInput | TCreateMovementInput[]) {
-    const movements = (await this.dbClient.$transaction(async tx => {
-      return tx.movement.createMany({
+    const movements = await this.dbClient.$transaction(async tx => {
+      return tx.movement.createManyAndReturn({
         data: Array.isArray(movementDTO) ? movementDTO : [movementDTO],
       });
-    })) as unknown as Movement[];
+    });
 
     return movements;
   }

@@ -24,15 +24,16 @@ export type TGetProductOutput = Product & {
 
 export type TUpdateProductInput = {
   id: string;
-  name: string;
+  name?: string;
   description?: string;
-  stockQuantity: number;
-  unitPrice: number;
+  stockQuantity?: number;
+  unitPrice?: Prisma.Decimal;
   expirationDate?: Date;
-  userId: string;
-  supplierId: number;
-  categoryId: number;
+  supplierId?: string;
+  categoryId?: string;
   image?: string;
+  nameNormalized?: string;
+  userId: string;
 };
 
 export type TCreateProductInput = Omit<

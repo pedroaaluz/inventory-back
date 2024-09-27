@@ -1,0 +1,46 @@
+{
+    "body": {
+      "movements": [
+        {
+          "productId": "48782302-4848-465d-8de2-d2456e5e7d1c",
+          "quantity": 10,
+          "type": "SALE",
+          "cost": "100.50",
+          "paymentMethod": "CREDIT"
+        },
+        {
+          "productId": "fb111b0a-82cf-4ace-a063-57b0ba50208b",
+          "quantity": 5,
+          "type": "ADD_TO_STOCK"
+        },
+        {
+          "productId": "431c8cfd-f0da-4bc8-b528-b476ff86ac9e",
+          "quantity": 20,
+          "type": "REMOVE_FROM_STOCK",
+          "cost": "50.00"
+        },
+        {
+          "productId": "bc82ed6b-da73-4134-ab38-99a6d79602f6",
+          "quantity": 8,
+          "type": "SALE",
+          "cost": "25.00",
+          "paymentMethod": "PIX"
+        },
+        {
+          "productId": "e801855e-x-424c-8184-5e5c475b5c3c",
+          "quantity": 3,
+          "type": "ADD_TO_STOCK"
+        },
+        {
+          "productId": "652de3f0-a1b4-4384-9082-72827c0d376e",
+          "quantity": 11115,
+          "type": "REMOVE_FROM_STOCK",
+          "cost": "150.75"
+        }
+      ]
+    },
+    "pathParameters": {
+      "userId": "6b456b60-fae6-4ba9-a802-d591b4839796"
+    }
+  }
+  

@@ -25,15 +25,19 @@ export class ListProductsRepository
         productsIds,
       } = filterInput;
 
-      const where: Prisma.ProductWhereInput[] = [
-        {
+      const where: Prisma.ProductWhereInput[] = [{userId}];
+
+      if (startDate) {
+        where.push({
           createdAt: {gte: new Date(`${startDate}T00:00:00.000Z`)},
-        },
-        {
+        });
+      }
+
+      if (endDate) {
+        where.push({
           createdAt: {lte: new Date(`${endDate}T23:59:59.999Z`)},
-        },
-        {userId},
-      ];
+        });
+      }
 
       if (categoriesIds && categoriesIds.length > 0) {
         where.push({
