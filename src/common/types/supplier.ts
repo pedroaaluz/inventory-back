@@ -2,10 +2,10 @@ export type CreateSupplierInput = {
   name: string;
   normalizeName: string;
   userId: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-  cnpj?: string;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  cnpj?: string | null;
   image?: string | null;
 };
 

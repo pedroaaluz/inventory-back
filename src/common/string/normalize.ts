@@ -7,3 +7,7 @@ export const normalizeName = (name: string) => {
 
   return normalized.trim().toUpperCase();
 };
+
+export const normalizeCNPJ = (cnpj: string) => {
+  return cnpj.replace(/[^\d]/g, '');
+};

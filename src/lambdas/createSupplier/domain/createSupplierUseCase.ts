@@ -1,9 +1,8 @@
 import {Supplier} from '@prisma/client';
 import {UseCase} from '../../../common/interfaces';
-import {CreateSupplierInput} from '../../../common/types/supplier';
 import {CreateSupplierRepository} from '../ports/repositories/createSupplierRepository';
 import {SupplierImageStorage} from '../../../common/infrastructure/supplierImageStorage';
-import {normalizeName} from '../../../common/string/normalize';
+import {normalizeCNPJ, normalizeName} from '../../../common/string/normalize';
 import {requestSchema} from '../schema';
 import {z} from 'zod';
 
@@ -19,7 +18,7 @@ export class CreateSupplierUseCase
     const supplierDTO = {
       name: input.name,
       userId: input.userId,
-      cnpj: input.cnpj,
+      cnpj: input.cnpj ? normalizeCNPJ(input.cnpj) : null,
       address: input.address,
       phone: input.phone,
       email: input.email,
