@@ -109,6 +109,30 @@ const serverlessConfiguration = {
         },
       ],
     },
+    CreateSupplier: {
+      handler: 'src/lambdas/createSupplier/index.bootstrap',
+      name: 'create-supplier-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'supplier',
+            method: 'post',
+          },
+        },
+      ],
+      iamRoleStatements: [
+        {
+          Effect: 'Allow',
+          Action: ['s3:PutObject', 's3:PutObjectAcl', 's3:PutObjectTagging'],
+          Resource: {
+            'Fn::Join': [
+              '/',
+              [{'Fn::GetAtt': ['SuppliersImagesBucket', 'Arn']}, '*'],
+            ],
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
@@ -120,6 +144,12 @@ const serverlessConfiguration = {
         Type: 'AWS::S3::Bucket',
         Properties: {
           BucketName: 'products-images-bucket-${self:provider.stage}',
+        },
+      },
+      SuppliersImagesBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          BucketName: 'suppliers-images-bucket-${self:provider.stage}',
         },
       },
     },

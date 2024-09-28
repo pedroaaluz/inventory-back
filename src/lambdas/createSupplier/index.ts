@@ -1,20 +1,33 @@
-import {APIGatewayEvent} from 'aws-lambda';
-import {Response} from '../../common/interfaces';
-import {MakeCreateSupplier} from './factories/MakeCreateSupplier';
+import {makeCreateSupplier} from './factories/makeCreateSupplier';
+import {HttpFn} from '../../common/types/lambdasTypes';
+import {requestSchema, responseSchema} from './schema';
+import {z} from 'zod';
+import handler from '../../common/middlewares/handler';
+import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
+import httpEventNormalizer from '@middy/http-event-normalizer';
+import httpErrorHandler from '@middy/http-error-handler';
+import httpBodyNormalize from '../../common/middlewares/httpBodyNormalize';
+import httpResponseStringify from '../../common/middlewares/httpResponseStringify';
 
-export async function bootstrap(event: APIGatewayEvent): Promise<Response> {
+const fn: HttpFn<
+  z.infer<typeof requestSchema>,
+  z.infer<(typeof responseSchema)['200']>
+> = async event => {
   try {
-    const controller = MakeCreateSupplier();
+    const controller = makeCreateSupplier();
     const response = await controller.exec(event);
 
     return response;
   } catch (error) {
     console.log(error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'Internal Server Error',
-      }),
-    };
+    throw error;
   }
-}
+};
+
+export const bootstrap = handler(fn, [
+  httpEventNormalizer(),
+  httpBodyNormalize(),
+  zodValidatorMiddleware({requestSchema}),
+  httpErrorHandler(),
+  httpResponseStringify(),
+]);

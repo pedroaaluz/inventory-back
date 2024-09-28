@@ -1,5 +1,5 @@
 import {UseCase} from '../../../common/interfaces';
-import {Product} from '@prisma/client';
+import {Prisma, Product} from '@prisma/client';
 import {z} from 'zod';
 import {CreateMovementsRepository} from '../../../common/repositories/movement/createMovementRepository';
 import {CreateProductRepository} from '../../../common/repositories/product/createProductRepository';
@@ -63,6 +63,10 @@ export class CreateProductUseCase
       productNameNormalized: product.nameNormalized,
       quantity: product.stockQuantity,
       userId: product.userId,
+      movementValue: new Prisma.Decimal(
+        Number(product.stockQuantity) * Number(product.productionCost),
+      ),
+      paymentMethod: input.paymentMethod ?? null,
     });
 
     console.log('movement created');
