@@ -40,7 +40,6 @@ export default function httpResponseStringify(): middy.MiddlewareObj<
       };
     }
 
-    console.log('response', request);
     return;
   };
 

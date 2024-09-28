@@ -5,6 +5,7 @@ import {SupplierImageStorage} from '../../../common/infrastructure/supplierImage
 import {normalizeCNPJ, normalizeName} from '../../../common/string/normalize';
 import {requestSchema} from '../schema';
 import {z} from 'zod';
+import {randomUUID} from 'crypto';
 
 export class CreateSupplierUseCase
   implements UseCase<z.infer<typeof requestSchema.shape.body>, Supplier>
@@ -15,7 +16,10 @@ export class CreateSupplierUseCase
   ) {}
 
   async exec(input: z.infer<typeof requestSchema.shape.body>) {
+    const supplierId = randomUUID();
+
     const supplierDTO = {
+      id: supplierId,
       name: input.name,
       userId: input.userId,
       cnpj: input.cnpj ? normalizeCNPJ(input.cnpj) : null,
@@ -25,7 +29,7 @@ export class CreateSupplierUseCase
       image: input.image
         ? await this.supplierImageStorageAdapter.uploadFile(
             input.image,
-            `${input.userId}/${input.name}.jpg`,
+            `${input.userId}/${supplierId}.jpg`,
           )
         : null,
       normalizeName: normalizeName(input.name),

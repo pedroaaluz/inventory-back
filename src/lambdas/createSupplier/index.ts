@@ -9,6 +9,11 @@ import httpErrorHandler from '@middy/http-error-handler';
 import httpBodyNormalize from '../../common/middlewares/httpBodyNormalize';
 import httpResponseStringify from '../../common/middlewares/httpResponseStringify';
 
+/**
+ * @description Lambda responsible for creating a new supplier.
+ * @invoke sls invoke local -f CreateSupplier -p src/lambdas/createSupplier/mock.json
+ */
+
 const fn: HttpFn<
   z.infer<typeof requestSchema>,
   z.infer<(typeof responseSchema)['200']>

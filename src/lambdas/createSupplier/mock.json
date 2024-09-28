@@ -1,10 +1,8 @@
 {
-    "name": "Empresa Exemplo",
-    "cnpj": "12.345.678/0001-99",
+   "body":{ "name": "Empresa Exemplo",
     "address": "Rua Exemplo, 123, São Paulo, SP",
     "phone": "+55 11 98765-4321",
     "email": "contato@empresaexemplo.com",
-    "userId": "user-12345",
-    "image": "https://example.com/logo.png"
+    "userId": "c9a841ac-cf41-4d07-969b-954ecfa0930d"
   }
-  
+}

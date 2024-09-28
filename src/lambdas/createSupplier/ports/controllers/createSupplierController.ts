@@ -19,7 +19,7 @@ export class CreateSupplierController
     return {
       statusCode: 200,
       body: {
-        message: 'Product created!',
+        message: 'Supplier created!',
         supplier: {
           id: result.id,
           name: result.name,

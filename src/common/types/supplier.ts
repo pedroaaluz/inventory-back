@@ -1,4 +1,5 @@
 export type CreateSupplierInput = {
+  id: string;
   name: string;
   normalizeName: string;
   userId: string;
