@@ -163,6 +163,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    TotalStockCostCalculator: {
+      handler: 'src/lambdas/metrics/totalStockCostCalculator/index.bootstrap',
+      name: 'total-stock-cost-calculator-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'metrics/{userId}/total-stock-cost',
+            method: 'get',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
