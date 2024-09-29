@@ -38,7 +38,7 @@ const serverlessConfiguration = {
   },
   functions: {
     CreateProduct: {
-      handler: 'src/lambdas/createProduct/index.bootstrap',
+      handler: 'src/lambdas/products/createProduct/index.bootstrap',
       name: 'create-product-${self:provider.stage}',
       events: [
         {
@@ -62,7 +62,7 @@ const serverlessConfiguration = {
       ],
     },
     GetProduct: {
-      handler: 'src/lambdas/getProduct/index.bootstrap',
+      handler: 'src/lambdas/products/getProduct/index.bootstrap',
       name: 'get-product-${self:provider.stage}',
       events: [
         {
@@ -74,7 +74,7 @@ const serverlessConfiguration = {
       ],
     },
     ListProducts: {
-      handler: 'src/lambdas/listProducts/index.bootstrap',
+      handler: 'src/lambdas/products/listProducts/index.bootstrap',
       name: 'list-products-${self:provider.stage}',
       events: [
         {
@@ -86,7 +86,7 @@ const serverlessConfiguration = {
       ],
     },
     CreateMovements: {
-      handler: 'src/lambdas/createMovements/index.bootstrap',
+      handler: 'src/lambdas/movements/createMovements/index.bootstrap',
       name: 'create-movements-${self:provider.stage}',
       events: [
         {
@@ -98,7 +98,7 @@ const serverlessConfiguration = {
       ],
     },
     ListMovements: {
-      handler: 'src/lambdas/listMovements/index.bootstrap',
+      handler: 'src/lambdas/movements/listMovements/index.bootstrap',
       name: 'list-movements-${self:provider.stage}',
       events: [
         {
@@ -110,7 +110,7 @@ const serverlessConfiguration = {
       ],
     },
     CreateSupplier: {
-      handler: 'src/lambdas/createSupplier/index.bootstrap',
+      handler: 'src/lambdas/suppliers/createSupplier/index.bootstrap',
       name: 'create-supplier-${self:provider.stage}',
       events: [
         {
@@ -134,7 +134,7 @@ const serverlessConfiguration = {
       ],
     },
     ListSuppliers: {
-      handler: 'src/lambdas/listSuppliers/index.bootstrap',
+      handler: 'src/lambdas/suppliers/listSuppliers/index.bootstrap',
       name: 'list-suppliers-${self:provider.stage}',
       events: [
         {
@@ -146,7 +146,7 @@ const serverlessConfiguration = {
       ],
     },
     GetSupplier: {
-      handler: 'src/lambdas/getSupplier/index.bootstrap',
+      handler: 'src/lambdas/suppliers/getSupplier/index.bootstrap',
       name: 'get-supplier-${self:provider.stage}',
       events: [
         {
