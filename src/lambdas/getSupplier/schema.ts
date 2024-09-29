@@ -10,21 +10,20 @@ export const responseSchema = {
   200: z.object({
     statusCode: z.number(),
     body: z.object({
-      product: z
+      supplier: z
         .object({
           id: z.string(),
           name: z.string(),
-          categoryId: z.array(z.string()),
-          supplierId: z.array(z.string()),
+          nameNormalized: z.string(),
+          userId: z.string(),
+          address: z.string().nullable(),
+          phone: z.string().nullable(),
+          email: z.string().nullable(),
+          cnpj: z.string().nullable(),
           image: z.string().nullable(),
-          description: z.string().nullable(),
-          stockQuantity: z.number(),
-          unitPrice: z.number(),
-          positionInStock: z.string().nullable(),
-          expirationDate: z.date().nullable(),
           createdAt: z.date(),
-          deletedAt: z.date().nullable(),
           updatedAt: z.date(),
+          deletedAt: z.date().nullable(),
         })
         .nullable()
         .optional(),

@@ -1,4 +1,4 @@
-import {MakeGetProductController} from './factories/makeGetProduct';
+import {MakeGetSupplierController} from './factories/makeGetSupplier';
 import {HttpFn} from '../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from './schema';
 import {z} from 'zod';
@@ -8,19 +8,17 @@ import httpErrorHandler from '@middy/http-error-handler';
 import {zodValidatorMiddleware} from '../../common/middlewares/zodValidator';
 
 /**
- * @description Lambda responsible for getting a product by its id.
- * @invoke sls invoke local -f GetProduct -p src/lambdas/getProduct/mock.json
+ * @description Lambda responsible for getting a supplier by its id.
+ * @invoke sls invoke local -f GetSupplier -p src/lambdas/supplier/mock.json
  */
 
 const fn: HttpFn<
-  //need to recieve and id from path parameters and return a responseSchema
-
   z.infer<typeof requestSchema>,
   | z.infer<(typeof responseSchema)['200']>
   | z.infer<(typeof responseSchema)['404']>
 > = async event => {
   try {
-    const controller = MakeGetProductController();
+    const controller = MakeGetSupplierController();
     const response = await controller.exec(event);
 
     return response;

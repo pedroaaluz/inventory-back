@@ -145,6 +145,24 @@ const serverlessConfiguration = {
         },
       ],
     },
+    GetSupplier: {
+      handler: 'src/lambdas/getSupplier/index.bootstrap',
+      name: 'get-supplier-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            events: [
+              {
+                http: {
+                  path: 'supplier/{id}',
+                  method: 'get',
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',

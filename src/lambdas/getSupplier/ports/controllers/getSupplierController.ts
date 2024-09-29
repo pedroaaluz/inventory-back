@@ -1,10 +1,10 @@
 import {Controller} from '../../../../common/interfaces';
 import {requestSchema, responseSchema} from '../../schema';
-import {GetProductUseCase} from '../../domain/getProductUseCase';
+import {GetSupplierUseCase} from '../../domain/getSupplierUseCase';
 import {HttpEvent, HttpResponse} from '../../../../common/types/lambdasTypes';
 import {z} from 'zod';
 
-export class GetProductController
+export class GetSupplierController
   implements
     Controller<
       HttpEvent<z.infer<typeof requestSchema>>,
@@ -14,7 +14,7 @@ export class GetProductController
       >
     >
 {
-  constructor(private readonly getProductUseCase: GetProductUseCase) {}
+  constructor(private readonly getProductUseCase: GetSupplierUseCase) {}
 
   async exec(
     event: HttpEvent<z.infer<typeof requestSchema>>,
@@ -40,7 +40,7 @@ export class GetProductController
         return {
           statusCode: 404,
           body: {
-            message: 'Product not found',
+            message: 'Supplier not found',
           },
         };
       }
@@ -48,21 +48,7 @@ export class GetProductController
       return {
         statusCode: 200,
         body: {
-          product: {
-            id: result.product.id,
-            name: result.product.name,
-            categoryId: result.category || [],
-            supplierId: result.supplierId || [],
-            image: result.product.image,
-            description: result.product.description,
-            stockQuantity: result.product.stockQuantity,
-            unitPrice: Number(result.product.unitPrice),
-            positionInStock: result.product.positionInStock,
-            expirationDate: result.product.expirationDate,
-            createdAt: result.product.createdAt,
-            deletedAt: result.product.deletedAt,
-            updatedAt: result.product.updatedAt,
-          },
+          supplier: result.supplier,
         },
       };
     } catch (error) {
