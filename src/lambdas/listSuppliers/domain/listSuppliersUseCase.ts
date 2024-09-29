@@ -1,12 +1,12 @@
 import {UseCase} from '../../../common/interfaces';
 import {
   TListSuppliersInput,
-  TListSuppliersOutput,
+  IListSuppliersOutput,
 } from '../../../common/types/supplier';
-import {ListSuppliersRepository} from '../ports/repositories/ListSuppliersRepository';
+import {ListSuppliersRepository} from '../../../common/repositories/suppliers/listSuppliersRepository';
 
 export class ListSuppliersUseCase
-  implements UseCase<TListSuppliersInput, TListSuppliersOutput>
+  implements UseCase<TListSuppliersInput, IListSuppliersOutput>
 {
   constructor(
     private readonly listSuppliersRepository: ListSuppliersRepository,
@@ -23,7 +23,7 @@ export class ListSuppliersUseCase
       return suppliers;
     } catch (error) {
       console.log('Error', error);
-      throw new Error(error.message);
+      throw error;
     }
   }
 }

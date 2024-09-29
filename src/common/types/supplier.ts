@@ -1,3 +1,5 @@
+import {Prisma, Supplier} from '@prisma/client';
+
 export type CreateSupplierInput = {
   id: string;
   name: string;
@@ -11,60 +13,19 @@ export type CreateSupplierInput = {
 };
 
 export type TListSuppliersInput = {
-  startDate?: string;
-  endDate?: string;
-  page?: number;
-  pageSize?: number;
-  products?: number[];
-  orderBy?: string;
-  skip?: number;
-};
-
-export type TSuppliersStatisticsInput = {
+  orderBy: Prisma.SortOrder;
+  startDate: string;
+  endDate: string;
+  page: number;
+  pageSize: number;
+  suppliersIds: string[] | undefined;
+  skip: number;
   userId: string;
-  suppliers?: string[];
-  startDate?: string;
-  endDate?: string;
-  limit?: number;
+  name: string | undefined;
 };
 
-type salesHistory = {
-  productId: number;
-  movementId: number;
-  paymentMethod: string;
-  quantity: number;
-  sellDate: Date;
-};
-
-export type TSuppliersFinancialStatisticsOutput = {
-  id: number;
-  name: string;
-  salesHistory: salesHistory[];
-  totalSales: bigint;
-  creditSales: bigint;
-  pixSales: bigint;
-  debitSales: bigint;
-  cashSales: bigint;
-};
-
-type TMovementsHistory = {
-  productId: number;
-  movementId: number;
-  movementType: string;
-  quantity: number;
-  date: string;
-};
-
-export type TSuppliersMovementsHistoryOutput = {
-  id: number;
-  name: string;
-  movementsHistory: TMovementsHistory[];
-};
-
-type JoinTypes = Omit<TSuppliersMovementsHistoryOutput, 'id' | 'name'> &
-  Omit<TSuppliersFinancialStatisticsOutput, 'id' | 'name'>;
-
-export type TSuppliersStatisticsOutput = {
-  name: string;
-  id: number;
-} & JoinTypes;
+export interface IListSuppliersOutput {
+  suppliers: Supplier[];
+  count: number;
+  totalPages: number;
+}

@@ -1,9 +1,9 @@
 import {PrismaClient} from '@prisma/client';
-import {ListSuppliersUseCase} from '../domain/ListSuppliersUseCase';
-import {ListSuppliersController} from '../ports/controllers/ListSuppliersController';
-import {ListSuppliersRepository} from '../ports/repositories/ListSuppliersRepository';
+import {ListSuppliersUseCase} from '../domain/listSuppliersUseCase';
+import {ListSuppliersController} from '../ports/controllers/listSuppliersController';
+import {ListSuppliersRepository} from '../../../common/repositories/suppliers/listSuppliersRepository';
 
-export function MakeListSuppliers() {
+export function makeListSuppliers() {
   const prismaClient = new PrismaClient();
   const listSuppliersRepository = new ListSuppliersRepository(prismaClient);
   const listSuppliersUseCase = new ListSuppliersUseCase(
