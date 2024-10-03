@@ -1,10 +1,13 @@
-import {Controller} from '../../../../common/interfaces';
-import {ListMovementsUseCase} from '../domain/ListMovementsUseCase';
-import {HttpEvent, HttpResponse} from '../../../../common/types/lambdasTypes';
-import {requestSchema, responseSchema} from '../schema';
+import {Controller} from '../../../../../common/interfaces';
+import {ListMovementsUseCase} from '../../domain/listMovementsUseCase';
+import {
+  HttpEvent,
+  HttpResponse,
+} from '../../../../../common/types/lambdasTypes';
+import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
 import {format} from 'date-fns';
-import {normalizeName} from '../../../../common/string/normalize';
+import {normalizeName} from '../../../../../common/string/normalize';
 
 export class ListMovementsController
   implements
@@ -38,8 +41,8 @@ export class ListMovementsController
 
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate || format(sevenDaysAgo, 'yyyy-MM-dd'),
-        endDate: endDate || format(today, 'yyyy-MM-dd'),
+        startDate: startDate || format(sevenDaysAgo, 'yyyy-MM-dd HH:mm:ss'),
+        endDate: endDate || format(today, 'yyyy-MM-dd HH:mm:ss'),
         page: Number(page),
         pageSize: Number(pageSize),
         userId,

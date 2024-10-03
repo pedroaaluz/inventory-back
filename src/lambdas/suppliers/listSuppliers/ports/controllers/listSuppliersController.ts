@@ -41,8 +41,8 @@ export class ListSuppliersController
 
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate || format(sevenDaysAgo, 'yyyy-MM-dd'),
-        endDate: endDate || format(today, 'yyyy-MM-dd'),
+        startDate: startDate || format(sevenDaysAgo, 'yyyy-MM-dd HH:mm:ss'),
+        endDate: endDate || format(today, 'yyyy-MM-dd HH:mm:ss'),
         page: Number(page),
         pageSize: Number(pageSize),
         suppliersIds,

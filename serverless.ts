@@ -175,6 +175,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    PaymentMethodUsed: {
+      handler: 'src/lambdas/metrics/paymentMethodUsed/index.bootstrap',
+      name: 'payment-method-used-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'metrics/{userId}/payment-method-used',
+            method: 'get',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',

@@ -1,7 +1,7 @@
 import {prisma} from '../../../../../prisma/prismaClient';
 import {ListMovementsRepository} from '../../../../common/repositories/movement/listMovementsRepository';
 import {ListMovementsUseCase} from '../domain/listMovementsUseCase';
-import {ListMovementsController} from '../ports/listMovementsController';
+import {ListMovementsController} from '../ports/controller/listMovementsController';
 
 export function makeListMovementsController() {
   const dbClient = prisma;

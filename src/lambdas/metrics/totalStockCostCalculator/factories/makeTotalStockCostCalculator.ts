@@ -12,9 +12,10 @@ export function makeTotalStockCostCalculatorController() {
   const totalStockCostCalculatorUseCase = new TotalStockCostCalculatorUseCase(
     totalStockCostCalculatorRepository,
   );
-  const listMovementsController = new TotalStockCostCalculatorUseCaseController(
-    totalStockCostCalculatorUseCase,
-  );
+  const totalStockCostCalculatorController =
+    new TotalStockCostCalculatorUseCaseController(
+      totalStockCostCalculatorUseCase,
+    );
 
-  return listMovementsController;
+  return totalStockCostCalculatorController;
 }
