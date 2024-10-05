@@ -151,14 +151,8 @@ const serverlessConfiguration = {
       events: [
         {
           http: {
-            events: [
-              {
-                http: {
-                  path: 'supplier/{id}',
-                  method: 'get',
-                },
-              },
-            ],
+            path: 'supplier/{id}',
+            method: 'get',
           },
         },
       ],
