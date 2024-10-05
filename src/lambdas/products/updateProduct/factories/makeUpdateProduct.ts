@@ -1,9 +1,9 @@
 import {PrismaClient} from '@prisma/client';
-import {UpdateProductUseCase} from '../domain/UpdateProductUseCase';
-import {UpdateProductController} from '../ports/controllers/UpdateProductController';
-import {UpdateProductRepository} from '../ports/repositories/UpdateProductRepository';
+import {UpdateProductUseCase} from '../domain/updateProductUseCase';
+import {UpdateProductRepository} from '../../../../common/repositories/product/updateProductRepository';
 import {GetProductRepository} from '../../../../common/repositories/product/getProductRepository';
 import {CreateMovementsRepository} from '../../../../common/repositories/movement/createMovementRepository';
+import {UpdateProductController} from '../ports/controllers/updateProductController';
 
 export function makeUpdateProductController() {
   const dbClient = new PrismaClient();

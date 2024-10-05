@@ -5,18 +5,6 @@ export type TGetProductInput = {
   productId: string;
 };
 
-export type TProduct = {
-  id: number;
-  name: string;
-  description?: string;
-  userId: string;
-  stockQuantity: number;
-  unitPrice: Prisma.Decimal;
-  expirationDate?: Date;
-  created_at: Date;
-  deleted_at: Date;
-};
-
 export type TGetProductOutput = Product & {
   categories: Category[];
   suppliers: Supplier[];
