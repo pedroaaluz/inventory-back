@@ -1,0 +1,8 @@
+{
+    "pathParameters": {
+        "userId": "6b456b60-fae6-4ba9-a802-d591b4839796"
+    },
+    "queryStringParameters": {
+        "startDate": "2020-01-01"
+    }
+}

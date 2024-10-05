@@ -205,6 +205,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    GetProductsNearIdealStock: {
+      handler: 'src/lambdas/metrics/getProductsNearIdealStock/index.bootstrap',
+      name: 'get-products-near-ideal-stock-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'metrics/{userId}/products-near-ideal-stock',
+            method: 'get',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
