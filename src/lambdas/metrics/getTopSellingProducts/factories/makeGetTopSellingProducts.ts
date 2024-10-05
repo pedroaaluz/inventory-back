@@ -1,6 +1,6 @@
 import {prisma} from '../../../../../prisma/prismaClient';
 import {GetTopSellingProductsRepository} from '../../../../common/repositories/metrics/getTopSellingProductsRepository';
-import {GetTopSellingProductsUseCase} from '../domain/makeGetTopSellingProducts';
+import {GetTopSellingProductsUseCase} from '../domain/getTopSellingProductsUseCase';
 import {GetTopSellingProductsController} from '../ports/controller/getTopSellingProductsController';
 
 export function makeGetTopSellingProducts() {
@@ -14,9 +14,9 @@ export function makeGetTopSellingProducts() {
     getTopSellingProductsRepository,
   );
 
-  const paymentMethodUsedController = new GetTopSellingProductsController(
+  const getTopSellingProductsController = new GetTopSellingProductsController(
     getTopSellingProductsUseCase,
   );
 
-  return paymentMethodUsedController;
+  return getTopSellingProductsController;
 }

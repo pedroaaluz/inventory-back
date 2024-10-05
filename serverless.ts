@@ -199,6 +199,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    GetStockMetrics: {
+      handler: 'src/lambdas/metrics/getStockMetrics/index.bootstrap',
+      name: 'get-stock-metrics-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'metrics/{userId}/stock-metrics',
+            method: 'get',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',

@@ -23,6 +23,26 @@ export interface TGetTopSellingProductsInputUseCase {
   endDate: string;
 }
 
+export interface TGetStockMetricsInputUseCase {
+  userId: string;
+  startDate: string;
+  endDate: string;
+  productName?: string;
+}
+
+export interface IGetStockMetricsOutput {
+  products: {
+    id: string;
+    name: string;
+    image: string | null;
+    totalSales: number;
+    stockQuantity: number;
+    averageConsumption: number;
+    stockCoverage: number;
+    turnoverRate: number;
+  }[];
+}
+
 export interface IGetTopSellingProductsOutput {
   products: {
     count: number;
