@@ -16,3 +16,19 @@ export interface TPaymentMethodUsedInputUseCase {
   startDate: string;
   endDate: string;
 }
+
+export interface TGetTopSellingProductsInputUseCase {
+  userId: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface IGetTopSellingProductsOutput {
+  products: {
+    count: number;
+    productName: string;
+    productImage: string | null;
+    stockQuantity: number;
+    productId: string;
+  }[];
+}

@@ -1,4 +1,4 @@
-import {makePaymentMethodUsed} from './factories/makePaymentMethodUsed';
+import {makeGetTopSellingProducts} from './factories/makeGetTopSellingProducts';
 import {HttpFn} from '../../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from './schema';
 import {z} from 'zod';
@@ -10,8 +10,8 @@ import httpBodyNormalize from '../../../common/middlewares/httpBodyNormalize';
 import httpResponseStringify from '../../../common/middlewares/httpResponseStringify';
 
 /**
- * @description Lambda function to calculate payment method used.
- * @invoke sls invoke local -f PaymentMethodUsed -p src/lambdas/metrics/paymentMethodUsed/mock.json
+ * @description Lambda function to get top selling products.
+ * @invoke sls invoke local -f GetTopSellingProducts -p src/lambdas/metrics/getTopSellingProducts/mock.json
  */
 
 const fn: HttpFn<
@@ -19,7 +19,7 @@ const fn: HttpFn<
   z.infer<(typeof responseSchema)['200']>
 > = async event => {
   try {
-    const controller = makePaymentMethodUsed();
+    const controller = makeGetTopSellingProducts();
 
     const response = await controller.exec(event);
 

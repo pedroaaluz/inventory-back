@@ -187,6 +187,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    GetTopSellingProducts: {
+      handler: 'src/lambdas/metrics/getTopSellingProducts/index.bootstrap',
+      name: 'get-top-selling-products-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'metrics/{userId}/top-selling-products',
+            method: 'get',
+          },
+        },
+      ],
+    },
     PrismaSeed: {
       handler: 'scripts/prismaSeed/index.bootstrap',
       name: 'prisma-seed-${self:provider.stage}',
