@@ -1,7 +1,7 @@
 import {prisma} from '../../../../../prisma/prismaClient';
 import {TotalStockCostCalculatorRepository} from '../../../../common/repositories/metrics/totalStockCostCalculatorRepository';
 import {TotalStockCostCalculatorUseCase} from '../domain/totalStockCostCalculatorUseCase';
-import {TotalStockCostCalculatorUseCaseController} from '../ports/controller/totalStockCostCalculatorUseCaseController';
+import {TotalStockCostCalculatorUseCaseController} from '../ports/controller/totalStockCostCalculatorController';
 
 export function makeTotalStockCostCalculatorController() {
   const dbClient = prisma;
