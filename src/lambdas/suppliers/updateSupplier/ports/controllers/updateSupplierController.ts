@@ -1,5 +1,5 @@
 import {Controller} from '../../../../../common/interfaces';
-import {UpdateProductUseCase} from '../../domain/updateProductUseCase';
+import {UpdateSupplierUseCase} from '../../domain/updateSupplierUseCase';
 import {
   HttpEvent,
   HttpResponse,
@@ -7,17 +7,17 @@ import {
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
 
-export class UpdateProductController
+export class UpdateSupplierController
   implements
     Controller<
       HttpEvent<z.infer<typeof requestSchema>>,
       Promise<HttpResponse<z.infer<(typeof responseSchema)['200']>>>
     >
 {
-  constructor(private readonly updateProductUseCase: UpdateProductUseCase) {}
+  constructor(private readonly updateSupplierUseCase: UpdateSupplierUseCase) {}
 
   async exec(event: HttpEvent<z.infer<typeof requestSchema>>) {
-    const result = await this.updateProductUseCase.exec({
+    const result = await this.updateSupplierUseCase.exec({
       ...event.body,
       id: event.pathParameters.id,
     });
@@ -25,8 +25,8 @@ export class UpdateProductController
     return {
       statusCode: 200,
       body: {
-        message: 'Product updated!',
-        product: result,
+        message: 'Supplier updated!',
+        supplier: result,
       },
     };
   }

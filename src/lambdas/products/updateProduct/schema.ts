@@ -7,7 +7,6 @@ const decimalSchema = z.custom<Prisma.Decimal>(value => {
 
 export const requestSchema = z.object({
   body: z.object({
-    id: z.string(),
     name: z.string().optional(),
     description: z.string().optional(),
     stockQuantity: z.number().int().positive(),
@@ -18,6 +17,9 @@ export const requestSchema = z.object({
     positionInStock: z.string().optional(),
     minimumIdealStock: z.number().int().optional(),
     productionCost: decimalSchema.optional(),
+  }),
+  pathParameters: z.object({
+    id: z.string(),
   }),
 });
 

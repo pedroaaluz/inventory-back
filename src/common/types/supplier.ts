@@ -29,3 +29,15 @@ export interface IListSuppliersOutput {
   count: number;
   totalPages: number;
 }
+
+export interface IUpdateSupplierInput {
+  id: string;
+  name?: string;
+  nameNormalized?: string;
+  userId: string;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  cnpj?: string | null;
+  image?: string | null;
+}
