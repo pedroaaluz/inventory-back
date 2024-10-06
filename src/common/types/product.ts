@@ -16,7 +16,7 @@ export type TUpdateProductInput = {
   description?: string;
   stockQuantity?: number;
   unitPrice?: Prisma.Decimal;
-  expirationDate?: Date;
+  expirationDate?: Date | null;
   supplierId?: string;
   categoryId?: string;
   image?: string;

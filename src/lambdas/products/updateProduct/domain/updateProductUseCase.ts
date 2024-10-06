@@ -7,6 +7,7 @@ import {GetProductRepository} from '../../../../common/repositories/product/getP
 import {NotFound} from 'http-errors';
 import {normalizeName} from '../../../../common/string/normalize';
 import {Product} from '@prisma/client';
+import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
 
 export class UpdateProductUseCase
   implements UseCase<TUpdateProductInput, Product>
@@ -15,6 +16,7 @@ export class UpdateProductUseCase
     private readonly UpdateProductRepository: UpdateProductRepository,
     private readonly GetProductRepository: GetProductRepository,
     private readonly CreateNewMovementRepository: CreateMovementsRepository,
+    private readonly productImageStorageAdapter: ProductImageStorage,
   ) {}
 
   async exec(input: TUpdateProductInput) {
@@ -22,13 +24,20 @@ export class UpdateProductUseCase
       id: input.id,
       userId: input.userId,
       name: input.name,
-      image: input.image,
+      image: input.image
+        ? await this.productImageStorageAdapter.uploadFile(
+            input.image,
+            `${input.userId}/${input.id}.jpg`,
+          )
+        : undefined,
       unitPrice: input.unitPrice,
       supplierId: input.supplierId,
       description: input.description,
       stockQuantity: input.stockQuantity,
       categoryId: input.categoryId,
-      expirationDate: input.expirationDate && new Date(input.expirationDate),
+      expirationDate: input.expirationDate
+        ? new Date(input.expirationDate)
+        : null,
       nameNormalized: input.name ? normalizeName(input.name) : undefined,
     };
 

@@ -4,6 +4,7 @@ import {UpdateProductRepository} from '../../../../common/repositories/product/u
 import {GetProductRepository} from '../../../../common/repositories/product/getProductRepository';
 import {CreateMovementsRepository} from '../../../../common/repositories/movement/createMovementRepository';
 import {UpdateProductController} from '../ports/controllers/updateProductController';
+import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
 
 export function makeUpdateProductController() {
   const dbClient = new PrismaClient();
@@ -11,11 +12,13 @@ export function makeUpdateProductController() {
   const updateProductRepository = new UpdateProductRepository(dbClient);
   const getProductRepository = new GetProductRepository(dbClient);
   const createNewMovementRepository = new CreateMovementsRepository(dbClient);
+  const productImageStorageAdapter = new ProductImageStorage();
 
   const updateProductUseCase = new UpdateProductUseCase(
     updateProductRepository,
     getProductRepository,
     createNewMovementRepository,
+    productImageStorageAdapter,
   );
 
   const updateProductController = new UpdateProductController(

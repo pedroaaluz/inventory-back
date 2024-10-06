@@ -10,9 +10,9 @@ import httpBodyNormalize from '../../../common/middlewares/httpBodyNormalize';
 import httpResponseStringify from '../../../common/middlewares/httpResponseStringify';
 
 /**
- * @description Lambda responsible for creating a new product and associating it with its supplier, category,
- * and creating an ADD_TO_STOCK movement.
- * @invoke sls invoke local -f CreateProduct -p src/lambdas/createProduct/mock.json
+ * @description Lambda responsible for updating an existing product's details, including its supplier, category,
+ * and managing any necessary stock movements.
+ * @invoke sls invoke local -f UpdateProduct -p src/lambdas/products/updateProduct/mock.json
  */
 
 const fn: HttpFn<

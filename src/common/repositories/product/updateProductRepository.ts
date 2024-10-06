@@ -19,23 +19,37 @@ export class UpdateProductRepository
     }
 
     const columns = new Set<string>();
-    productDTO.forEach(product => {
-      Object.keys(product).forEach(key => columns.add(key));
+
+    productDTO.forEach((product: TUpdateProductInput) => {
+      Object.keys(product).forEach(key => {
+        if (product[key as keyof TUpdateProductInput]) {
+          columns.add(key);
+        }
+      });
     });
 
     const setClause = [...columns].reduce<string[]>((acc, col) => {
-      if (col !== 'id' && col !== 'userId') {
+      if (
+        col !== 'id' &&
+        col !== 'userId' &&
+        productDTO.some(product => product[col as keyof TUpdateProductInput])
+      ) {
         acc.push(`"${col}" = t."${col}"`);
       }
       return acc;
     }, []);
 
-    const queryValues = productDTO.map(product => {
-      const values = Object.values(product).map(v =>
-        typeof v === 'string' ? `'${v.replace(/'/g, "''")}'` : v,
-      );
-      return `(${values.join(', ')})`;
-    });
+    const queryValues = productDTO.reduce<string[]>((acc, product) => {
+      const values = Object.values(product)
+        .filter(v => v !== null && v !== undefined)
+        .map(v => (typeof v === 'string' ? `'${v.replace(/'/g, "''")}'` : v));
+
+      if (values.length > 0) {
+        acc.push(`(${values.join(', ')})`);
+      }
+
+      return acc;
+    }, []);
 
     const query = `
       WITH t (${[...columns].map(col => `"${col}"`).join(', ')}) AS (
@@ -49,6 +63,8 @@ export class UpdateProductRepository
       WHERE p.id = t.id AND p."userId" = t."userId"
       RETURNING p.*;
     `;
+
+    console.log('Query:', query);
 
     try {
       const updatedProducts = await this.dbClient.$queryRawUnsafe<Product[]>(
