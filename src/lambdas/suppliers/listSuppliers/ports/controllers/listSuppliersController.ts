@@ -65,8 +65,8 @@ export class ListSuppliersController
         statusCode: 200,
         body: {
           message: 'Suppliers listed successfully',
-          page: page,
-          pageSize: pageSize,
+          page: Number(page),
+          pageSize: Number(pageSize),
           totalSuppliers: result.count,
           totalPages: result.totalPages,
           suppliers: result.suppliers,

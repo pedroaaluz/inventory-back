@@ -9,8 +9,14 @@ export const requestSchema = z.object({
   queryStringParameters: z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
-    page: z.number().int().positive().optional(),
-    pageSize: z.number().int().positive().optional(),
+    page: z.union([
+      z.number().int().positive().optional(),
+      z.string().optional(),
+    ]),
+    pageSize: z.union([
+      z.number().int().positive().optional(),
+      z.string().optional(),
+    ]),
     orderBy: z.enum([Prisma.SortOrder.asc, Prisma.SortOrder.desc]).optional(),
     productsIds: z.string().array().optional(),
     productName: z.string().optional(),

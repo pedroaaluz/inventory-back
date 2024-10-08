@@ -67,8 +67,8 @@ export class ListProductsController
         statusCode: 200,
         body: {
           message: 'Products listed successfully',
-          page: page,
-          pageSize: pageSize,
+          page: Number(page),
+          pageSize: Number(pageSize),
           totalProducts: result.count,
           totalPages: result.totalPages,
           products: result.products,

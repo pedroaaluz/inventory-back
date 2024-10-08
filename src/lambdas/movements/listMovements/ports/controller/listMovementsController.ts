@@ -66,8 +66,8 @@ export class ListMovementsController
         statusCode: 200,
         body: {
           message: 'Movements listed successfully',
-          page: page,
-          pageSize: pageSize,
+          page: Number(page),
+          pageSize: Number(pageSize),
           totalMovements: count,
           totalPages: totalPages,
           movements,
