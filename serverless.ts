@@ -146,7 +146,7 @@ const serverlessConfiguration = {
       ],
     },
     UpdateSupplier: {
-      handler: 'src/lambdas/products/updateSupplier/index.bootstrap',
+      handler: 'src/lambdas/suppliers/updateSupplier/index.bootstrap',
       name: 'update-supplier-${self:provider.stage}',
       events: [
         {
