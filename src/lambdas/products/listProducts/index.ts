@@ -11,7 +11,7 @@ import httpResponseStringify from '../../../common/middlewares/httpResponseStrin
 /**
  * @description This lambda function is responsible for listing products. It uses the provided event to execute the controller logic
  * and returns the response.
- * @invoke sls invoke local -f ListProducts -p src/lambdas/listProducts/mock.json
+ * @invoke sls invoke local -f ListProducts -p src/lambdas/products/listProducts/mock.json
  */
 
 const fn: HttpFn<

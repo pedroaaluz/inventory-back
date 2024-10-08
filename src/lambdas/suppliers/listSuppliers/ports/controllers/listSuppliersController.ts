@@ -6,7 +6,8 @@ import {
 } from '../../../../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
-import {format} from 'date-fns';
+import {endOfDay, startOfDay} from 'date-fns';
+import {formatInTimeZone} from 'date-fns-tz';
 
 export class ListSuppliersController
   implements
@@ -39,10 +40,17 @@ export class ListSuppliersController
       const sevenDaysAgo = new Date(today);
       sevenDaysAgo.setDate(today.getDate() - 7);
 
+      const timeZone = 'America/Sao_Paulo';
+      const format = 'yyyy-MM-dd HH:mm:ssXXX';
+
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate || format(sevenDaysAgo, 'yyyy-MM-dd HH:mm:ss'),
-        endDate: endDate || format(today, 'yyyy-MM-dd HH:mm:ss'),
+        startDate: startDate
+          ? formatInTimeZone(new Date(startDate), timeZone, format)
+          : formatInTimeZone(startOfDay(sevenDaysAgo), timeZone, format),
+        endDate: endDate
+          ? formatInTimeZone(new Date(endDate), timeZone, format)
+          : formatInTimeZone(endOfDay(today), timeZone, format),
         page: Number(page),
         pageSize: Number(pageSize),
         suppliersIds,
