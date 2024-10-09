@@ -40,6 +40,7 @@ export const responseSchema = {
         z.object({
           nameNormalized: z.string(),
           name: z.string(),
+          id: z.string(),
           image: z.string().nullable(),
           description: z.string().nullable(),
           stockQuantity: z.number(),
