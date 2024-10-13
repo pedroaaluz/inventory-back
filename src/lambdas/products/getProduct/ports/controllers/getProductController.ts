@@ -54,8 +54,8 @@ export class GetProductController
           product: {
             id: result.product.id,
             name: result.product.name,
-            categoryId: result.category || [],
-            supplierId: result.supplierId || [],
+            categories: result.categories || [],
+            suppliers: result.suppliers || [],
             image: result.product.image,
             description: result.product.description,
             stockQuantity: result.product.stockQuantity,

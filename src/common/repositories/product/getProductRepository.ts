@@ -6,23 +6,60 @@ export class GetProductRepository
   implements
     Repository<
       string,
-      {product: Product; supplierId: string[]; category: string[]} | null
+      {
+        product: Product;
+        suppliers: {
+          name: string;
+          nameNormalized: string;
+          id: string;
+        }[];
+        categories: {
+          name: string;
+          id: string;
+        }[];
+      } | null
     >
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
   async exec(productDTO: string): Promise<{
     product: Product;
-    supplierId: string[];
-    category: string[];
+    suppliers: {
+      name: string;
+      nameNormalized: string;
+      id: string;
+    }[];
+    categories: {
+      name: string;
+      id: string;
+    }[];
   } | null> {
     console.log('productDTO', productDTO);
 
     const product = await this.dbClient.product.findUnique({
       where: {id: productDTO},
       include: {
-        productCategory: true,
-        productSupplier: true,
+        productSupplier: {
+          select: {
+            supplier: {
+              select: {
+                name: true,
+                id: true,
+                nameNormalized: true,
+              },
+            },
+          },
+        },
+        productCategory: {
+          select: {
+            category: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -32,10 +69,8 @@ export class GetProductRepository
 
     return {
       product: product,
-      supplierId:
-        product.productSupplier.map(supplier => supplier.supplierId) || null,
-      category:
-        product.productCategory.map(category => category.categoryId) || [],
+      suppliers: product.productSupplier.map(ps => ps.supplier),
+      categories: product.productCategory.map(pc => pc.category),
     };
   }
 }

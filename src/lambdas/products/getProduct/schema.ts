@@ -14,8 +14,19 @@ export const responseSchema = {
         .object({
           id: z.string(),
           name: z.string(),
-          categoryId: z.array(z.string()),
-          supplierId: z.array(z.string()),
+          categories: z.array(
+            z.object({
+              name: z.string(),
+              id: z.string(),
+            }),
+          ),
+          suppliers: z.array(
+            z.object({
+              name: z.string(),
+              nameNormalized: z.string(),
+              id: z.string(),
+            }),
+          ),
           image: z.string().nullable(),
           description: z.string().nullable(),
           stockQuantity: z.number(),

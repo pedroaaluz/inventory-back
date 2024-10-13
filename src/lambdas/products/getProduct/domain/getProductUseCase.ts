@@ -6,7 +6,18 @@ export class GetProductUseCase
   implements
     UseCase<
       string,
-      {product: Product; supplierId: string[]; category: string[]} | null
+      {
+        product: Product;
+        suppliers: {
+          name: string;
+          nameNormalized: string;
+          id: string;
+        }[];
+        categories: {
+          name: string;
+          id: string;
+        }[];
+      } | null
     >
 {
   constructor(private readonly getProductRepository: GetProductRepository) {}
