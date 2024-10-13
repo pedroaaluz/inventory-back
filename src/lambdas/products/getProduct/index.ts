@@ -6,10 +6,11 @@ import handler from '../../../common/middlewares/handler';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpErrorHandler from '@middy/http-error-handler';
 import {zodValidatorMiddleware} from '../../../common/middlewares/zodValidator';
+import httpResponseStringify from '../../../common/middlewares/httpResponseStringify';
 
 /**
  * @description Lambda responsible for getting a product by its id.
- * @invoke sls invoke local -f GetProduct -p src/lambdas/getProduct/mock.json
+ * @invoke sls invoke local -f GetProduct -p src/lambdas/products/getProduct/mock.json
  */
 
 const fn: HttpFn<
@@ -33,5 +34,6 @@ const fn: HttpFn<
 export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   zodValidatorMiddleware({requestSchema}),
+  httpResponseStringify(),
   httpErrorHandler(),
 ]);

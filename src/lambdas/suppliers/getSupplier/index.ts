@@ -6,6 +6,7 @@ import handler from '../../../common/middlewares/handler';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpErrorHandler from '@middy/http-error-handler';
 import {zodValidatorMiddleware} from '../../../common/middlewares/zodValidator';
+import httpResponseStringify from '../../../common/middlewares/httpResponseStringify';
 
 /**
  * @description Lambda responsible for getting a supplier by its id.
@@ -32,4 +33,5 @@ export const bootstrap = handler(fn, [
   httpEventNormalizer(),
   zodValidatorMiddleware({requestSchema}),
   httpErrorHandler(),
+  httpResponseStringify(),
 ]);
