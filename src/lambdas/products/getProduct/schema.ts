@@ -25,6 +25,8 @@ export const responseSchema = {
           createdAt: z.date(),
           deletedAt: z.date().nullable(),
           updatedAt: z.date(),
+          productionCost: z.number(),
+          minimumIdealStock: z.number().nullable(),
         })
         .nullable()
         .optional(),

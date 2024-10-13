@@ -60,6 +60,8 @@ export class GetProductController
             description: result.product.description,
             stockQuantity: result.product.stockQuantity,
             unitPrice: Number(result.product.unitPrice),
+            productionCost: Number(result.product.productionCost),
+            minimumIdealStock: result.product.minimumIdealStock,
             positionInStock: result.product.positionInStock,
             expirationDate: result.product.expirationDate,
             createdAt: result.product.createdAt,
