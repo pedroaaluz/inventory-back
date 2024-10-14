@@ -23,6 +23,10 @@ export class ListMovementsUseCase
         orderBy: input.orderBy,
         pageSize: input.pageSize,
         skip: input.skip,
+        productName: input.productName,
+        productsIds: input.productsIds,
+        movementType: input.movementType,
+        paymentMethod: input.paymentMethod,
       };
 
       const movements = await this.listMovementsRepository.exec(

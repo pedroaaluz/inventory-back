@@ -22,6 +22,8 @@ export class ListMovementsRepository
         userId,
         productsIds,
         productName,
+        movementType,
+        paymentMethod,
       } = filterInput;
 
       const where: Prisma.MovementWhereInput[] = [{userId}];
@@ -51,6 +53,18 @@ export class ListMovementsRepository
       if (endDate) {
         where.push({
           createdAt: {lte: endDate},
+        });
+      }
+
+      if (movementType) {
+        where.push({
+          movementType,
+        });
+      }
+
+      if (paymentMethod) {
+        where.push({
+          paymentMethod,
         });
       }
 

@@ -12,7 +12,7 @@ import httpResponseStringify from '../../../common/middlewares/httpResponseStrin
 /**
  * @description Lambda responsible for listing movements.
  * This includes validating the request, normalizing the HTTP event, handling errors, and formatting the response.
- * @invoke sls invoke local -f ListMovements -p src/lambdas/listMovements/mock.json
+ * @invoke sls invoke local -f ListMovements -p src/lambdas/movements/listMovements/mock.json
  */
 
 const fn: HttpFn<

@@ -1,4 +1,9 @@
-import {Movement, Prisma} from '@prisma/client';
+import {
+  Movement,
+  Prisma,
+  EnumMovementsType,
+  EnumPaymentMethodType,
+} from '@prisma/client';
 
 export type TCreateMovementInput = Omit<
   Movement,
@@ -15,6 +20,8 @@ export interface IListMovementsRepositoryInput {
   skip?: number;
   productsIds?: string[];
   productName?: string;
+  movementType?: EnumMovementsType;
+  paymentMethod?: EnumPaymentMethodType;
 }
 
 export interface IListMovementsRepositoryOutput {

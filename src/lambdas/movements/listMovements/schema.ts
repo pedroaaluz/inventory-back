@@ -20,6 +20,8 @@ export const requestSchema = z.object({
     orderBy: z.enum([Prisma.SortOrder.asc, Prisma.SortOrder.desc]).optional(),
     productsIds: z.string().array().optional(),
     productName: z.string().optional(),
+    movementType: z.nativeEnum(EnumMovementsType).optional(),
+    paymentMethod: z.nativeEnum(EnumPaymentMethodType).optional(),
   }),
   pathParameters: z.object({
     userId: z.string(),

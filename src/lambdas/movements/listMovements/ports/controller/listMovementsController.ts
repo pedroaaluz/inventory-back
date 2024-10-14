@@ -32,6 +32,8 @@ export class ListMovementsController
         orderBy,
         productName,
         productsIds,
+        movementType,
+        paymentMethod,
       } = event.queryStringParameters || {};
 
       const skip = Number(pageSize) * (Number(page) - 1);
@@ -57,6 +59,8 @@ export class ListMovementsController
         skip,
         productName: productName ? normalizeName(productName) : undefined,
         productsIds,
+        movementType,
+        paymentMethod,
       };
 
       const {count, movements, totalPages} =

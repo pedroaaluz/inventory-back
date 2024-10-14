@@ -1,6 +1,12 @@
 {
     "pathParameters": {
       "userId": "6b456b60-fae6-4ba9-a802-d591b4839796"
+    },
+    "queryStringParameters": {
+        "movementType": "SALE",
+        "paymentMethod": "PIX",
+      "startDate":"2021-01-01",
+      "page": 2
     }
   }
   
