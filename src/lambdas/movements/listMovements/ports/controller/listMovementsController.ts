@@ -31,10 +31,11 @@ export class ListMovementsController
         pageSize = 10,
         orderBy,
         productName,
-        productsIds,
         movementType,
         paymentMethod,
       } = event.queryStringParameters || {};
+
+      const productsIds = event.multiValueQueryStringParameters?.productsIds;
 
       const skip = Number(pageSize) * (Number(page) - 1);
 
