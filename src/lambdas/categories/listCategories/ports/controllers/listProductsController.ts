@@ -31,7 +31,7 @@ export class ListProductsController
       return {
         statusCode: 200,
         body: {
-          message: 'Products listed successfully',
+          message: 'Categories listed successfully',
           categories,
         },
       };
