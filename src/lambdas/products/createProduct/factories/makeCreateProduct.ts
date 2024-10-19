@@ -2,8 +2,8 @@ import {CreateMovementsRepository} from '../../../../common/repositories/movemen
 import {CreateProductRepository} from '../../../../common/repositories/product/createProductRepository';
 import {CreateProductUseCase} from '../domain/createProductUseCase';
 import {CreateProductController} from '../ports/controllers/createProductController';
-import {CreateProductSupplierRepository} from '../../../../common/repositories/productSupplier/createProductSupplierRepository';
-import {CreateProductCategoryRepository} from '../../../../common/repositories/productCategory/createProductCategoryRepository';
+import {CreateProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
+import {CreateProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
 import {prisma} from '../../../../../prisma/prismaClient';
 import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
 

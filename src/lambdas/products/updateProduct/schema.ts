@@ -17,6 +17,8 @@ export const requestSchema = z.object({
     positionInStock: z.string().optional(),
     minimumIdealStock: z.number().int().optional(),
     productionCost: decimalSchema.optional(),
+    categoriesIds: z.array(z.string()).optional(),
+    suppliersIds: z.array(z.string()).optional(),
   }),
   pathParameters: z.object({
     id: z.string(),

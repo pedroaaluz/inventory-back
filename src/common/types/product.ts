@@ -17,8 +17,8 @@ export type TUpdateProductInput = {
   stockQuantity?: number;
   unitPrice?: Prisma.Decimal;
   expirationDate?: Date | null;
-  supplierId?: string;
-  categoryId?: string;
+  suppliersIds?: string[];
+  categoriesIds?: string[];
   image?: string;
   nameNormalized?: string;
   userId: string;

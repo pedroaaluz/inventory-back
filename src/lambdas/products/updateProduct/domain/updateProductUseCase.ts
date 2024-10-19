@@ -8,14 +8,22 @@ import {NotFound} from 'http-errors';
 import {normalizeName} from '../../../../common/string/normalize';
 import {Product} from '@prisma/client';
 import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
+import {DeleteProductCategoryRepository} from '../../../../common/repositories/productCategory/deleteProductCategoryRepository';
+import {DeleteProductSupplierRepository} from '../../../../common/repositories/productSupplier/deleteProductSupplierRepository';
+import {UpsertProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
+import {UpsertProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
 
 export class UpdateProductUseCase
   implements UseCase<TUpdateProductInput, Product>
 {
   constructor(
-    private readonly UpdateProductRepository: UpdateProductRepository,
-    private readonly GetProductRepository: GetProductRepository,
-    private readonly CreateNewMovementRepository: CreateMovementsRepository,
+    private readonly updateProductRepository: UpdateProductRepository,
+    private readonly getProductRepository: GetProductRepository,
+    private readonly createNewMovementRepository: CreateMovementsRepository,
+    private readonly deleteProductCategoryRepository: DeleteProductCategoryRepository,
+    private readonly deleteProductSupplierRepository: DeleteProductSupplierRepository,
+    private readonly upsertProductCategoryRepository: UpsertProductCategoryRepository,
+    private readonly upsertProductSupplierRepository: UpsertProductSupplierRepository,
     private readonly productImageStorageAdapter: ProductImageStorage,
   ) {}
 
@@ -31,10 +39,10 @@ export class UpdateProductUseCase
           )
         : undefined,
       unitPrice: input.unitPrice,
-      supplierId: input.supplierId,
+      suppliersIds: input.categoriesIds,
       description: input.description,
       stockQuantity: input.stockQuantity,
-      categoryId: input.categoryId,
+      categoriesIds: input.suppliersIds,
       expirationDate: input.expirationDate
         ? new Date(input.expirationDate)
         : null,
@@ -43,7 +51,7 @@ export class UpdateProductUseCase
 
     console.log('ProductDTO', productDTO);
 
-    const getProductResult = await this.GetProductRepository.exec(
+    const getProductResult = await this.getProductRepository.exec(
       productDTO.id,
     );
 
@@ -81,10 +89,46 @@ export class UpdateProductUseCase
           : getProductResult.product.nameNormalized,
       };
 
-      await this.CreateNewMovementRepository.exec(movementDTO);
+      await this.createNewMovementRepository.exec(movementDTO);
     }
 
-    const [productUpdated] = await this.UpdateProductRepository.exec(
+    if (productDTO.categoriesIds) {
+      console.log('Upserting product categories...');
+
+      await this.deleteProductCategoryRepository.exec({
+        productId: productDTO.id,
+        categoriesIds: getProductResult.categories
+          .filter(category => productDTO.categoriesIds?.includes(category.id))
+          .map(category => category.id),
+      });
+
+      await this.upsertProductCategoryRepository.exec(
+        productDTO.categoriesIds.map(categoryId => ({
+          productId: productDTO.id,
+          categoryId,
+        })),
+      );
+    }
+
+    if (productDTO.suppliersIds) {
+      console.log('Upserting product suppliers...');
+
+      await this.deleteProductSupplierRepository.exec({
+        productId: productDTO.id,
+        suppliersIds: getProductResult.suppliers
+          .filter(supplier => productDTO.suppliersIds?.includes(supplier.id))
+          .map(supplier => supplier.id),
+      });
+
+      await this.upsertProductSupplierRepository.exec(
+        productDTO.suppliersIds.map(supplierId => ({
+          productId: productDTO.id,
+          supplierId,
+        })),
+      );
+    }
+
+    const [productUpdated] = await this.updateProductRepository.exec(
       productDTO,
     );
 
