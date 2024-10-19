@@ -181,6 +181,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    ListCategories: {
+      handler: 'src/lambdas/categories/listCategories/index.bootstrap',
+      name: 'list-categories-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'category',
+            method: 'get',
+          },
+        },
+      ],
+    },
     TotalStockCostCalculator: {
       handler: 'src/lambdas/metrics/totalStockCostCalculator/index.bootstrap',
       name: 'total-stock-cost-calculator-${self:provider.stage}',

@@ -1,19 +1,9 @@
-export type TCategory = {
-  id: number;
-  name: string;
-  created_at: Date;
-  deleted_at: Date;
-  updated_at: Date;
+import {Category} from '@prisma/client';
+
+export type TListCategoriesOutput = {
+  categories: Category[];
 };
 
-export type TCreateCategoryInput = {
-  name: string;
-};
-
-export type TCreateCategoryOutput = {
-  category: TCategory;
-};
-
-export type TListCategoryOutput = {
-  categories: Pick<TCategory, 'id' | 'name'>[];
+export type TListCategoryInput = {
+  name?: string;
 };

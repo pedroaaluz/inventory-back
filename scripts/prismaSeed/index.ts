@@ -51,26 +51,26 @@ async function createProduct(
     const randomPrice = (Math.random() * 100).toFixed(2);
     const randomMinimumIdealStock = Math.random() * 10;
     const randomProductCost = (Math.random() * 90).toFixed(2);
-    const randomYear = Math.floor(Math.random() * 16) + 2025; // Year between 2025 and 2030
     const name = faker.commerce.productName();
 
     products.push({
       id: randomUUID(),
       name,
       nameNormalized: normalizeName(name),
-      image: 'https://dummyimage.com/600x400/000/fff',
+      image: faker.image.urlLoremFlickr(),
       description: faker.commerce.productDescription(),
       userId: supplier.userId,
       stockQuantity: randomStock,
       unitPrice: new Prisma.Decimal(randomPrice),
       minimumIdealStock: randomMinimumIdealStock,
       positionInStock: randomPosition,
-      expirationDate: new Date(
-        randomYear,
-        Math.floor(Math.random() * 12),
-        Math.floor(Math.random() * 28) + 1,
-      ),
+      expirationDate: null,
       productionCost: new Prisma.Decimal(randomProductCost),
+      createdAt: new Date(
+        Math.floor(Math.random() * 5) + 2020,
+        Math.floor(Math.random() * 12),
+        Math.floor(Math.random() * 30) + 1,
+      ),
     });
 
     productsCategories.push({
@@ -146,10 +146,13 @@ async function createSupplier(count = 1, userIds: string[]) {
 }
 
 function createUsers(count = 10) {
-  const users = [];
-  for (let i = 0; i < count; i++) {
-    users.push(randomUUID());
-  }
+  const users = [
+    'user_2l7nMeIFShEssxzQGFljhWd5X97',
+    'user_2l5NOqJQHQqhmRfDCcwq1520kFQ',
+    'user_2l6cOOYVQYnK2uWHqn4hPTu127L',
+    'user_2lA2KTVlisNri900m8Q3K452uS6',
+  ];
+
   return users;
 }
 
@@ -177,9 +180,9 @@ async function createMovements(
           Math.floor(Math.random() * paymentMethodTypes.length)
         ];
       const randomDate = new Date(
-        Math.floor(Math.random() * 1) + 2022,
+        Math.floor(Math.random() * 5) + 2020,
         Math.floor(Math.random() * 12),
-        Math.floor(Math.random() * 28) + 1,
+        Math.floor(Math.random() * 30) + 1,
       );
 
       movements.push({
@@ -204,11 +207,11 @@ async function createMovements(
 
 export async function bootstrap() {
   const users = createUsers(10);
-  const suppliers = await createSupplier(5, users);
+  const suppliers = await createSupplier(15, users);
   const categories = await createCategory();
 
   const {products, productsCategories, productsSuppliers} = await createProduct(
-    1000,
+    5000,
     suppliers,
     categories,
   );
