@@ -14,8 +14,8 @@ export type CreateSupplierInput = {
 
 export type TListSuppliersInput = {
   orderBy: Prisma.SortOrder;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   page: number;
   pageSize: number;
   suppliersIds: string[] | undefined;

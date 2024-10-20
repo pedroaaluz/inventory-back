@@ -36,21 +36,15 @@ export class ListSuppliersController
 
       const skip = Number(pageSize) * (Number(page) - 1);
 
-      const today = new Date();
-      const sevenDaysAgo = new Date(today);
-      sevenDaysAgo.setDate(today.getDate() - 7);
-
       const timeZone = 'America/Sao_Paulo';
       const format = 'yyyy-MM-dd HH:mm:ssXXX';
 
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate
-          ? formatInTimeZone(new Date(startDate), timeZone, format)
-          : formatInTimeZone(startOfDay(sevenDaysAgo), timeZone, format),
-        endDate: endDate
-          ? formatInTimeZone(new Date(endDate), timeZone, format)
-          : formatInTimeZone(endOfDay(today), timeZone, format),
+        startDate:
+          startDate && formatInTimeZone(new Date(startDate), timeZone, format),
+        endDate:
+          endDate && formatInTimeZone(new Date(endDate), timeZone, format),
         page: Number(page),
         pageSize: Number(pageSize),
         suppliersIds,

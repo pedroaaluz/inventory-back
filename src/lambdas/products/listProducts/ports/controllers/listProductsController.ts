@@ -6,6 +6,7 @@ import {
 } from '../../../../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
+import {formatInTimeZone} from 'date-fns-tz';
 
 export class ListProductsController
   implements
@@ -34,11 +35,15 @@ export class ListProductsController
       } = event.queryStringParameters || {};
 
       const skip = Number(pageSize) * (Number(page) - 1);
+      const timeZone = 'America/Sao_Paulo';
+      const format = 'yyyy-MM-dd HH:mm:ssXXX';
 
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate,
-        endDate: endDate,
+        startDate:
+          startDate && formatInTimeZone(new Date(startDate), timeZone, format),
+        endDate:
+          endDate && formatInTimeZone(new Date(endDate), timeZone, format),
         page: Number(page),
         pageSize: Number(pageSize),
         categoriesIds,

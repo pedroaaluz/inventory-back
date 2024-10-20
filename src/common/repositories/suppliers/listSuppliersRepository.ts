@@ -1,4 +1,4 @@
-import type {PrismaClient, Prisma, Supplier} from '@prisma/client';
+import type {PrismaClient, Prisma} from '@prisma/client';
 import {Repository} from '../../interfaces';
 import type {
   TListSuppliersInput,
