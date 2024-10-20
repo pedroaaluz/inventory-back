@@ -73,12 +73,13 @@ export class UpdateProductUseCase
 
       const movementDTO: TCreateMovementInput = {
         movementType:
-          currentStockQuantity > productDTO.stockQuantity
+          productDTO.stockQuantity === 0
+            ? 'REMOVE_FROM_STOCK'
+            : currentStockQuantity > productDTO.stockQuantity
             ? 'REMOVE_FROM_STOCK'
             : 'ADD_TO_STOCK',
         productId: productDTO.id,
         userId: productDTO.userId,
-        quantity: productDTO.stockQuantity,
         movementValue: null,
         paymentMethod: null,
         productName: productDTO.name
@@ -87,6 +88,12 @@ export class UpdateProductUseCase
         productNameNormalized: productDTO.nameNormalized
           ? productDTO.nameNormalized
           : getProductResult.product.nameNormalized,
+        quantity:
+          productDTO.stockQuantity === 0
+            ? currentStockQuantity
+            : currentStockQuantity > productDTO.stockQuantity
+            ? currentStockQuantity - productDTO.stockQuantity // Remove from stock
+            : productDTO.stockQuantity - currentStockQuantity, // Add to stock
       };
 
       await this.createNewMovementRepository.exec(movementDTO);
