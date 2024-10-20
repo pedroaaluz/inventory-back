@@ -79,7 +79,7 @@ export class ListMovementsRepository
             AND: where,
           },
           orderBy: {
-            createdAt: orderBy,
+            createdAt: orderBy || 'desc',
           },
           skip,
           take: pageSize,

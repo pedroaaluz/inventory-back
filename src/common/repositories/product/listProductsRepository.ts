@@ -70,7 +70,7 @@ export class ListProductsRepository
       const [products, count] = await Promise.all([
         this.dbClient.product.findMany({
           skip,
-          orderBy: {name: (orderBy as Prisma.SortOrder) || 'asc'},
+          orderBy: {createdAt: (orderBy as Prisma.SortOrder) || 'desc'},
           take: pageSize,
           where: {
             AND: where,
