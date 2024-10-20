@@ -2,8 +2,8 @@ import {CreateMovementsRepository} from '../../../../common/repositories/movemen
 import {CreateProductRepository} from '../../../../common/repositories/product/createProductRepository';
 import {CreateProductUseCase} from '../domain/createProductUseCase';
 import {CreateProductController} from '../ports/controllers/createProductController';
-import {CreateProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
-import {CreateProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
+import {UpsertProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
+import {UpsertProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
 import {prisma} from '../../../../../prisma/prismaClient';
 import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
 
@@ -11,8 +11,8 @@ export function makeCreateNewProductController() {
   const dbClient = prisma;
   const createProductRepository = new CreateProductRepository(dbClient);
   const createMovementRepository = new CreateMovementsRepository(dbClient);
-  const createProductSupplier = new CreateProductSupplierRepository(dbClient);
-  const createProductCategory = new CreateProductCategoryRepository(dbClient);
+  const createProductSupplier = new UpsertProductSupplierRepository(dbClient);
+  const createProductCategory = new UpsertProductCategoryRepository(dbClient);
   const productImageStorageAdapter = new ProductImageStorage();
 
   const createNewProductUseCase = new CreateProductUseCase(

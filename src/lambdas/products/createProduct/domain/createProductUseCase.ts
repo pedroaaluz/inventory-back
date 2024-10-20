@@ -4,8 +4,8 @@ import {z} from 'zod';
 import {CreateMovementsRepository} from '../../../../common/repositories/movement/createMovementRepository';
 import {CreateProductRepository} from '../../../../common/repositories/product/createProductRepository';
 import {requestSchema} from '../schema';
-import {CreateProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
-import {CreateProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
+import {UpsertProductCategoryRepository} from '../../../../common/repositories/productCategory/upsertProductCategoryRepository';
+import {UpsertProductSupplierRepository} from '../../../../common/repositories/productSupplier/upsertProductSupplierRepository';
 import {normalizeName} from '../../../../common/string/normalize';
 import {ProductImageStorage} from '../../../../common/infrastructure/productImageStorage';
 import {randomUUID} from 'crypto';
@@ -16,8 +16,8 @@ export class CreateProductUseCase
   constructor(
     private readonly createProductRepository: CreateProductRepository,
     private readonly createMovementRepository: CreateMovementsRepository,
-    private readonly createProductSupplierRepository: CreateProductSupplierRepository,
-    private readonly createProductCategoryRepository: CreateProductCategoryRepository,
+    private readonly createProductSupplierRepository: UpsertProductSupplierRepository,
+    private readonly createProductCategoryRepository: UpsertProductCategoryRepository,
     private readonly productImageStorageAdapter: ProductImageStorage,
   ) {}
 
