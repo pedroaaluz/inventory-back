@@ -4,6 +4,7 @@ import {
   PutObjectCommandInput,
 } from '@aws-sdk/client-s3';
 import {Buffer} from 'buffer';
+import {BadRequest} from 'http-errors';
 
 interface S3Port {
   uploadFile(base64: string, key: string): Promise<string>;
@@ -15,7 +16,6 @@ export class SupplierImageStorage implements S3Port {
   constructor() {
     this.s3 = new S3Client({region: 'sa-east-1'});
   }
-
   private decodeBase64(base64: string): {buffer: Buffer; mimeType: string} {
     let mimeType: string;
     if (base64.startsWith('data:image/jpeg;base64,')) {
@@ -24,10 +24,11 @@ export class SupplierImageStorage implements S3Port {
     } else if (base64.startsWith('data:image/png;base64,')) {
       mimeType = 'image/png';
       base64 = base64.replace(/^data:image\/png;base64,/, '');
+    } else if (base64.startsWith('data:image/jpg;base64,')) {
+      mimeType = 'image/jpg';
+      base64 = base64.replace(/^data:image\/png;base64,/, '');
     } else {
-      throw new Error(
-        'Format image not supported. Supported formats: jpeg, png',
-      );
+      throw new BadRequest('Invalid image type');
     }
 
     const buffer = Buffer.from(base64, 'base64');
@@ -51,7 +52,7 @@ export class SupplierImageStorage implements S3Port {
       return `https://${params.Bucket}.s3.amazonaws.com/${key}`;
     } catch (error) {
       console.error('Error in upload image', error);
-      throw new Error('Error in upload image.');
+      throw error;
     }
   }
 }
