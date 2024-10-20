@@ -96,6 +96,18 @@ const serverlessConfiguration = {
           },
         },
       ],
+      iamRoleStatements: [
+        {
+          Effect: 'Allow',
+          Action: ['s3:PutObject', 's3:PutObjectAcl', 's3:PutObjectTagging'],
+          Resource: {
+            'Fn::Join': [
+              '/',
+              [{'Fn::GetAtt': ['ProductsImagesBucket', 'Arn']}, '*'],
+            ],
+          },
+        },
+      ],
     },
     CreateMovements: {
       handler: 'src/lambdas/movements/createMovements/index.bootstrap',
@@ -153,6 +165,18 @@ const serverlessConfiguration = {
           http: {
             path: 'supplier/{id}',
             method: 'put',
+          },
+        },
+      ],
+      iamRoleStatements: [
+        {
+          Effect: 'Allow',
+          Action: ['s3:PutObject', 's3:PutObjectAcl', 's3:PutObjectTagging'],
+          Resource: {
+            'Fn::Join': [
+              '/',
+              [{'Fn::GetAtt': ['SuppliersImagesBucket', 'Arn']}, '*'],
+            ],
           },
         },
       ],
