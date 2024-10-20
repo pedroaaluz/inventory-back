@@ -9,7 +9,7 @@ export const requestSchema = z.object({
   body: z.object({
     name: z.string().optional(),
     description: z.string().optional(),
-    stockQuantity: z.number().int().positive(),
+    stockQuantity: z.number().int().positive().optional(),
     unitPrice: decimalSchema.optional(),
     expirationDate: z.date().optional(),
     userId: z.string(),
