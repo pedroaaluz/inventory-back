@@ -6,8 +6,7 @@ import {
 } from '../../../../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
-import {endOfDay, startOfDay} from 'date-fns';
-import {formatInTimeZone} from 'date-fns-tz';
+import {endOfDay, parseISO, startOfDay} from 'date-fns';
 
 export class ListSuppliersController
   implements
@@ -36,13 +35,10 @@ export class ListSuppliersController
 
       const skip = Number(pageSize) * (Number(page) - 1);
 
-      const timeZone = 'America/Sao_Paulo';
-      const format = 'yyyy-MM-dd HH:mm:ssXXX';
-
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate: startDate && formatInTimeZone(startDate, timeZone, format),
-        endDate: endDate && formatInTimeZone(endDate, timeZone, format),
+        startDate: startDate && startOfDay(parseISO(startDate)).toISOString(),
+        endDate: endDate && endOfDay(parseISO(endDate)).toISOString(),
         page: Number(page),
         pageSize: Number(pageSize),
         suppliersIds,
