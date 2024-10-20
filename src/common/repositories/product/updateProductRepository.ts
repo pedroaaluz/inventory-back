@@ -31,15 +31,18 @@ export class UpdateProductRepository
       });
     });
 
-    const setClause = [...columns].reduce<string[]>((acc, col) => {
-      if (
-        !['suppliersIds', 'id', 'userId', 'categoriesIds'].includes(col) &&
-        productDTO.some(product => product[col as keyof TUpdateProductInput])
-      ) {
-        acc.push(`"${col}" = t."${col}"`);
-      }
-      return acc;
-    }, []);
+    const setClause = [...columns].reduce<string[]>(
+      (acc, col) => {
+        if (
+          !['suppliersIds', 'id', 'userId', 'categoriesIds'].includes(col) &&
+          productDTO.some(product => product[col as keyof TUpdateProductInput])
+        ) {
+          acc.push(`"${col}" = t."${col}"`);
+        }
+        return acc;
+      },
+      [`"updatedAt" = NOW()`],
+    );
 
     const queryValues = productDTO.reduce<string[]>((acc, product) => {
       const values = Object.entries(product)
