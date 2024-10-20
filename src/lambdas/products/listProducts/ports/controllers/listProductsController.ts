@@ -40,10 +40,8 @@ export class ListProductsController
 
       const filters = {
         orderBy: orderBy || 'desc',
-        startDate:
-          startDate && formatInTimeZone(new Date(startDate), timeZone, format),
-        endDate:
-          endDate && formatInTimeZone(new Date(endDate), timeZone, format),
+        startDate: startDate && formatInTimeZone(startDate, timeZone, format),
+        endDate: endDate && formatInTimeZone(endDate, timeZone, format),
         page: Number(page),
         pageSize: Number(pageSize),
         categoriesIds,

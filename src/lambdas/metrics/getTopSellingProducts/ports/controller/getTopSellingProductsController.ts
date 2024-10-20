@@ -34,10 +34,10 @@ export class GetTopSellingProductsController
     const {products} = await this.getTopSellingProductsUseCase.exec({
       userId,
       startDate: startDate
-        ? formatInTimeZone(new Date(startDate), timeZone, format)
+        ? formatInTimeZone(startDate, timeZone, format)
         : formatInTimeZone(startOfDay(sevenDaysAgo), timeZone, format),
       endDate: endDate
-        ? formatInTimeZone(new Date(endDate), timeZone, format)
+        ? formatInTimeZone(endDate, timeZone, format)
         : formatInTimeZone(endOfDay(today), timeZone, format),
     });
 

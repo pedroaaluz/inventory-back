@@ -72,6 +72,18 @@ const serverlessConfiguration = {
           },
         },
       ],
+      iamRoleStatements: [
+        {
+          Effect: 'Allow',
+          Action: ['s3:GetObject'],
+          Resource: {
+            'Fn::Join': [
+              '/',
+              [{'Fn::GetAtt': ['ProductsImagesBucket', 'Arn']}, '*'],
+            ],
+          },
+        },
+      ],
     },
     ListProducts: {
       handler: 'src/lambdas/products/listProducts/index.bootstrap',

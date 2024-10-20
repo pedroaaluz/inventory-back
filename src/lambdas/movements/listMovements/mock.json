@@ -5,7 +5,8 @@
     "queryStringParameters": {
         "movementType": "SALE",
         "paymentMethod": "PIX",
-      "startDate":"2021-01-01",
+      "startDate":"2021-01-15",
+      "endDate":"2024-10-20",
       "page": 2
     }
   }
