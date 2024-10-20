@@ -47,6 +47,9 @@ export class UpdateProductUseCase
         ? new Date(input.expirationDate)
         : null,
       nameNormalized: input.name ? normalizeName(input.name) : undefined,
+      minimumIdealStock: input.minimumIdealStock,
+      positionInStock: input.positionInStock,
+      productionCost: input.productionCost,
     };
 
     console.log('ProductDTO', productDTO);

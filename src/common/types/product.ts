@@ -22,6 +22,9 @@ export type TUpdateProductInput = {
   image?: string;
   nameNormalized?: string;
   userId: string;
+  minimumIdealStock?: number;
+  positionInStock?: string;
+  productionCost?: Prisma.Decimal;
 };
 
 export type TCreateProductInput = Omit<
