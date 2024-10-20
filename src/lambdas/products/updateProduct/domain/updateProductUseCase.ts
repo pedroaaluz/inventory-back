@@ -39,10 +39,10 @@ export class UpdateProductUseCase
           )
         : undefined,
       unitPrice: input.unitPrice,
-      suppliersIds: input.categoriesIds,
+      suppliersIds: input.suppliersIds,
       description: input.description,
       stockQuantity: input.stockQuantity,
-      categoriesIds: input.suppliersIds,
+      categoriesIds: input.categoriesIds,
       expirationDate: input.expirationDate
         ? new Date(input.expirationDate)
         : null,

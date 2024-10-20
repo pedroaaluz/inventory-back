@@ -22,7 +22,10 @@ export class UpdateProductRepository
 
     productDTO.forEach((product: TUpdateProductInput) => {
       Object.keys(product).forEach(key => {
-        if (product[key as keyof TUpdateProductInput]) {
+        if (
+          product[key as keyof TUpdateProductInput] &&
+          !['categoriesIds', 'suppliersIds'].includes(key)
+        ) {
           columns.add(key);
         }
       });
@@ -30,8 +33,7 @@ export class UpdateProductRepository
 
     const setClause = [...columns].reduce<string[]>((acc, col) => {
       if (
-        col !== 'id' &&
-        col !== 'userId' &&
+        !['suppliersIds', 'id', 'userId', 'categoriesIds'].includes(col) &&
         productDTO.some(product => product[col as keyof TUpdateProductInput])
       ) {
         acc.push(`"${col}" = t."${col}"`);
@@ -40,9 +42,16 @@ export class UpdateProductRepository
     }, []);
 
     const queryValues = productDTO.reduce<string[]>((acc, product) => {
-      const values = Object.values(product)
-        .filter(v => v !== null && v !== undefined)
-        .map(v => (typeof v === 'string' ? `'${v.replace(/'/g, "''")}'` : v));
+      const values = Object.entries(product)
+        .filter(
+          ([key, value]) =>
+            value !== null &&
+            value !== undefined &&
+            !['categoriesIds', 'suppliersIds'].includes(key),
+        )
+        .map(([_key, value]) =>
+          typeof value === 'string' ? `'${value.replace(/'/g, "''")}'` : value,
+        );
 
       if (values.length > 0) {
         acc.push(`(${values.join(', ')})`);
