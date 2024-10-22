@@ -18,6 +18,9 @@ export class CreateProductRepository
           stockQuantity: productDTO.stockQuantity,
           image: productDTO.image,
           nameNormalized: productDTO.nameNormalized,
+          minimumIdealStock: productDTO.minimumIdealStock,
+          productionCost: productDTO.productionCost,
+          positionInStock: productDTO.positionInStock,
         },
       });
 
