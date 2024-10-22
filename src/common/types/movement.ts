@@ -7,8 +7,8 @@ import {
 
 export type TCreateMovementInput = Omit<
   Movement,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
->;
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'paymentMethod'
+> & {paymentMethod?: EnumPaymentMethodType};
 
 export interface IListMovementsRepositoryInput {
   startDate?: string;

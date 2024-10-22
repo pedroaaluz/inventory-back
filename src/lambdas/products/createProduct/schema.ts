@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {EnumPaymentMethodType, Prisma} from '@prisma/client';
+import {Prisma} from '@prisma/client';
 
 const decimalSchema = z.custom<Prisma.Decimal>(value => {
   return new Prisma.Decimal(value as string | number);
@@ -11,15 +11,13 @@ export const requestSchema = z.object({
     description: z.string().optional(),
     stockQuantity: z.number().int().positive(),
     unitPrice: decimalSchema,
-    expirationDate: z.date().optional(),
-    supplierId: z.string(),
+    suppliersIds: z.array(z.string()).optional(),
     userId: z.string(),
-    categoryId: z.string(),
+    categoriesIds: z.array(z.string()),
     image: z.string().optional(),
-    positionInStock: z.string().optional(),
+    positionInStock: z.string().optional().optional(),
     minimumIdealStock: z.number().int().optional(),
     productionCost: decimalSchema.optional(),
-    paymentMethod: z.nativeEnum(EnumPaymentMethodType).optional(),
   }),
 });
 

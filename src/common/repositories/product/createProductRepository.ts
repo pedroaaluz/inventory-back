@@ -15,7 +15,6 @@ export class CreateProductRepository
           name: productDTO.name,
           unitPrice: productDTO.unitPrice,
           description: productDTO.description,
-          expirationDate: productDTO.expirationDate,
           stockQuantity: productDTO.stockQuantity,
           image: productDTO.image,
           nameNormalized: productDTO.nameNormalized,

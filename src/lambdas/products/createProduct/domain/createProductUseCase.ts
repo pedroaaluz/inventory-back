@@ -29,9 +29,9 @@ export class CreateProductUseCase
       name: input.name,
       userId: input.userId,
       unitPrice: input.unitPrice,
-      supplierId: input.supplierId,
+      suppliersIds: input.suppliersIds,
       stockQuantity: input.stockQuantity,
-      categoryId: input.categoryId,
+      categoriesIds: input.categoriesIds,
       image: input.image
         ? await this.productImageStorageAdapter.uploadFile(
             input.image,
@@ -40,9 +40,6 @@ export class CreateProductUseCase
         : null,
       nameNormalized: normalizeName(input.name),
       description: input.description ?? null,
-      expirationDate: input.expirationDate
-        ? new Date(input.expirationDate)
-        : null,
       positionInStock: input.positionInStock ?? null,
       minimumIdealStock: input.minimumIdealStock ?? null,
       productionCost: input.productionCost ?? null,
@@ -66,28 +63,31 @@ export class CreateProductUseCase
       movementValue: new Prisma.Decimal(
         Number(product.stockQuantity) * Number(product.productionCost),
       ),
-      paymentMethod: input.paymentMethod ?? null,
     });
 
     console.log('movement created');
 
-    console.log('creating productSupplier...');
+    if (productDTO.suppliersIds) {
+      console.log('creating productSupplier...');
 
-    await this.createProductSupplierRepository.exec({
-      productId: product.id,
-      supplierId: productDTO.supplierId,
-    });
+      await this.createProductSupplierRepository.exec(
+        productDTO.suppliersIds.map(supplierId => ({
+          productId: product.id,
+          supplierId,
+        })),
+      );
+    }
 
-    console.log('movement productSupplier');
+    if (productDTO.categoriesIds) {
+      console.log('creating productCategory...');
 
-    console.log('creating productCategory...');
-
-    await this.createProductCategoryRepository.exec({
-      productId: product.id,
-      categoryId: productDTO.categoryId,
-    });
-
-    console.log('movement productCategory');
+      await this.createProductCategoryRepository.exec(
+        productDTO.categoriesIds.map(categoryId => ({
+          productId: product.id,
+          categoryId,
+        })),
+      );
+    }
 
     return product;
   }

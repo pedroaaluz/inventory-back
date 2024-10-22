@@ -29,8 +29,8 @@ export type TUpdateProductInput = {
 
 export type TCreateProductInput = Omit<
   Product,
-  'createdAt' | 'updatedAt' | 'deletedAt' | 'id'
-> & {supplierId: string; categoryId: string};
+  'createdAt' | 'updatedAt' | 'deletedAt' | 'id' | 'expirationDate'
+>;
 
 export type TListProductsInput = {
   orderBy?: 'asc' | 'desc';
