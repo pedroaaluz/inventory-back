@@ -31,8 +31,6 @@ export class GetProductsNearIdealStockUseCase
   ) {
     const userId = input.userId;
 
-    console.log('userId', userId);
-
     const productsNearIdealStock =
       await this.getProductsNearIdealStockRepository.exec({
         userId,

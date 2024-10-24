@@ -5,8 +5,6 @@ export const requestSchema = z.object({
     userId: z.string(),
   }),
   queryStringParameters: z.object({
-    startDate: z.string().optional(),
-    endDate: z.string().optional(),
     productName: z.string().optional(),
   }),
 });

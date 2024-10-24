@@ -50,8 +50,6 @@ export class GetProductsNearIdealStockRepository
 				p."userId" = '${userId}'
 			`);
 
-      console.log('totalStockCost', productsNearIdealStock);
-
       return productsNearIdealStock;
     } catch (error) {
       console.log('Error', error);
