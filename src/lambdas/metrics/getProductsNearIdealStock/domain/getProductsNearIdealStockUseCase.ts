@@ -14,8 +14,6 @@ export class GetProductsNearIdealStockUseCase
           image: string | null;
           stockQuantity: number;
           minimumIdealStock: number;
-          supplierEmail: string | null;
-          supplierPhone: string | null;
         }[];
       }
     >

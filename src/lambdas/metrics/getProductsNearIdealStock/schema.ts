@@ -20,8 +20,6 @@ export const responseSchema = {
           image: z.string().nullable(),
           stockQuantity: z.number(),
           minimumIdealStock: z.number(),
-          supplierEmail: z.string().nullable(),
-          supplierPhone: z.string().nullable(),
         })
         .array(),
       message: z.string(),

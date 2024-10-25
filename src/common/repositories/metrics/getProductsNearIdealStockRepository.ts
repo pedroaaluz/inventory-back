@@ -11,9 +11,6 @@ export class GetProductsNearIdealStockRepository
         image: string | null;
         stockQuantity: number;
         minimumIdealStock: number;
-        supplierPhone?: string | null;
-        supplierEmail?: string | null;
-        supplierId: string;
       }[]
     >
 {
@@ -28,9 +25,6 @@ export class GetProductsNearIdealStockRepository
           image: string | null;
           stockQuantity: number;
           minimumIdealStock: number;
-          supplierPhone: string | null;
-          supplierEmail: string | null;
-          supplierId: string;
         }[]
       >(`
         select 
@@ -38,14 +32,9 @@ export class GetProductsNearIdealStockRepository
           p."name" ,
           p.image ,
           p."stockQuantity" ,
-          p."minimumIdealStock",
-          s.phone as "supplierPhone" ,
-          s.email as"supplierEmail" , 
-          ps."supplierId" 
+          p."minimumIdealStock"
         from "Product" p 
-        inner join "ProductSupplier" ps on ps."productId" = p.id 
-        inner join "Supplier" s on s.id = ps."supplierId" 
-        where
+         where
         p."stockQuantity" <= (p."minimumIdealStock" + 10) and
 				p."userId" = '${userId}'
 			`);
