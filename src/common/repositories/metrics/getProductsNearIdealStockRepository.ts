@@ -46,7 +46,7 @@ export class GetProductsNearIdealStockRepository
         inner join "ProductSupplier" ps on ps."productId" = p.id 
         inner join "Supplier" s on s.id = ps."supplierId" 
         where
-        p."stockQuantity" =< (p."minimumIdealStock" + 10) and
+        p."stockQuantity" <= (p."minimumIdealStock" + 10) and
 				p."userId" = '${userId}'
 			`);
 
