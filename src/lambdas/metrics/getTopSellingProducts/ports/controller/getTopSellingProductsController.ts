@@ -28,6 +28,8 @@ export class GetTopSellingProductsController
 
     const today = new Date();
     const sevenDaysAgo = today.setDate(today.getDate() - 7);
+    const pageNumber = Number(page) || 1;
+    const pageSizeNumber = Number(pageSize) || 10;
 
     const {products, totalProducts} =
       await this.getTopSellingProductsUseCase.exec({
@@ -40,8 +42,8 @@ export class GetTopSellingProductsController
           ? endOfDay(parseISO(endDate))
           : endOfDay(today)
         ).toISOString(),
-        page: page ? Number(page) : 1,
-        pageSize: pageSize ? Number(pageSize) : 10,
+        page: pageNumber,
+        pageSize: pageSizeNumber,
       });
 
     return {
@@ -51,8 +53,8 @@ export class GetTopSellingProductsController
         message: 'Top selling products listed successfully',
         totalProducts,
         totalPages: Math.ceil(totalProducts / Number(pageSize)),
-        page: Number(page),
-        pageSize: Number(pageSize),
+        page: pageNumber,
+        pageSize: pageSizeNumber,
       },
     };
   }

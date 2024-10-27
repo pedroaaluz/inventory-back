@@ -58,7 +58,7 @@ export class GetProductsNearIdealStockRepository
           p."stockQuantity" <= (p."minimumIdealStock" + 10) and
           p."userId" = '${userId}'
           limit ${pageSize}
-          offset ${page * pageSize}
+          offset ${(page - 1) * pageSize}
         `),
 
         this.dbClient.$queryRawUnsafe<{count: number}[]>(`

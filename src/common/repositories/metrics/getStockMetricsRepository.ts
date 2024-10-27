@@ -76,7 +76,7 @@ export class GetStockMetricsRepository
           GROUP BY
               p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
-          OFFSET ${page * pageSize}
+          OFFSET ${(page - 1) * pageSize}
         `),
         this.dbClient.$queryRawUnsafe<{totalCount: bigint}[]>(`
           SELECT 

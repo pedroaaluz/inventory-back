@@ -69,7 +69,7 @@ export class GetTopSellingProductsRepository
             AND m."movementType" = 'SALE'
           GROUP BY p.id, p."name", p.image, p."stockQuantity"
           LIMIT ${pageSize}
-          OFFSET ${page * pageSize}
+          OFFSET ${(page - 1) * pageSize}
         `),
 
         this.dbClient.$queryRawUnsafe<{totalCount: bigint}[]>(`
@@ -85,6 +85,7 @@ export class GetTopSellingProductsRepository
         `),
       ]);
 
+      console.log('topSellingProducts', topSellingProducts);
       return {
         data: topSellingProducts.map(product => ({
           ...product,

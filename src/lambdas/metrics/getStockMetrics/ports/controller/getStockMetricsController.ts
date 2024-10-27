@@ -49,10 +49,10 @@ export class GetStockMetricsController
       statusCode: 200,
       body: {
         products,
-        message: 'Top selling products listed successfully',
+        message: 'stock metrics fetch successfully',
         totalCount,
-        page: Number(page),
-        pageSize: Number(pageSize),
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
         totalPages: Math.ceil(totalCount / Number(pageSize)),
       },
     };
