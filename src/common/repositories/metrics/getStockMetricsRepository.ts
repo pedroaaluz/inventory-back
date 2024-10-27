@@ -72,7 +72,7 @@ export class GetStockMetricsRepository
           WHERE
               m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
               AND p."userId" = '${userId}' 
-              ${productName ? `AND p."nameNormalized" = '${productName}'` : ''}
+             ${productName ? ` p."name" like '%${productName}%' and` : ''}
           GROUP BY
               p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
