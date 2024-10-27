@@ -11,12 +11,15 @@ export class GetProductsNearIdealStockRepository
         pageSize?: number;
       },
       {
-        id: string;
-        name: string;
-        image: string | null;
-        stockQuantity: number;
-        minimumIdealStock: number;
-      }[]
+        data: {
+          id: string;
+          name: string;
+          image: string | null;
+          stockQuantity: number;
+          minimumIdealStock: number;
+        }[];
+        totalCount: number;
+      }
     >
 {
   constructor(private readonly dbClient: PrismaClient) {}
@@ -33,31 +36,46 @@ export class GetProductsNearIdealStockRepository
     pageSize?: number;
   }) {
     try {
-      const productsNearIdealStock = await this.dbClient.$queryRawUnsafe<
-        {
-          id: string;
-          name: string;
-          image: string | null;
-          stockQuantity: number;
-          minimumIdealStock: number;
-        }[]
-      >(`
-        select 
-          p.id,
-          p."name" ,
-          p.image ,
-          p."stockQuantity" ,
-          p."minimumIdealStock"
-        from "Product" p 
-        where
-        ${productName ? ` p."name" like '%${productName}%' and` : ''}
-        p."stockQuantity" <= (p."minimumIdealStock" + 10) and
-				p."userId" = '${userId}'
-        limit ${pageSize}
-        offset ${page * pageSize}
-			`);
+      const [productsNearIdealStock, totalCount] = await Promise.all([
+        this.dbClient.$queryRawUnsafe<
+          {
+            id: string;
+            name: string;
+            image: string | null;
+            stockQuantity: number;
+            minimumIdealStock: number;
+          }[]
+        >(`
+          select 
+            p.id,
+            p."name" ,
+            p.image ,
+            p."stockQuantity" ,
+            p."minimumIdealStock"
+          from "Product" p 
+          where
+          ${productName ? ` p."name" like '%${productName}%' and` : ''}
+          p."stockQuantity" <= (p."minimumIdealStock" + 10) and
+          p."userId" = '${userId}'
+          limit ${pageSize}
+          offset ${page * pageSize}
+        `),
 
-      return productsNearIdealStock;
+        this.dbClient.$queryRawUnsafe<{count: number}[]>(`
+          select 
+            count(*) as count
+          from "Product" p 
+          where
+          ${productName ? ` p."name" like '%${productName}%' and` : ''}
+          p."stockQuantity" <= (p."minimumIdealStock" + 10) and
+          p."userId" = '${userId}'
+        `),
+      ]);
+
+      return {
+        data: productsNearIdealStock,
+        totalCount: totalCount[0].count,
+      };
     } catch (error) {
       console.log('Error', error);
       throw error;
