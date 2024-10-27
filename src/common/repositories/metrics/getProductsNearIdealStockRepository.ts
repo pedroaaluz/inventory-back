@@ -11,7 +11,7 @@ export class GetProductsNearIdealStockRepository
         pageSize?: number;
       },
       {
-        data: {
+        productsNearIdealStock: {
           id: string;
           name: string;
           image: string | null;
@@ -73,7 +73,7 @@ export class GetProductsNearIdealStockRepository
       ]);
 
       return {
-        data: productsNearIdealStock,
+        productsNearIdealStock,
         totalCount: totalCount[0].count,
       };
     } catch (error) {

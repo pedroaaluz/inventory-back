@@ -33,7 +33,7 @@ export class GetProductsNearIdealStockUseCase
   ) {
     const userId = input.userId;
 
-    const productsNearIdealStock =
+    const {productsNearIdealStock, totalCount} =
       await this.getProductsNearIdealStockRepository.exec({
         userId,
         productName: input.productName,
@@ -45,10 +45,8 @@ export class GetProductsNearIdealStockUseCase
       productsNearIdealStock,
       page: Number(input.page),
       pageSize: Number(input.pageSize),
-      totalProducts: productsNearIdealStock.length,
-      totalPages: Math.ceil(
-        productsNearIdealStock.length / Number(input.pageSize),
-      ),
+      totalProducts: totalCount,
+      totalPages: Math.ceil(totalCount / Number(input.pageSize)),
     };
   }
 }
