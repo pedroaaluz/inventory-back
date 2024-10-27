@@ -66,6 +66,7 @@ export class GetTopSellingProductsRepository
             p."userId" = '${userId}'
             AND m."createdAt" >= '${startDate}'
             AND m."createdAt" <= '${endDate}'
+            AND m."movementType" = 'SALE'
           GROUP BY p.id, p."name", p.image, p."stockQuantity"
           LIMIT ${pageSize}
           OFFSET ${page * pageSize}
