@@ -30,6 +30,8 @@ export interface TGetStockMetricsInputUseCase {
   startDate: string;
   endDate: string;
   productName?: string;
+  page: number;
+  pageSize: number;
 }
 
 export interface IGetStockMetricsOutput {

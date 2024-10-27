@@ -21,13 +21,15 @@ export class GetStockMetricsUseCase
         startDate: input.startDate,
         endDate: input.endDate,
         productName: input.productName,
+        page: input.page,
+        pageSize: input.pageSize,
       };
 
-      const GetStockMetrics = await this.getStockMetricsRepository.exec(
+      const {data, totalCount} = await this.getStockMetricsRepository.exec(
         getStockMetricsFilterDTO,
       );
 
-      return {products: GetStockMetrics};
+      return {products: data, totalCount};
     } catch (error) {
       console.log('Error', error);
       throw error;

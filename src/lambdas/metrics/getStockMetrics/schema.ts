@@ -8,6 +8,8 @@ export const requestSchema = z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
     productName: z.string().optional(),
+    page: z.union([z.number().int().positive(), z.string()]),
+    pageSize: z.union([z.number().int().positive(), z.string()]),
   }),
 });
 
@@ -29,6 +31,10 @@ export const responseSchema = {
         })
         .array(),
       message: z.string(),
+      totalCount: z.number(),
+      page: z.number(),
+      pageSize: z.number(),
+      totalPages: z.number(),
     }),
   }),
   404: z.object({
