@@ -55,21 +55,24 @@ export class GetStockMetricsRepository
             p."name",
             p.image,
             p."minimumIdealStock",
-            SUM(m."quantity") as "totalSales", 
+            SUM(m."quantity") AS "totalSales", 
             p."stockQuantity",
-            SUM(m."quantity") / EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)) AS "averageConsumption", -- Consumo médio diário
-            p."stockQuantity" / (SUM(m."quantity") / EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp))) AS "stockCoverage", -- Cobertura de estoque
-            SUM(m."quantity") / p."stockQuantity" AS "turnoverRate" -- Taxa de rotatividade
+            -- Evitando divisão por zero para "averageConsumption"
+            SUM(m."quantity") / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp), 0) AS "averageConsumption", -- Consumo médio diário
+            -- Evitando divisão por zero para "stockCoverage"
+            p."stockQuantity" / NULLIF((SUM(m."quantity") / EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) AS "stockCoverage", -- Cobertura de estoque
+            -- Evitando divisão por zero para "turnoverRate"
+            SUM(m."quantity") / NULLIF(p."stockQuantity", 0) AS "turnoverRate" -- Taxa de rotatividade
           FROM
-            "Product" p
+              "Product" p
           INNER JOIN
-            "Movement" m ON m."productId" = p.id
+              "Movement" m ON m."productId" = p.id
           WHERE
-            m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
-            AND p."userId" = '${userId}' 
-            ${productName ? `AND p."nameNormalized" = '${productName}'` : ''}
+              m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
+              AND p."userId" = '${userId}' 
+              ${productName ? `AND p."nameNormalized" = '${productName}'` : ''}
           GROUP BY
-            p."id", p."name", p."stockQuantity", p."nameNormalized"
+              p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
           OFFSET ${page * pageSize}
         `),
