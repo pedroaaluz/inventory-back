@@ -80,7 +80,7 @@ export class GetTopSellingProductsRepository
             p."userId" = '${userId}'
             AND m."createdAt" >= '${startDate}'
             AND m."createdAt" <= '${endDate}'
-            AND m."type" = 'SALE'
+            AND m."movementType" = 'SALE'
         `),
       ]);
 
