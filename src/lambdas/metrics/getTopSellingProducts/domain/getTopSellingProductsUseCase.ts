@@ -21,14 +21,16 @@ export class GetTopSellingProductsUseCase
         userId: input.userId,
         startDate: input.startDate,
         endDate: input.endDate,
+        page: input.page,
+        pageSize: input.pageSize,
       };
 
-      const GetTopSellingProducts =
+      const {data, totalCount} =
         await this.getTopSellingProductsRepository.exec(
           GetTopSellingProductsFilterDTO,
         );
 
-      return {products: GetTopSellingProducts};
+      return {products: data, totalProducts: totalCount};
     } catch (error) {
       console.log('Error', error);
       throw error;

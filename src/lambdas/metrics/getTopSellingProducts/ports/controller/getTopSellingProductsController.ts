@@ -23,28 +23,36 @@ export class GetTopSellingProductsController
     event: HttpEvent<z.infer<typeof requestSchema>>,
   ): Promise<HttpResponse<z.infer<(typeof responseSchema)['200']>>> {
     const {userId} = event.pathParameters;
-    const {startDate, endDate} = event.queryStringParameters || {};
+    const {startDate, endDate, page, pageSize} =
+      event.queryStringParameters || {};
 
     const today = new Date();
     const sevenDaysAgo = today.setDate(today.getDate() - 7);
 
-    const {products} = await this.getTopSellingProductsUseCase.exec({
-      userId,
-      startDate: (startDate
-        ? startOfDay(parseISO(startDate))
-        : startOfDay(sevenDaysAgo)
-      ).toISOString(),
-      endDate: (endDate
-        ? endOfDay(parseISO(endDate))
-        : endOfDay(today)
-      ).toISOString(),
-    });
+    const {products, totalProducts} =
+      await this.getTopSellingProductsUseCase.exec({
+        userId,
+        startDate: (startDate
+          ? startOfDay(parseISO(startDate))
+          : startOfDay(sevenDaysAgo)
+        ).toISOString(),
+        endDate: (endDate
+          ? endOfDay(parseISO(endDate))
+          : endOfDay(today)
+        ).toISOString(),
+        page: page ? Number(page) : 1,
+        pageSize: pageSize ? Number(pageSize) : 10,
+      });
 
     return {
       statusCode: 200,
       body: {
         products,
         message: 'Top selling products listed successfully',
+        totalProducts,
+        totalPages: Math.ceil(totalProducts / Number(pageSize)),
+        page: Number(page),
+        pageSize: Number(pageSize),
       },
     };
   }

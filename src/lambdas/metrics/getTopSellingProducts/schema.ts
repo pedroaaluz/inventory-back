@@ -7,6 +7,8 @@ export const requestSchema = z.object({
   queryStringParameters: z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
+    page: z.string().optional(),
+    pageSize: z.string().optional(),
   }),
 });
 
@@ -24,6 +26,10 @@ export const responseSchema = {
         })
         .array(),
       message: z.string(),
+      totalPages: z.number(),
+      page: z.number(),
+      pageSize: z.number(),
+      totalProducts: z.number(),
     }),
   }),
   404: z.object({
