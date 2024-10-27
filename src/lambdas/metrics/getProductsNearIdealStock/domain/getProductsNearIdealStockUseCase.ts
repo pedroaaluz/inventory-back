@@ -6,7 +6,8 @@ import {requestSchema} from '../schema';
 export class GetProductsNearIdealStockUseCase
   implements
     UseCase<
-      z.infer<typeof requestSchema.shape.pathParameters>,
+      z.infer<typeof requestSchema.shape.pathParameters> &
+        z.infer<typeof requestSchema.shape.queryStringParameters>,
       {
         productsNearIdealStock: {
           id: string;
@@ -15,6 +16,10 @@ export class GetProductsNearIdealStockUseCase
           stockQuantity: number;
           minimumIdealStock: number;
         }[];
+        page: number;
+        pageSize: number;
+        totalProducts: number;
+        totalPages: number;
       }
     >
 {
@@ -23,19 +28,27 @@ export class GetProductsNearIdealStockUseCase
   ) {}
 
   async exec(
-    input: z.infer<typeof requestSchema.shape.pathParameters> & {
-      userId: string;
-    },
+    input: z.infer<typeof requestSchema.shape.pathParameters> &
+      z.infer<typeof requestSchema.shape.queryStringParameters>,
   ) {
     const userId = input.userId;
 
     const productsNearIdealStock =
       await this.getProductsNearIdealStockRepository.exec({
         userId,
+        productName: input.productName,
+        page: Number(input.page),
+        pageSize: Number(input.pageSize),
       });
 
     return {
       productsNearIdealStock,
+      page: Number(input.page),
+      pageSize: Number(input.pageSize),
+      totalProducts: productsNearIdealStock.length,
+      totalPages: Math.ceil(
+        productsNearIdealStock.length / Number(input.pageSize),
+      ),
     };
   }
 }

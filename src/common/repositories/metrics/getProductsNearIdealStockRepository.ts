@@ -4,7 +4,12 @@ import {Repository} from '../../interfaces';
 export class GetProductsNearIdealStockRepository
   implements
     Repository<
-      {userId: string},
+      {
+        userId: string;
+        productName?: string;
+        page?: number;
+        pageSize?: number;
+      },
       {
         id: string;
         name: string;
@@ -16,7 +21,17 @@ export class GetProductsNearIdealStockRepository
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
-  async exec({userId}: {userId: string}) {
+  async exec({
+    userId,
+    productName,
+    page = 0,
+    pageSize = 10,
+  }: {
+    userId: string;
+    productName?: string;
+    page?: number;
+    pageSize?: number;
+  }) {
     try {
       const productsNearIdealStock = await this.dbClient.$queryRawUnsafe<
         {
@@ -34,9 +49,12 @@ export class GetProductsNearIdealStockRepository
           p."stockQuantity" ,
           p."minimumIdealStock"
         from "Product" p 
-         where
+        where
+        ${productName ? ` p."name" like '%${productName}%' and` : ''}
         p."stockQuantity" <= (p."minimumIdealStock" + 10) and
 				p."userId" = '${userId}'
+        limit ${pageSize}
+        offset ${page * pageSize}
 			`);
 
       return productsNearIdealStock;

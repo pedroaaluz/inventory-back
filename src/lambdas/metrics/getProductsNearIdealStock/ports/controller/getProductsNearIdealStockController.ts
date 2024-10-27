@@ -19,9 +19,10 @@ export class GetProductsNearIdealStockController
   ) {}
 
   async exec(event: HttpEvent<z.infer<typeof requestSchema>>) {
-    const result = await this.getProductsNearIdealStockUseCase.exec(
-      event.pathParameters,
-    );
+    const result = await this.getProductsNearIdealStockUseCase.exec({
+      ...event.pathParameters,
+      ...event.queryStringParameters,
+    });
 
     return {
       statusCode: 200,
