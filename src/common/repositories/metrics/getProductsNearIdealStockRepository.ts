@@ -74,7 +74,7 @@ export class GetProductsNearIdealStockRepository
 
       return {
         productsNearIdealStock,
-        totalCount: totalCount[0].count,
+        totalCount: Number(totalCount[0].count),
       };
     } catch (error) {
       console.log('Error', error);
