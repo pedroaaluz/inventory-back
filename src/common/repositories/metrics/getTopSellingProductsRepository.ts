@@ -55,7 +55,7 @@ export class GetTopSellingProductsRepository
         >(`
           SELECT 
             count(m.*) as "salesCount",
-            sum(m."value") as "salesValue",
+            sum(m."movementValue") as "salesValue",
             p.id as "productId",
             p."name" as "productName",
             p.image as "productImage",
