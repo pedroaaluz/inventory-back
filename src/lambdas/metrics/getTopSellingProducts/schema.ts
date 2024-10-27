@@ -18,7 +18,8 @@ export const responseSchema = {
     body: z.object({
       products: z
         .object({
-          count: z.number(),
+          salesCount: z.number(),
+          salesValue: z.number(),
           productName: z.string(),
           productId: z.string(),
           productImage: z.string().nullable(),

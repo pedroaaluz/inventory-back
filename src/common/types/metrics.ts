@@ -47,7 +47,8 @@ export interface IGetStockMetricsOutput {
 
 export interface IGetTopSellingProductsOutput {
   products: {
-    count: number;
+    salesCount: number;
+    salesValue: number;
     productName: string;
     productImage: string | null;
     stockQuantity: number;

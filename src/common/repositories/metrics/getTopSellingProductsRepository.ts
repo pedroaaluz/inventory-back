@@ -13,7 +13,8 @@ export class GetTopSellingProductsRepository
       },
       {
         data: {
-          count: number;
+          salesCount: number;
+          salesValue: number;
           productId: string;
           productName: string;
           productImage: string | null;
@@ -44,7 +45,8 @@ export class GetTopSellingProductsRepository
       const [topSellingProducts, totalCountResult] = await Promise.all([
         this.dbClient.$queryRawUnsafe<
           {
-            count: bigint;
+            salesCount: bigint;
+            salesValue: bigint;
             productId: string;
             productName: string;
             productImage: string | null;
@@ -52,7 +54,8 @@ export class GetTopSellingProductsRepository
           }[]
         >(`
           SELECT 
-            count(m.*) as count,
+            count(m.*) as "salesCount",
+            sum(m."value") as "salesValue",
             p.id as "productId",
             p."name" as "productName",
             p.image as "productImage",
@@ -77,13 +80,15 @@ export class GetTopSellingProductsRepository
             p."userId" = '${userId}'
             AND m."createdAt" >= '${startDate}'
             AND m."createdAt" <= '${endDate}'
+            AND m."type" = 'SALE'
         `),
       ]);
 
       return {
         data: topSellingProducts.map(product => ({
           ...product,
-          count: Number(product.count),
+          salesValue: Number(product.salesValue),
+          salesCount: Number(product.salesCount),
         })),
         totalCount: Number(totalCountResult[0].totalCount),
       };
