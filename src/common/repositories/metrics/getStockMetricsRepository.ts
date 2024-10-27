@@ -58,7 +58,12 @@ export class GetStockMetricsRepository
             SUM(m."quantity") as "totalSales", 
             p."stockQuantity",
             SUM(m."quantity") / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) as "averageConsumption",
-            p."stockQuantity" / NULLIF((SUM(m."quantity") / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp)), 0) AS "stockCoverage",
+            CASE 
+              WHEN 
+                DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp) = 0 
+              THEN NULL
+              ELSE p."stockQuantity" / (SUM(m."quantity") / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp))
+            END AS "stockCoverage",
             SUM(m."quantity") / NULLIF(p."stockQuantity", 0) as "turnoverRate"
           FROM
               "Product" p

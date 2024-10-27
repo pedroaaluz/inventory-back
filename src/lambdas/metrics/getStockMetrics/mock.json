@@ -1,8 +1,12 @@
 {
     "pathParameters": {
-        "userId": "6b456b60-fae6-4ba9-a802-d591b4839796"
+        "userId": "user_2l7nMeIFShEssxzQGFljhWd5X97"
     },
     "queryStringParameters": {
-        "startDate": "2020-01-01"
+        "startDate": "2024-10-20",
+        "endDate": "2024-10-20",
+        "page": "1",
+        "pageSize": "10"
+
     }
 }
