@@ -55,14 +55,11 @@ export class GetStockMetricsRepository
             p."name",
             p.image,
             p."minimumIdealStock",
-            SUM(m."quantity") AS "totalSales", 
+            SUM(m."quantity") as "totalSales", 
             p."stockQuantity",
-            -- Evitando divisão por zero para "averageConsumption"
-            SUM(m."quantity") / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp), 0) AS "averageConsumption", -- Consumo médio diário
-            -- Evitando divisão por zero para "stockCoverage"
-            p."stockQuantity" / NULLIF((SUM(m."quantity") / EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) AS "stockCoverage", -- Cobertura de estoque
-            -- Evitando divisão por zero para "turnoverRate"
-            SUM(m."quantity") / NULLIF(p."stockQuantity", 0) AS "turnoverRate" -- Taxa de rotatividade
+            SUM(m."quantity") / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) as "averageConsumption",
+            p."stockQuantity" / NULLIF((SUM(m."quantity") / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp)), 0) AS "stockCoverage",
+            SUM(m."quantity") / NULLIF(p."stockQuantity", 0) as "turnoverRate"
           FROM
               "Product" p
           INNER JOIN
@@ -76,7 +73,6 @@ export class GetStockMetricsRepository
           LIMIT ${pageSize}
           OFFSET ${page * pageSize}
         `),
-
         this.dbClient.$queryRawUnsafe<{totalCount: bigint}[]>(`
           SELECT 
             COUNT(DISTINCT p.id) as "totalCount"
