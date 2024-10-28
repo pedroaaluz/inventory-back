@@ -88,7 +88,7 @@ export class GetStockMetricsRepository
           WHERE 
             m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
             AND p."userId" = '${userId}'
-            ${productName ? `AND p."nameNormalized" = '${productName}'` : ''}
+             ${productName ? `and p."name" like '%${productName}%' ` : ''}
         `),
       ]);
 
