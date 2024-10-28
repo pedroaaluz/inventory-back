@@ -72,7 +72,11 @@ export class GetStockMetricsRepository
           WHERE
               m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
               AND p."userId" = '${userId}' 
-             ${productName ? `and p."name" like '%${productName}%' ` : ''}
+             ${
+               productName
+                 ? `and p."nameNormalized" like '%${productName}%' `
+                 : ''
+             }
           GROUP BY
               p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
@@ -88,7 +92,11 @@ export class GetStockMetricsRepository
           WHERE 
             m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
             AND p."userId" = '${userId}'
-             ${productName ? `and p."name" like '%${productName}%' ` : ''}
+             ${
+               productName
+                 ? `and p."nameNormalized" like '%${productName}%' `
+                 : ''
+             }
         `),
       ]);
 

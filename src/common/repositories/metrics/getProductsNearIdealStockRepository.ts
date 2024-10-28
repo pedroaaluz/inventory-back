@@ -54,7 +54,9 @@ export class GetProductsNearIdealStockRepository
             p."minimumIdealStock"
           from "Product" p 
           where
-          ${productName ? ` p."name" like '%${productName}%' and` : ''}
+          ${
+            productName ? ` p."nameNormalized" like '%${productName}%' and` : ''
+          }
           p."stockQuantity" <= (p."minimumIdealStock" + 10) and
           p."userId" = '${userId}'
           limit ${pageSize}
@@ -66,7 +68,9 @@ export class GetProductsNearIdealStockRepository
             count(*) as count
           from "Product" p 
           where
-          ${productName ? ` p."name" like '%${productName}%' and` : ''}
+          ${
+            productName ? ` p."nameNormalized" like '%${productName}%' and` : ''
+          }
           p."stockQuantity" <= (p."minimumIdealStock" + 10) and
           p."userId" = '${userId}'
         `),
