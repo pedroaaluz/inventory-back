@@ -84,7 +84,7 @@ export class GetStockMetricsRepository
           FROM 
             "Product" p
           INNER JOIN 
-            "Movement" m ON m."productId" = p.id
+             "Movement" m ON m."productId" = p.id and m."movementType" = 'SALE'
           WHERE 
             m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
             AND p."userId" = '${userId}'
