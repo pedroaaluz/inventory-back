@@ -55,28 +55,31 @@ export class GetStockMetricsRepository
             p."name",
             p.image,
             p."minimumIdealStock",
-            SUM(m."quantity") as "totalSales", 
+            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) as "totalSales",
             p."stockQuantity",
-            SUM(m."quantity") / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) as "averageConsumption",
+            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
+            / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) as "averageConsumption",
             CASE 
               WHEN 
                 DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp) = 0 
               THEN NULL
-              ELSE p."stockQuantity" / (SUM(m."quantity") / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp))
+              ELSE p."stockQuantity" / (SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
+              / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp))
             END AS "stockCoverage",
-            SUM(m."quantity") / NULLIF(p."stockQuantity", 0) as "turnoverRate"
+            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
+            / NULLIF(p."stockQuantity", 0) as "turnoverRate"
           FROM
               "Product" p
           INNER JOIN
-              "Movement" m ON m."productId" = p.id and m."movementType" = 'SALE'
+              "Movement" m ON m."productId" = p.id
           WHERE
               m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
               AND p."userId" = '${userId}' 
-             ${
-               productName
-                 ? `and p."nameNormalized" like '%${productName}%' `
-                 : ''
-             }
+              ${
+                productName
+                  ? `and p."nameNormalized" like '%${productName}%' `
+                  : ''
+              }
           GROUP BY
               p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
