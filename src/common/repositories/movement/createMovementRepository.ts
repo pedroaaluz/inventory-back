@@ -9,10 +9,12 @@ export class CreateMovementsRepository
 
   async exec(movementDTO: TCreateMovementInput | TCreateMovementInput[]) {
     const movements = await this.dbClient.$transaction(async tx => {
-      return tx.movement.createManyAndReturn({
+      return await tx.movement.createManyAndReturn({
         data: Array.isArray(movementDTO) ? movementDTO : [movementDTO],
       });
     });
+
+    console.log('Movements created: ', movements);
 
     return movements;
   }

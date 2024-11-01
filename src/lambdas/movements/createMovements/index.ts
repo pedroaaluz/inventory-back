@@ -12,7 +12,7 @@ import httpResponseStringify from '../../../common/middlewares/httpResponseStrin
 /**
  * @description Lambda responsible for creating a new movement and associating it with the relevant entities.
  * This includes validating the request, normalizing the HTTP event, handling errors, and formatting the response.
- * @invoke sls invoke local -f CreateMovements -p src/lambdas/createMovements/mock.json
+ * @invoke sls invoke local -f CreateMovements -p src/lambdas/movements/createMovements/mock.json
  */
 
 const fn: HttpFn<

@@ -124,9 +124,9 @@ export class CreateMovementsUseCase
 
     if (movementsDTO.movementsToCreate.length > 0) {
       await Promise.all([
-        (movementsDTO.productToUpdate.length > 0 &&
-          this.updateProductRepository.exec(movementsDTO.productToUpdate)) ||
-          [],
+        ...(movementsDTO.productToUpdate.length > 0
+          ? [this.updateProductRepository.exec(movementsDTO.productToUpdate)]
+          : []),
         this.createMovementRepository.exec(movementsDTO.movementsToCreate),
       ]);
     }
@@ -137,7 +137,7 @@ export class CreateMovementsUseCase
         quantity: movement.quantity,
         movementType: movement.movementType,
         movementValue: movement.movementValue,
-        paymentMethod: movement.paymentMethod,
+        paymentMethod: movement.paymentMethod || null,
       })),
       movementsInvalid: movementsDTO.movementsInvalid,
     };
