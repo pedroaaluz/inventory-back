@@ -63,11 +63,12 @@ export class GetTopSellingProductsRepository
           FROM "Product" p 
           INNER JOIN "Movement" m ON m."productId" = p.id 
           WHERE 
-            p."userId" = '${userId}'
-            AND m."createdAt" >= '${startDate}'
-            AND m."createdAt" <= '${endDate}'
-            AND m."movementType" = 'SALE'
+              p."userId" = '${userId}'
+              AND m."createdAt" >= '${startDate}'
+              AND m."createdAt" <= '${endDate}'
+              AND m."movementType" = 'SALE'
           GROUP BY p.id, p."name", p.image, p."stockQuantity"
+          ORDER BY "salesValue" DESC
           LIMIT ${pageSize}
           OFFSET ${(page - 1) * pageSize}
         `),
