@@ -138,12 +138,9 @@ export class GetStockMetricsRepository
           SELECT
               COUNT(DISTINCT p.id) AS "totalCount"
           FROM
-              "Product" p
-          INNER JOIN
-              "Movement" m ON m."productId" = p.id AND m."movementType" = 'SALE'
+             "Product" p
           WHERE
-              m."createdAt" BETWEEN '${startDate}' AND '${endDate}'
-              AND p."userId" = '${userId}'
+               p."userId" = '${userId}'
               ${
                 productName
                   ? `AND p."nameNormalized" LIKE '%${productName}%' `
