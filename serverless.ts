@@ -121,6 +121,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    DeleteProduct: {
+      handler: 'src/lambdas/products/deleteProduct/index.bootstrap',
+      name: 'delete-product-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'product/{id}',
+            method: 'delete',
+          },
+        },
+      ],
+    },
     CreateMovements: {
       handler: 'src/lambdas/movements/createMovements/index.bootstrap',
       name: 'create-movements-${self:provider.stage}',
