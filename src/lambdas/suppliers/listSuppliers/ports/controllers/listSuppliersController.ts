@@ -7,6 +7,7 @@ import {
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
 import {endOfDay, parseISO, startOfDay} from 'date-fns';
+import {normalizeName} from '../../../../../common/string/normalize';
 
 export class ListSuppliersController
   implements
@@ -44,7 +45,7 @@ export class ListSuppliersController
         suppliersIds,
         skip,
         userId,
-        name,
+        name: name && normalizeName(name),
       };
 
       const result = await this.listSuppliersUseCase.exec(filters);
