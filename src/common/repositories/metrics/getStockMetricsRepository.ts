@@ -50,56 +50,105 @@ export class GetStockMetricsRepository
     try {
       const [stockMetrics, totalCountResult] = await Promise.all([
         this.dbClient.$queryRawUnsafe<StockMetrics[]>(`
+          WITH sales_data AS (
+              SELECT
+                  p."id",
+                  SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) AS "totalSales"
+              FROM
+                  "Product" p
+              INNER JOIN
+                  "Movement" m ON m."productId" = p.id
+              WHERE
+                  m."createdAt" BETWEEN '${startDate}' AND '${endDate}'
+                  AND p."userId" = '${userId}'
+                  ${
+                    productName
+                      ? `AND p."nameNormalized" LIKE '%${productName}%' `
+                      : ''
+                  }
+              GROUP BY
+                  p."id"
+          ),
+          average_consumption AS (
+              SELECT
+                  p."id",
+                  COALESCE(
+                      s."totalSales" / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0),
+                      0
+                  ) AS "averageConsumption"
+              FROM
+                  "Product" p
+              LEFT JOIN
+                  sales_data s ON s."id" = p."id"
+          ),
+          stock_coverage AS (
+              SELECT
+                  p."id",
+                  CASE
+                      WHEN EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)) = 0 THEN NULL
+                      ELSE COALESCE(p."stockQuantity" / NULLIF((
+                              s."totalSales" / EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp))
+                          ), 0), 0)
+                  END AS "stockCoverage"
+              FROM
+                  "Product" p
+              LEFT JOIN
+                  sales_data s ON s."id" = p."id"
+          ),
+          turnover_rate AS (
+              SELECT
+                  p."id",
+                  COALESCE(s."totalSales" / NULLIF(p."stockQuantity", 0), 0) AS "turnoverRate"
+              FROM
+                  "Product" p
+              LEFT JOIN
+                  sales_data s ON s."id" = p."id"
+          )
           SELECT
-            p."id",
-            p."name",
-            p.image,
-            p."minimumIdealStock",
-            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) as "totalSales",
-            p."stockQuantity",
-            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
-            / NULLIF(EXTRACT(DAY FROM ('${endDate}'::timestamp - '${startDate}'::timestamp)), 0) as "averageConsumption",
-            CASE 
-              WHEN 
-                DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp) = 0 
-              THEN NULL
-              ELSE p."stockQuantity" / (SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
-              / DATE_PART('day', '${endDate}'::timestamp - '${startDate}'::timestamp))
-            END AS "stockCoverage",
-            SUM(CASE WHEN m."movementType" = 'SALE' THEN m."quantity" ELSE 0 END) 
-            / NULLIF(p."stockQuantity", 0) as "turnoverRate"
+              p."id",
+              p."name",
+              p.image,
+              p."minimumIdealStock",
+              s."totalSales",
+              p."stockQuantity",
+              ac."averageConsumption",
+              sc."stockCoverage",
+              tr."turnoverRate"
           FROM
               "Product" p
-          INNER JOIN
-              "Movement" m ON m."productId" = p.id
+          LEFT JOIN
+              sales_data s ON p."id" = s."id"
+          LEFT JOIN
+              average_consumption ac ON p."id" = ac."id"
+          LEFT JOIN
+              stock_coverage sc ON p."id" = sc."id"
+          LEFT JOIN
+              turnover_rate tr ON p."id" = tr."id"
           WHERE
-              m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
-              AND p."userId" = '${userId}' 
+              p."userId" = '${userId}'
               ${
                 productName
-                  ? `and p."nameNormalized" like '%${productName}%' `
+                  ? `AND p."nameNormalized" LIKE '%${productName}%' `
                   : ''
               }
-          GROUP BY
-              p."id", p."name", p."stockQuantity", p."nameNormalized"
           LIMIT ${pageSize}
           OFFSET ${(page - 1) * pageSize}
         `),
         this.dbClient.$queryRawUnsafe<{totalCount: bigint}[]>(`
-          SELECT 
-            COUNT(DISTINCT p.id) as "totalCount"
-          FROM 
-            "Product" p
-          INNER JOIN 
-             "Movement" m ON m."productId" = p.id and m."movementType" = 'SALE'
-          WHERE 
-            m."createdAt" BETWEEN '${startDate}' AND '${endDate}' 
-            AND p."userId" = '${userId}'
-             ${
-               productName
-                 ? `and p."nameNormalized" like '%${productName}%' `
-                 : ''
-             }
+          SELECT
+              COUNT(DISTINCT p.id) AS "totalCount"
+          FROM
+              "Product" p
+          INNER JOIN
+              "Movement" m ON m."productId" = p.id AND m."movementType" = 'SALE'
+          WHERE
+              m."createdAt" BETWEEN '${startDate}' AND '${endDate}'
+              AND p."userId" = '${userId}'
+              ${
+                productName
+                  ? `AND p."nameNormalized" LIKE '%${productName}%' `
+                  : ''
+              }
         `),
       ]);
 

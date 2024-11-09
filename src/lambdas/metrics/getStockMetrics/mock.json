@@ -1,12 +1,12 @@
 {
-    "pathParameters": {
-        "userId": "user_2l7nMeIFShEssxzQGFljhWd5X97"
-    },
-    "queryStringParameters": {
-        "startDate": "2024-10-20",
-        "endDate": "2024-10-20",
-        "page": "1",
-        "pageSize": "10"
-
-    }
+  "pathParameters": {
+    "userId": "user_2l7nMeIFShEssxzQGFljhWd5X97"
+  },
+  "queryStringParameters": {
+    "startDate": "1111-10-20",
+    "endDate": "2024-10-20",
+    "page": "1",
+    "pageSize": "10",
+    "productName": "Unbranded Granite Pizza"
+  }
 }

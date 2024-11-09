@@ -29,7 +29,14 @@ export class GetStockMetricsUseCase
         getStockMetricsFilterDTO,
       );
 
-      return {products: data, totalCount};
+      return {
+        products: data.map(d => ({
+          ...d,
+          averageConsumption: Math.ceil(d.averageConsumption * 100) / 100,
+          stockCoverage: Math.ceil(d.stockCoverage * 100) / 100,
+        })),
+        totalCount,
+      };
     } catch (error) {
       console.log('Error', error);
       throw error;
