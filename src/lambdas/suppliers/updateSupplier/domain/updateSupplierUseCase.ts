@@ -6,6 +6,7 @@ import {NotFound} from 'http-errors';
 import {normalizeName} from '../../../../common/string/normalize';
 import {Supplier} from '@prisma/client';
 import {SupplierImageStorage} from '../../../../common/infrastructure/supplierImageStorage';
+import {get} from 'http';
 
 export class UpdateSupplierUseCase
   implements UseCase<IUpdateSupplierInput, Supplier>
@@ -45,6 +46,10 @@ export class UpdateSupplierUseCase
     }
 
     if (getSupplierResult.supplier.userId !== supplierDTO.userId) {
+      throw new NotFound('Supplier not found');
+    }
+
+    if (getSupplierResult.supplier.deletedAt) {
       throw new NotFound('Supplier not found');
     }
 

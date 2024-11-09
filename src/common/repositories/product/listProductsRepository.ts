@@ -25,7 +25,7 @@ export class ListProductsRepository
         productsIds,
       } = filterInput;
 
-      const where: Prisma.ProductWhereInput[] = [{userId}];
+      const where: Prisma.ProductWhereInput[] = [{userId, deletedAt: null}];
 
       if (startDate) {
         where.push({

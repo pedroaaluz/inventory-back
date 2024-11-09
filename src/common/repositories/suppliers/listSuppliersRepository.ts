@@ -23,7 +23,7 @@ export class ListSuppliersRepository
         name,
       } = filterInput;
 
-      const where: Prisma.SupplierWhereInput[] = [{userId}];
+      const where: Prisma.SupplierWhereInput[] = [{userId, deletedAt: null}];
 
       if (startDate) {
         where.push({

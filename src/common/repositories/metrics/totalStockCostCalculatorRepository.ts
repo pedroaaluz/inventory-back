@@ -17,7 +17,8 @@ export class TotalStockCostCalculatorRepository
 					sum(p."stockQuantity" * p."unitPrice") as "result"
 				from "Product" p 
 				where 
-				p."userId" = '${userId}'
+				p."userId" = '${userId}' and 
+         p."deletedAt" is null
 			`);
 
       console.log('totalStockCost', totalStockCost);

@@ -66,7 +66,8 @@ export class GetTopSellingProductsRepository
               p."userId" = '${userId}'
               AND m."createdAt" >= '${startDate}'
               AND m."createdAt" <= '${endDate}'
-              AND m."movementType" = 'SALE'
+              AND m."movementType" = 'SALE' and 
+               p."deletedAt" is null
           GROUP BY p.id, p."name", p.image, p."stockQuantity"
           ORDER BY "salesValue" DESC
           LIMIT ${pageSize}
@@ -82,7 +83,8 @@ export class GetTopSellingProductsRepository
             p."userId" = '${userId}'
             AND m."createdAt" >= '${startDate}'
             AND m."createdAt" <= '${endDate}'
-            AND m."movementType" = 'SALE'
+            AND m."movementType" = 'SALE' and 
+            p."deletedAt" is null
         `),
       ]);
 

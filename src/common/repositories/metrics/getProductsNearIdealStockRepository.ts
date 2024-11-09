@@ -58,7 +58,8 @@ export class GetProductsNearIdealStockRepository
             productName ? ` p."nameNormalized" like '%${productName}%' and` : ''
           }
           p."stockQuantity" <= (p."minimumIdealStock" + 10) and
-          p."userId" = '${userId}'
+          p."userId" = '${userId}' and 
+          p."deletedAt" is null
           limit ${pageSize}
           offset ${(page - 1) * pageSize}
         `),
@@ -72,7 +73,8 @@ export class GetProductsNearIdealStockRepository
             productName ? ` p."nameNormalized" like '%${productName}%' and` : ''
           }
           p."stockQuantity" <= (p."minimumIdealStock" + 10) and
-          p."userId" = '${userId}'
+          p."userId" = '${userId}' and 
+          p."deletedAt" is null
         `),
       ]);
 

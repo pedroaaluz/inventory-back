@@ -7,13 +7,13 @@ export class GetSupplierRepository
 {
   constructor(private readonly dbClient: PrismaClient) {}
 
-  async exec(productDTO: string): Promise<{
+  async exec(supplierDTO: string): Promise<{
     supplier: Supplier;
   } | null> {
-    console.log('supplierDTO', productDTO);
+    console.log('supplierDTO', supplierDTO);
 
     const supplier = await this.dbClient.supplier.findUnique({
-      where: {id: productDTO},
+      where: {id: supplierDTO, deletedAt: null},
     });
 
     if (!supplier) {

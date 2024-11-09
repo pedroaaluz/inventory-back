@@ -37,7 +37,7 @@ export class GetProductRepository
     console.log('productDTO', productDTO);
 
     const product = await this.dbClient.product.findUnique({
-      where: {id: productDTO},
+      where: {id: productDTO, deletedAt: null},
       include: {
         productSupplier: {
           select: {

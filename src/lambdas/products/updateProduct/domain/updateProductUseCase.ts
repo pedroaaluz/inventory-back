@@ -66,6 +66,10 @@ export class UpdateProductUseCase
       throw new NotFound('Product not found');
     }
 
+    if (getProductResult.product.deletedAt) {
+      throw new NotFound('Product not found');
+    }
+
     const {stockQuantity: currentStockQuantity} = getProductResult.product;
 
     if (
