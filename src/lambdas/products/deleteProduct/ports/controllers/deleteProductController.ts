@@ -6,8 +6,6 @@ import {
   HttpResponse,
 } from '../../../../../common/types/lambdasTypes';
 import {z} from 'zod';
-import {DeleteMovementRepository} from '../../../../../common/repositories/movement/deleteMovementRepository';
-import {ListMovementsRepository} from '../../../../../common/repositories/movement/listMovementsRepository';
 
 export class DeleteProductController
   implements
@@ -19,11 +17,7 @@ export class DeleteProductController
       >
     >
 {
-  constructor(
-    private readonly deleteProductUseCase: DeleteProductUseCase,
-    private readonly deleteMovementRepository: DeleteMovementRepository,
-    private readonly listMovementsRepository: ListMovementsRepository,
-  ) {}
+  constructor(private readonly deleteProductUseCase: DeleteProductUseCase) {}
 
   async exec(
     event: HttpEvent<z.infer<typeof requestSchema>>,
@@ -52,18 +46,6 @@ export class DeleteProductController
             message: 'Product not found',
           },
         };
-      }
-
-      const {movements} = await this.listMovementsRepository.exec({
-        productsIds: [id],
-      });
-
-      if (movements.length > 0) {
-        await Promise.all(
-          movements.map(async movement => {
-            this.deleteMovementRepository.exec(movement.id);
-          }),
-        );
       }
 
       return {

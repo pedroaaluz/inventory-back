@@ -55,7 +55,6 @@ export class ListProductsRepository
         where.push({
           productSupplier: {
             some: {supplierId: {in: suppliersIds}},
-            every: {supplier: {deletedAt: null}},
           },
         });
       }

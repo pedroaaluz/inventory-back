@@ -11,18 +11,18 @@ export function MakeDeleteProductController() {
   const deleteProductSupplierRepository = new DeleteProductSupplierRepository(
     prisma,
   );
-  const deleteProductUseCase = new DeleteProductUseCase(
-    deleteProductRepository,
-    deleteProductSupplierRepository,
-  );
-
   const deleteMovementRepository = new DeleteMovementRepository(prisma);
   const listMovementsRepository = new ListMovementsRepository(prisma);
 
+  const deleteProductUseCase = new DeleteProductUseCase(
+    deleteProductRepository,
+    deleteProductSupplierRepository,
+    listMovementsRepository,
+    deleteMovementRepository,
+  );
+
   const getProductController = new DeleteProductController(
     deleteProductUseCase,
-    deleteMovementRepository,
-    listMovementsRepository,
   );
 
   return getProductController;

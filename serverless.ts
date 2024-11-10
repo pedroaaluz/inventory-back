@@ -3,6 +3,7 @@ const serverlessConfiguration = {
   org: 'inventory',
   useDotenv: true,
   provider: {
+    timeout: 30,
     name: 'aws',
     runtime: 'nodejs18.x',
     versionFunctions: false,
