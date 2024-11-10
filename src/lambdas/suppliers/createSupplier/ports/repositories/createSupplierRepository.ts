@@ -15,7 +15,7 @@ export class CreateSupplierRepository
         address: SupplierDTO.address,
         phone: SupplierDTO.phone,
         email: SupplierDTO.email,
-        nameNormalized: SupplierDTO.name,
+        nameNormalized: SupplierDTO.normalizeName,
         userId: SupplierDTO.userId,
         cnpj: SupplierDTO.cnpj,
         image: SupplierDTO.image,

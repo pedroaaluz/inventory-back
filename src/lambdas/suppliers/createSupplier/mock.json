@@ -1,5 +1,6 @@
 {
-   "body":{ "name": "Empresa Exemplo",
+  "body": {
+    "name": "Exemplo Empresa",
     "address": "Rua Exemplo, 123, São Paulo, SP",
     "phone": "+55 11 98765-4321",
     "email": "contato@empresaexemplo.com",
