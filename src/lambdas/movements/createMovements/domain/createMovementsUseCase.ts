@@ -57,11 +57,12 @@ export class CreateMovementsUseCase
         quantityCurrent: number;
         movementValue?: Prisma.Decimal;
         message: string;
+        index: number;
       }[];
       movementsToCreate: TCreateMovementInput[];
       productToUpdate: {id: string; stockQuantity: number; userId: string}[];
     }>(
-      (acc, movement) => {
+      (acc, movement, index) => {
         const product = products.find(p => p.id === movement.productId);
 
         if (!product) {
@@ -71,6 +72,7 @@ export class CreateMovementsUseCase
             movementType: movement.type,
             quantityCurrent: 0,
             message: 'Product not found',
+            index,
           });
 
           return acc;
@@ -88,6 +90,7 @@ export class CreateMovementsUseCase
             movementType: movement.type,
             movementValue: movement.cost,
             message: 'Insufficient stock',
+            index,
           });
 
           return acc;

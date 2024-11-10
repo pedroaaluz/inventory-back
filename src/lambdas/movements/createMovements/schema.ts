@@ -40,6 +40,7 @@ export const responseSchema = {
           movementType: z.string(),
           quantity: z.number(),
           quantityCurrent: z.number(),
+          index: z.number(),
           movementValue: decimalSchema.optional(),
           message: z.string(),
         }),
