@@ -133,6 +133,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    DeleteMovement: {
+      handler: 'src/lambdas/movements/deleteMovement/index.bootstrap',
+      name: 'delete-movements-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'movement/{id}',
+            method: 'delete',
+          },
+        },
+      ],
+    },
     CreateMovements: {
       handler: 'src/lambdas/movements/createMovements/index.bootstrap',
       name: 'create-movements-${self:provider.stage}',

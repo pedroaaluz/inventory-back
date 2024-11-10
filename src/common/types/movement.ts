@@ -16,7 +16,7 @@ export interface IListMovementsRepositoryInput {
   page?: number;
   pageSize?: number;
   orderBy?: Prisma.SortOrder;
-  userId: string;
+  userId?: string;
   skip?: number;
   productsIds?: string[];
   productName?: string;
