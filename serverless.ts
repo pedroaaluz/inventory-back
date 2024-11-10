@@ -181,6 +181,18 @@ const serverlessConfiguration = {
         },
       ],
     },
+    DeleteSupplier: {
+      handler: 'src/lambdas/suppliers/deleteSupplier/index.bootstrap',
+      name: 'delete-supplier-${self:provider.stage}',
+      events: [
+        {
+          http: {
+            path: 'supplier/{id}',
+            method: 'delete',
+          },
+        },
+      ],
+    },
     UpdateSupplier: {
       handler: 'src/lambdas/suppliers/updateSupplier/index.bootstrap',
       name: 'update-supplier-${self:provider.stage}',
