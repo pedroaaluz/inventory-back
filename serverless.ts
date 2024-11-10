@@ -139,7 +139,7 @@ const serverlessConfiguration = {
       events: [
         {
           http: {
-            path: 'movement/{id}',
+            path: 'movement/{userId}',
             method: 'delete',
           },
         },

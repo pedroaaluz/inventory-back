@@ -2,7 +2,7 @@ import {z} from 'zod';
 
 export const requestSchema = z.object({
   pathParameters: z.object({
-    id: z.string(),
+    userId: z.string(), // eu sei, mas o apigateway não sabe
   }),
 });
 

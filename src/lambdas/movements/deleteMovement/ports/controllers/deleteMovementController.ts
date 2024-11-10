@@ -28,7 +28,7 @@ export class DeleteMovementController
     | HttpResponse<z.infer<(typeof responseSchema)['404']>>
   > {
     try {
-      const id = event.pathParameters?.id;
+      const id = event.pathParameters?.userId;
 
       if (id == null) {
         return {
