@@ -53,7 +53,10 @@ export class ListProductsRepository
 
       if (suppliersIds && suppliersIds.length > 0) {
         where.push({
-          productSupplier: {some: {supplierId: {in: suppliersIds}}},
+          productSupplier: {
+            some: {supplierId: {in: suppliersIds}},
+            every: {supplier: {deletedAt: null}},
+          },
         });
       }
 

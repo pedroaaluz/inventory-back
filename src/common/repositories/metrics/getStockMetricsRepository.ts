@@ -125,7 +125,8 @@ export class GetStockMetricsRepository
           LEFT JOIN
               turnover_rate tr ON p."id" = tr."id"
           WHERE
-              p."userId" = '${userId}'
+              p."userId" = '${userId}' 
+              and p."deletedAt" is null
               ${
                 productName
                   ? `AND p."nameNormalized" LIKE '%${productName}%' `
