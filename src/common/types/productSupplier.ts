@@ -5,7 +5,10 @@ export type TUpsertProductSupplierInput = Omit<
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
 
-export interface IDeleteProductSupplierRepository {
-  productId: string;
-  suppliersIds: string[];
-}
+export type TDeleteProductSupplierRepository =
+  | {
+      productId: string;
+      suppliersIds: string[];
+    }
+  | {suppliersIds: string[]}
+  | {productId: string};
