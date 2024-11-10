@@ -60,7 +60,7 @@ export class GetStockMetricsRepository
                   "Movement" m ON m."productId" = p.id
               WHERE
                   m."createdAt" BETWEEN '${startDate}' AND '${endDate}'
-                  AND p."userId" = '${userId}' and 
+                  AND p."userId" = '${userId}'  
                   ${
                     productName
                       ? `AND p."nameNormalized" LIKE '%${productName}%' `
