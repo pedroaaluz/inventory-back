@@ -6,8 +6,7 @@ import {
 } from '../../../../../common/types/lambdasTypes';
 import {requestSchema, responseSchema} from '../../schema';
 import {z} from 'zod';
-import {endOfDay, startOfDay} from 'date-fns';
-import {formatInTimeZone} from 'date-fns-tz';
+import {endOfDay, parseISO, startOfDay} from 'date-fns';
 
 export class PaymentMethodUsedController
   implements
@@ -26,19 +25,18 @@ export class PaymentMethodUsedController
     const {userId} = event.pathParameters;
     const {startDate, endDate} = event.queryStringParameters || {};
 
-    const timeZone = 'America/Sao_Paulo';
-    const format = 'yyyy-MM-dd HH:mm:ssXXX';
-
     const today = new Date();
     const sevenDaysAgo = today.setDate(today.getDate() - 7);
     const paymentMethodUsed = await this.paymentMethodUsedUseCase.exec({
       userId,
-      startDate: startDate
-        ? formatInTimeZone(startDate, timeZone, format)
-        : formatInTimeZone(startOfDay(sevenDaysAgo), timeZone, format),
-      endDate: endDate
-        ? formatInTimeZone(endDate, timeZone, format)
-        : formatInTimeZone(endOfDay(today), timeZone, format),
+      startDate: (startDate
+        ? startOfDay(parseISO(startDate))
+        : startOfDay(sevenDaysAgo)
+      ).toISOString(),
+      endDate: (endDate
+        ? endOfDay(parseISO(endDate))
+        : endOfDay(today)
+      ).toISOString(),
     });
 
     return {
