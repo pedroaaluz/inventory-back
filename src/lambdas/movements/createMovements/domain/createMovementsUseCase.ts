@@ -101,8 +101,6 @@ export class CreateMovementsUseCase
           quantity: movement.quantity,
           userId,
           movementType: movement.type,
-          productName: product.name,
-          productNameNormalized: product.nameNormalized,
           movementValue: movement.cost || null,
           paymentMethod: movement.paymentMethod || null,
         });
