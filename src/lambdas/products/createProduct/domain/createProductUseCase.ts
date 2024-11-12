@@ -56,8 +56,6 @@ export class CreateProductUseCase
     await this.createMovementRepository.exec({
       movementType: 'ADD_TO_STOCK',
       productId: product.id,
-      productName: product.name,
-      productNameNormalized: product.nameNormalized,
       quantity: product.stockQuantity,
       userId: product.userId,
       movementValue: new Prisma.Decimal(

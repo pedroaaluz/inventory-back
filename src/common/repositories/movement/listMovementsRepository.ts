@@ -38,8 +38,10 @@ export class ListMovementsRepository
 
       if (productName) {
         where.push({
-          productNameNormalized: {
-            contains: productName,
+          product: {
+            nameNormalized: {
+              contains: productName,
+            },
           },
         });
       }
@@ -87,6 +89,8 @@ export class ListMovementsRepository
             product: {
               select: {
                 image: true,
+                name: true,
+                nameNormalized: true,
               },
             },
           },
@@ -97,8 +101,8 @@ export class ListMovementsRepository
         movements: movements.map(movement => ({
           id: movement.id,
           productId: movement.productId,
-          productName: movement.productName,
-          productNameNormalized: movement.productNameNormalized,
+          productName: movement.product.name,
+          productNameNormalized: movement.product.nameNormalized,
           userId: movement.userId,
           deletedAt: movement.deletedAt,
           quantity: movement.quantity,
@@ -114,7 +118,6 @@ export class ListMovementsRepository
       };
     } catch (error) {
       console.log('Error', error);
-
       throw error;
     }
   }
