@@ -23,7 +23,8 @@ export class UpdateProductRepository
     productDTO.forEach((product: TUpdateProductInput) => {
       Object.keys(product).forEach(key => {
         if (
-          product[key as keyof TUpdateProductInput] &&
+          product[key as keyof TUpdateProductInput] !== undefined &&
+          product[key as keyof TUpdateProductInput] !== null &&
           !['categoriesIds', 'suppliersIds'].includes(key)
         ) {
           columns.add(key);
@@ -35,8 +36,13 @@ export class UpdateProductRepository
       (acc, col) => {
         if (
           !['suppliersIds', 'id', 'userId', 'categoriesIds'].includes(col) &&
-          productDTO.some(product => product[col as keyof TUpdateProductInput])
+          productDTO.some(
+            product =>
+              product[col as keyof TUpdateProductInput] !== undefined &&
+              product[col as keyof TUpdateProductInput] !== null,
+          )
         ) {
+          console.log('Column:', col);
           acc.push(`"${col}" = t."${col}"`);
         }
         return acc;
