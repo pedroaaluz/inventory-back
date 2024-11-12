@@ -190,8 +190,6 @@ async function createMovements(
         movementType: randomType as EnumMovementsType,
         quantity: randomQuantity,
         productId: products[i].id,
-        productName: products[i].name,
-        productNameNormalized: normalizeName(products[i].name),
         userId: products[i].userId,
         createdAt: randomDate,
         movementValue: new Prisma.Decimal((Math.random() * 100).toFixed(2)),

@@ -1,18 +1,17 @@
 {
-    "body": {
-      "movements": [
-        {
-          "productId": "f038275a-5cad-45b2-a4ff-8bf1946783ec",
-          "productName": "yodinha de oculos",
-          "quantity": 12,
-          "type": "ADD_TO_STOCK",
-          "cost": 12,
-          "paymentMethod": "CREDIT"
-        }
-      ]
-    },
-    "pathParameters": {
-      "userId": "user_2l7nMeIFShEssxzQGFljhWd5X97"
-    }
+  "body": {
+    "movements": [
+      {
+        "productId": "f028705f-a2e0-40b8-98c0-63dc266c22b9",
+        "productName": "yodinha de oculos",
+        "quantity": 1,
+        "type": "SALE",
+        "cost": 12,
+        "paymentMethod": "CREDIT"
+      }
+    ]
+  },
+  "pathParameters": {
+    "userId": "user_2l7nMeIFShEssxzQGFljhWd5X97"
   }
-  
+}

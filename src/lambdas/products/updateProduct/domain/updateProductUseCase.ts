@@ -89,12 +89,6 @@ export class UpdateProductUseCase
         userId: productDTO.userId,
         movementValue: null,
         paymentMethod: null,
-        productName: productDTO.name
-          ? productDTO.name
-          : getProductResult.product.name,
-        productNameNormalized: productDTO.nameNormalized
-          ? productDTO.nameNormalized
-          : getProductResult.product.nameNormalized,
         quantity:
           productDTO.stockQuantity === 0
             ? currentStockQuantity
