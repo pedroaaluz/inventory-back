@@ -13,7 +13,7 @@ export const requestSchema = z.object({
     unitPrice: decimalSchema,
     suppliersIds: z.array(z.string()).optional(),
     userId: z.string(),
-    categoriesIds: z.array(z.string()),
+    categoriesIds: z.array(z.string()).optional(),
     image: z.string().optional(),
     positionInStock: z.string().optional().optional(),
     minimumIdealStock: z.number().int().optional(),
